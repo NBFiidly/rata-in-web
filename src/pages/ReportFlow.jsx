@@ -1,4 +1,7 @@
+// File: src/pages/ReportFlow.jsx
 import { useState } from "react";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 import Stepper from "../components/Stepper";
 import UploadStep from "../features/report/UploadStep";
 import LocationStep from "../features/report/LocationStep";
@@ -13,35 +16,37 @@ export default function ReportFlow() {
   };
 
   return (
-    <div className="min-h-screen bg-grey-light py-12 px-4">
-      <div className="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-sm border border-grey-1">
-        {/* Header dan Stepper sekarang selalu tampil untuk semua langkah */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Lapor Kerusakan Jalan
-          </h1>
-          <p className="text-grey-2">
-            Ikuti langkah berikut untuk mengirim laporan
-          </p>
-        </div>
+    <div className="min-h-screen bg-grey-light flex flex-col justify-between">
+      {/* Navbar Atas */}
+      <Navbar />
 
-        <Stepper currentStep={currentStep} />
+      {/* Konten Utam Lapor */}
+      <main className="grow py-12 px-4">
+        <div className="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-sm border border-grey-1">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-black mb-2">
+              Lapor Kerusakan Jalan
+            </h1>
+            <p className="text-grey-2">
+              Ikuti langkah berikut untuk mengirim laporan
+            </p>
+          </div>
 
-        <div className="mt-8 bg-white flex justify-center">
-          <div className="w-full max-w-2xl">
-            {currentStep === 1 && <UploadStep onNext={nextStep} />}
+          <Stepper currentStep={currentStep} />
 
-            {currentStep === 2 && <LocationStep onNext={nextStep} />}
-
-            {currentStep === 3 && (
-              // Gunakan onNext agar tombol manual bisa memicu perpindahan
-              <AnalysisStep onNext={nextStep} />
-            )}
-
-            {currentStep === 4 && <ConfirmStep />}
+          <div className="mt-8 bg-white flex justify-center">
+            <div className="w-full max-w-2xl">
+              {currentStep === 1 && <UploadStep onNext={nextStep} />}
+              {currentStep === 2 && <LocationStep onNext={nextStep} />}
+              {currentStep === 3 && <AnalysisStep onNext={nextStep} />}
+              {currentStep === 4 && <ConfirmStep />}
+            </div>
           </div>
         </div>
-      </div>
+      </main>
+
+      {/* Footer Bawah */}
+      <Footer />
     </div>
   );
 }

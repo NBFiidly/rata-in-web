@@ -19,6 +19,8 @@
 
 @layer base {
   body {
-    @apply font-sans text-grey bg-white;
+    font-family: var(--font-poppins);
+    color: var(--color-grey);
+    background-color: var(--color-white);
   }
 }
