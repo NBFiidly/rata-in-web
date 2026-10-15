@@ -1,12 +1,18 @@
-// import ReportFlow from "./pages/ReportFlow";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import ReportFlow from "./pages/ReportFlow";
 
 function App() {
   return (
-    // Untuk sementara kita langsung render ReportFlow.
-    // Nanti jika sudah pakai React Router, kita pasang sistem routing di sini.
-    // <ReportFlow />
-    <Home />
+    <BrowserRouter>
+      <Routes>
+        {/* Rute untuk Halaman Utama */}
+        <Route path="/" element={<Home />} />
+
+        {/* Rute untuk Halaman Pelaporan */}
+        <Route path="/report" element={<ReportFlow />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

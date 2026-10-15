@@ -1,4 +1,4 @@
-// File: src/components/layout/Navbar.jsx
+import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <nav className="w-full bg-white border-b border-grey-1 px-4 md:px-8 py-4 flex justify-between items-center sticky top-0 z-50">
@@ -14,18 +14,19 @@ export default function Navbar() {
 
       {/* Bagian Tengah: Menu Navigasi */}
       <div className="hidden md:flex items-center gap-2">
-        <a
-          href="#"
+        <Link
+          to="/"
           className="px-5 py-2 rounded-full bg-soft-green text-green font-semibold text-sm"
         >
           Beranda
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link
+          to="/report"
           className="px-5 py-2 rounded-full text-grey-2 hover:text-green font-medium text-sm transition-colors"
         >
           Lapor
-        </a>
+        </Link>
+        {/* (Biarkan Peta dan Status tetap pakai <a> untuk sementara karena belum ada halamannya) */}
         <a
           href="#"
           className="px-5 py-2 rounded-full text-grey-2 hover:text-green font-medium text-sm transition-colors"

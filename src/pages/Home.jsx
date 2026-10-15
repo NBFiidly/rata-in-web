@@ -1,4 +1,4 @@
-// File: src/pages/Home.jsx
+import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
@@ -24,7 +24,10 @@ export default function Home() {
             kerusakan jalan dan membantu mempercepat proses perbaikan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <button className="px-6 py-3.5 bg-green text-white rounded-lg font-medium hover:opacity-90 flex items-center justify-center gap-2">
+            <Link
+              to="/report"
+              className="px-6 py-3.5 bg-green text-white rounded-lg font-medium hover:opacity-90 flex items-center justify-center gap-2"
+            >
               <svg
                 width="20"
                 height="20"
@@ -36,7 +39,7 @@ export default function Home() {
                 <path d="M12 5v14M5 12h14" />
               </svg>
               Laporkan Sekarang
-            </button>
+            </Link>
             <button className="px-6 py-3.5 border border-grey-1 text-black rounded-lg font-medium hover:bg-grey-light flex items-center justify-center gap-2">
               <svg
                 width="20"

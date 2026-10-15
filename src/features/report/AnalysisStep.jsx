@@ -1,26 +1,21 @@
 import { useState, useEffect } from "react";
 
-export default function AnalysisStep() {
-  // State untuk mengatur apakah AI sedang menganalisis atau sudah selesai
+// 1. Tambahkan prop onNext di sini
+export default function AnalysisStep({ onNext }) {
   const [isAnalyzing, setIsAnalyzing] = useState(true);
 
   useEffect(() => {
-    // Simulasi proses AI berjalan selama 3 detik, lalu state berubah
     const timer = setTimeout(() => {
       setIsAnalyzing(false);
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
-  // ----------------------------------------------------------------
-  // KONDISI 1: TAMPILAN LOADING ANIMASI
-  // ----------------------------------------------------------------
   if (isAnalyzing) {
     return (
       <div className="flex flex-col items-center justify-center py-10 gap-6 w-full">
-        {/* Kontainer Animasi Loading */}
-        <div className="w-[102px] h-[102px] relative flex items-center justify-center">
-          {/* Ikon Kaca Pembesar di Tengah */}
+        {/* ... (Kode animasi berputar tetap sama) ... */}
+        <div className="w-25.5 h-25.5 relative flex items-center justify-center">
           <div className="inline-flex p-2 items-center justify-center rounded-full bg-soft-green absolute z-10 w-14 h-14">
             <svg
               width="29"
@@ -35,14 +30,13 @@ export default function AnalysisStep() {
               />
             </svg>
           </div>
-          {/* Lingkaran Luar (Berputar) */}
           <div className="w-full h-full absolute animate-spin">
             <svg
               width="100"
               height="100"
               viewBox="0 0 100 100"
               fill="none"
-              className="absolute left-[1px] top-[1px]"
+              className="absolute left-px top-px"
             >
               <path
                 d="M49.8125 97.625C76.2186 97.625 97.625 76.2186 97.625 49.8125C97.625 23.4064 76.2186 2 49.8125 2C23.4064 2 2 23.4064 2 49.8125C2 76.2186 23.4064 97.625 49.8125 97.625Z"
@@ -55,7 +49,7 @@ export default function AnalysisStep() {
               height="50"
               viewBox="0 0 50 50"
               fill="none"
-              className="absolute left-[50px] top-[50px]"
+              className="absolute left-12.5 top-12.5"
             >
               <path
                 d="M47.8125 0C47.8125 26.4061 26.4061 47.8125 0 47.8125"
@@ -78,12 +72,8 @@ export default function AnalysisStep() {
     );
   }
 
-  // ----------------------------------------------------------------
-  // KONDISI 2: TAMPILAN HASIL DETEKSI AI (KODE FIGMA YANG DIRAPIKAN)
-  // ----------------------------------------------------------------
   return (
     <div className="flex flex-col w-full text-left py-4">
-      {/* Judul Area */}
       <h2 className="text-2xl font-bold text-black mb-1">
         AI Analisis Kerusakan
       </h2>
@@ -91,12 +81,9 @@ export default function AnalysisStep() {
         Sistem akan menganalisis foto menggunakan Computer Vision.
       </p>
 
-      {/* Kotak Utama Hasil (Berwarna Merah Muda) */}
-      <div className="w-full flex flex-col p-5 md:p-6 rounded-xl border border-[#EB8E8E] bg-[#FCECEC] gap-5 shadow-sm">
-        {/* Header: Ikon Peringatan & Teks */}
+      <div className="w-full flex flex-col p-5 md:p-6 rounded-xl border border-[#EB8E8E] bg-[#FCECEC] gap-5 shadow-sm mb-6">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#F8D9D9]">
-            {/* Menggunakan SVG ikon alert standar agar kode lebih rapi */}
+          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-soft-red">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -116,9 +103,7 @@ export default function AnalysisStep() {
           <h3 className="text-black text-lg font-semibold">Hasil Deteksi AI</h3>
         </div>
 
-        {/* Grid 3 Kolom untuk Kartu Status */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-2">
-          {/* Card 1: Jenis */}
           <div className="flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-[#EB8E8E] bg-white">
             <p className="text-grey-2 text-xs mb-1">Jenis</p>
             <p className="text-black text-base font-semibold leading-tight">
@@ -126,28 +111,32 @@ export default function AnalysisStep() {
             </p>
             <p className="text-grey-2 text-[11px]">Road Pothole</p>
           </div>
-
-          {/* Card 2: Keparahan (Merah Solid) */}
-          <div className="flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-[#EB8E8E] bg-[#DD4343]">
+          <div className="flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-[#EB8E8E] bg-red">
             <p className="text-white/90 text-xs mb-1">Keparahan</p>
             <p className="text-white text-base font-semibold leading-tight">
               BERAT
             </p>
             <p className="text-white/90 text-[11px]">HIGH</p>
           </div>
-
-          {/* Card 3: Tingkat Urgensi */}
           <div className="flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-[#EB8E8E] bg-white">
             <p className="text-grey-2 text-xs mb-1 text-center">
               Tingkat Urgensi
             </p>
-            <p className="text-[#DD4343] text-base font-semibold leading-tight text-center">
+            <p className="text-red text-base font-semibold leading-tight text-center">
               Segera diperbaiki
             </p>
-            <p className="text-[#DD4343] text-[11px]">Immediate Repair</p>
+            <p className="text-red text-[11px]">Immediate Repair</p>
           </div>
         </div>
       </div>
+
+      {/* 2. Tambahkan tombol Lanjut di sini */}
+      <button
+        onClick={onNext}
+        className="w-full py-3.5 bg-green text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
+      >
+        Lanjut ke Konfirmasi
+      </button>
     </div>
   );
 }
