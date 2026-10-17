@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-// 1. Tambahkan prop onNext di sini
 export default function AnalysisStep({ onNext }) {
   const [isAnalyzing, setIsAnalyzing] = useState(true);
 
