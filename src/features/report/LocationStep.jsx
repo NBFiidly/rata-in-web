@@ -67,7 +67,11 @@ export default function LocationStep({ onNext }) {
   };
 
   useEffect(() => {
-    autoDetectLocation();
+    const timer = setTimeout(() => {
+      autoDetectLocation();
+    }, 10);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
