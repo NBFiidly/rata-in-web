@@ -1,142 +1,147 @@
 // File: src/features/report/LocationStep.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function LocationStep({ onNext }) {
-  // State: 'waiting' (belum dicari), 'loading' (mencari GPS), 'found' (lokasi didapat)
-  const [locationStatus, setLocationStatus] = useState("waiting");
+  const [locationText, setLocationText] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLocationFound, setIsLocationFound] = useState(false);
 
-  // Fungsi simulasi mencari lokasi (GPS)
-  const handleGetLocation = () => {
-    setLocationStatus("loading");
+  // State untuk menyimpan koordinat aktual agar peta bisa bergeser dinamis
+  const [coords, setCoords] = useState({ lat: 1.1119, lng: 103.9575 }); // Default: Batam
 
-    // Simulasi loading selama 1.5 detik
-    setTimeout(() => {
-      setLocationStatus("found");
-    }, 1500);
+  const autoDetectLocation = () => {
+    setIsLoading(true);
+    setIsLocationFound(false);
+    setLocationText("Mencari satelit GPS...");
+
+    if (!navigator.geolocation) {
+      setLocationText("Browser Anda tidak mendukung deteksi lokasi.");
+      setIsLoading(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        // Perbarui state koordinat agar iframe peta langsung berpindah ke lokasi asli
+        setCoords({ lat: latitude, lng: longitude });
+
+        try {
+          // Mengubah titik koordinat (Lat/Lng) menjadi nama jalan asli (Reverse Geocoding API gratis)
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+          );
+          const data = await response.json();
+
+          // Ambil nama alamat, atau gunakan koordinat jika nama jalan tidak ditemukan di database
+          const address = data.display_name
+            ? data.display_name
+            : `Koordinat: ${latitude}, ${longitude}`;
+
+          setLocationText(address);
+          setIsLocationFound(true);
+        } catch (error) {
+          console.error("Gagal mendapatkan alamat:", error);
+          setLocationText(
+            `Gagal memuat teks alamat. (Lat: ${latitude.toFixed(4)}, Lng: ${longitude.toFixed(4)})`,
+          );
+          setIsLocationFound(true);
+        } finally {
+          setIsLoading(false);
+        }
+      },
+      (error) => {
+        console.error("Error lokasi:", error);
+        setLocationText(
+          "Gagal melacak lokasi. Pastikan GPS aktif dan izin diberikan.",
+        );
+        setIsLoading(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0,
+      },
+    );
   };
 
+  useEffect(() => {
+    autoDetectLocation();
+  }, []);
+
   return (
-    <div className="flex flex-col w-full text-left py-4">
-      {/* Header Langkah 2 */}
-      <h2 className="text-2xl font-bold text-black mb-1">Konfirmasi Lokasi</h2>
-      <p className="text-grey-2 mb-6">
-        Pastikan lokasi kerusakan jalan sudah benar.
-      </p>
+    <div className="flex flex-col gap-6">
+      <div className="text-left mb-2">
+        <h2 className="text-xl font-bold text-black mb-1">Konfirmasi Lokasi</h2>
+        <p className="text-sm text-grey-2">
+          Pastikan lokasi kerusakan jalan sudah benar.
+        </p>
+      </div>
 
-      {/* Area Peta (Simulasi dengan background dan pattern kotak-kotak) */}
-      <div className="w-full h-48 md:h-64 bg-[#e8f4f8] border border-grey-1 rounded-xl mb-4 relative overflow-hidden flex items-center justify-center">
-        {/* Dekorasi garis jalan simulasi peta */}
+      <div className="w-full h-[280px] bg-[#E2E8F0] relative overflow-hidden rounded-xl border border-grey-1 shadow-inner">
+        {/* Iframe Peta sekarang menggunakan variabel koordinat dinamis dari state coords */}
+        <iframe
+          src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&output=embed`}
+          className={`w-full h-full border-0 grayscale-[30%] mix-blend-multiply transition-all duration-700 ${isLoading ? "opacity-40 blur-[2px]" : "opacity-90 blur-0"}`}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+
+        <div className="absolute inset-0 bg-blue-100/10 pointer-events-none"></div>
+
+        {isLoading && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/40 backdrop-blur-sm z-10">
+            <div className="w-8 h-8 border-4 border-green border-t-transparent rounded-full animate-spin mb-3"></div>
+            <span className="text-sm font-bold text-black bg-white/80 px-3 py-1 rounded-full shadow-sm">
+              Mengakses GPS...
+            </span>
+          </div>
+        )}
+
         <div
-          className="absolute w-full h-full opacity-30"
-          style={{
-            backgroundImage: "radial-gradient(#919191 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}
-        ></div>
-
-        {locationStatus === "loading" && (
-          <div className="z-10 px-4 py-2 bg-white rounded-full shadow-md text-sm font-medium text-black flex items-center gap-2">
-            <svg
-              className="animate-spin w-4 h-4 text-green"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            Mencari titik GPS...
-          </div>
-        )}
-
-        {locationStatus === "found" && (
-          <div className="z-10 text-red animate-bounce mt-5">
-            {/* Ikon Pin Peta Merah */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              stroke="white"
-              strokeWidth="1.5"
-            >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" fill="white" />
-            </svg>
-          </div>
-        )}
-      </div>
-
-      {/* Bar Indikator Alamat */}
-      <div
-        className={`w-full p-4 rounded-xl border mb-6 flex items-start md:items-center gap-3 transition-colors duration-300
-        ${locationStatus === "found" ? "bg-soft-green border-green" : "bg-grey-light border-grey-1"}
-      `}
-      >
-        {/* Ikon Titik/Pin di dalam Bar */}
-        <div className="mt-0.5 md:mt-0">
-          {locationStatus === "found" ? (
-            <div className="w-6 h-6 rounded-md bg-green flex items-center justify-center text-white">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-            </div>
-          ) : (
-            <div className="w-5 h-5 rounded-full bg-grey-1"></div>
-          )}
-        </div>
-
-        {/* Teks Alamat */}
-        <div className="flex flex-col">
-          {locationStatus === "found" ? (
-            <>
-              <p className="text-black font-semibold text-sm">
-                Jl. Engku Putri, Batam Kota
-              </p>
-              <p className="text-green text-xs">
-                Batam, Teluk Tering, Batam Kota, Kepulauan Riau
-              </p>
-            </>
-          ) : (
-            <p className="text-grey-2 text-sm">
-              {locationStatus === "loading"
-                ? "Sedang mendeteksi lokasi Anda..."
-                : "Menunggu deteksi lokasi..."}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Tombol Aksi Tambahan (GPS / Manual) */}
-      <div className="flex gap-4 mb-6">
-        <button
-          onClick={handleGetLocation}
-          className="flex-1 py-3 border border-green rounded-lg text-green font-semibold text-sm flex items-center justify-center gap-2 hover:bg-soft-green transition-colors"
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full pointer-events-none drop-shadow-xl transition-all duration-500 transform ${isLocationFound && !isLoading ? "scale-100 translate-y-[-100%]" : "scale-0 translate-y-0"}`}
         >
-          {/* Ikon Target GPS */}
           <svg
+            width="40"
+            height="52"
+            viewBox="0 0 32 42"
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 0C7.163 0 0 7.163 0 16C0 27 16 42 16 42C16 42 32 27 32 16C32 7.163 24.837 0 16 0Z"
+              fill="#208144"
+            />
+            <path d="M14.5 9h3v8h-3V9zm0 11h3v3h-3v-3z" fill="white" />
+          </svg>
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-black/30 rounded-[100%] blur-[2px]"></div>
+        </div>
+      </div>
+
+      <div className="relative">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
+          <div
+            className={`w-3 h-3 rounded-full ${isLocationFound ? "bg-green" : isLoading ? "bg-[#F97316] animate-pulse" : "bg-[#EF4444]"}`}
+          ></div>
+        </div>
+        <textarea
+          value={locationText}
+          readOnly
+          rows="2"
+          placeholder="Menunggu deteksi lokasi..."
+          className="w-full pl-10 pr-4 py-3 border border-grey-1 rounded-xl text-sm font-medium text-black bg-grey-light/30 focus:outline-none resize-none leading-snug"
+        />
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-4">
+        <button
+          type="button"
+          onClick={autoDetectLocation}
+          className="flex-1 py-3 border border-grey-1 rounded-xl flex items-center justify-center gap-2 font-semibold text-black hover:bg-grey-light transition-colors"
+        >
+          <svg
             width="18"
             height="18"
             viewBox="0 0 24 24"
@@ -146,24 +151,40 @@ export default function LocationStep({ onNext }) {
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <circle cx="12" cy="12" r="10" />
-            <circle cx="12" cy="12" r="3" />
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
           </svg>
-          Gunakan lokasi saya
+          Deteksi Ulang
         </button>
-        <button className="flex-1 py-3 border border-grey-1 rounded-lg text-black font-medium text-sm hover:bg-grey-light transition-colors">
+
+        <button
+          type="button"
+          className="flex-1 py-3 border border-grey-1 rounded-xl flex items-center justify-center gap-2 font-semibold text-black hover:bg-grey-light transition-colors"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
           Input Manual
         </button>
       </div>
 
-      {/* Tombol Lanjut ke Analisis AI */}
       <button
         onClick={onNext}
-        disabled={locationStatus !== "found"}
-        className={`w-full py-3.5 rounded-lg font-semibold transition-all duration-300 ${
-          locationStatus === "found"
+        disabled={!isLocationFound || isLoading}
+        className={`w-full py-3.5 mt-2 rounded-xl font-bold transition-all shadow-sm ${
+          isLocationFound && !isLoading
             ? "bg-green text-white hover:opacity-90"
-            : "bg-grey-light text-grey-2 border border-grey-1 cursor-not-allowed opacity-70"
+            : "bg-grey-1 text-grey-2 cursor-not-allowed"
         }`}
       >
         Lanjut ke Analisis AI
