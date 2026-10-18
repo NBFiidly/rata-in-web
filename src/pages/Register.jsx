@@ -1,6 +1,7 @@
 // File: src/pages/Register.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/img/logo-ratain.png";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -25,9 +26,7 @@ export default function Register() {
         {/* Header Logo & Judul */}
         <div className="flex flex-col items-center text-center mb-6">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-green flex items-center justify-center text-white font-bold italic">
-              R
-            </div>
+            <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
             <span className="font-bold text-2xl text-black">
               Rata.<span className="text-green">in</span>
             </span>

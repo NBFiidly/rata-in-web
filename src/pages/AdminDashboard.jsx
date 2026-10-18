@@ -1,8 +1,8 @@
 // File: src/pages/AdminDashboard.jsx
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo-ratain.png";
-import jalanImg from "../assets/jalan.jpeg";
+import logo from "../assets/img/logo-ratain.png";
+import jalanImg from "../assets/img/jalan.jpeg";
 
 // Data simulasi (Mock Data) untuk tabel
 const mockReports = [

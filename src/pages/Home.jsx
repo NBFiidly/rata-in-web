@@ -152,7 +152,7 @@ export default function Home() {
         </section>
 
         {/* --- SECTION 3: Cara Kerja Rata.in --- */}
-        <section className="w-full bg-green text-white p-8 md:p-12 rounded-3xl flex flex-col items-start text-left">
+        <section className="w-full bg-gradient-to-tr from-[#207E43] via-green to-[#208144] text-white p-8 md:p-12 rounded-2xl flex flex-col items-start text-left">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
             Cara Kerja Rata.in
           </h2>
