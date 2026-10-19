@@ -1,8 +1,6 @@
 <div align="center">
 
-  <img src="src/assets/img/logo-ratain.png" alt="Rata.in Logo" width="50" />
-
-# 🛣️ Rata.in
+  <img src="src/assets/img/logo-ratain.png" alt="Rata.in Logo" width="150" />
 
 **Platform Cerdas Pelaporan & Pemantauan Kerusakan Jalan Berbasis AI Computer Vision**
 
