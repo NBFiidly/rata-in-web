@@ -111,7 +111,7 @@ export default function Register() {
           </svg>
         </div>
         <div className="mt-10 text-center max-w-sm">
-          <h2 className="text-2xl font-extrabold text-black mb-3">
+          <h2 className="text-2xl font-bold text-black mb-3">
             Bergabung dengan Rata.in
           </h2>
           <p className="text-sm text-black/70 leading-relaxed font-medium">
@@ -129,10 +129,7 @@ export default function Register() {
           {/* Header Logo & Judul */}
           <div className="flex flex-col items-center text-center mb-6">
             <div className="flex items-center gap-2 mb-3">
-              <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
-              <span className="font-bold text-2xl text-black">
-                Rata.<span className="text-green">in</span>
-              </span>
+              <img src={logo} alt="Logo" className="w-24 h-24 object-contain" />
             </div>
             <h1 className="text-[22px] font-bold text-black mb-1">
               Buat Akun Baru

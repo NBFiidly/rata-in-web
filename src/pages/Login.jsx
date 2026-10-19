@@ -102,7 +102,7 @@ export default function Login() {
           </svg>
         </div>
         <div className="mt-10 text-center max-w-sm">
-          <h2 className="text-2xl font-extrabold text-black mb-3">
+          <h2 className="text-2xl font-bold text-black mb-3">
             Bersama Rata.in
           </h2>
           <p className="text-sm text-black/70 leading-relaxed font-medium">
@@ -122,7 +122,7 @@ export default function Login() {
             <img
               src={logo}
               alt="Rata.in Logo"
-              className="h-12 w-auto object-contain mb-3"
+              className="h-24 w-24 object-contain mb-3"
             />
             <h1 className="text-[22px] font-bold text-black mb-2">
               Masuk ke Rata.in
