@@ -21,7 +21,7 @@ export default function Home() {
             <span className="text-green">Bangun Jalan</span> Lebih Aman
           </h1>
 
-          <p className="text-grey-2 text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
+          <p className="text-grey-2 text-base md:text-md max-w-2xl mb-8 leading-relaxed">
             Gunakan teknologi AI Computer Vision untuk mendeteksi tingkat
             kerusakan jalan dan membantu mempercepat proses perbaikan.
           </p>

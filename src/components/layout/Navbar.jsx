@@ -13,7 +13,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-white border-b border-grey-1 sticky top-0 z-50 py-2">
+    <nav className="w-full bg-white shadow-md sticky top-0 z-50 py-2">
       {/* Bungkusan max-w-6xl mx-auto px-4 membuat posisi logo dan tombol Masuk sejajar dengan konten halaman & mendekat ke menu tengah */}
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
         {/* Bagian Kiri: Logo Asli (Ukuran tinggi disesuaikan presisi 60-66px sesuai Figma) */}
@@ -21,7 +21,7 @@ export default function Navbar() {
           <img
             src={logo}
             alt="Rata.in Logo"
-            className="h-14.5 md:h-16.5 w-auto object-contain"
+            className="h-16 md:h-12 w-auto object-contain"
           />
         </Link>
 
