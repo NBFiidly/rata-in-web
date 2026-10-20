@@ -1,9 +1,41 @@
 // File: src/components/layout/Navbar.jsx
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo-ratain.png";
 
 export default function Navbar() {
   const location = useLocation();
+
+  // State untuk melacak posisi dan visibilitas navbar
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // 1. Deteksi apakah layar sudah discroll ke bawah untuk efek Glassmorphism
+      if (currentScrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+
+      // 2. Deteksi arah scroll (sembunyi saat ke bawah, muncul saat ke atas)
+      // Angka 80 memberikan sedikit jeda agar tidak terlalu sensitif saat baru mulai scroll
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setIsVisible(false); // Sembunyikan navbar
+      } else {
+        setIsVisible(true); // Munculkan navbar
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const getLinkClass = (path) => {
     const isActive = location.pathname === path;
@@ -13,15 +45,22 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-white shadow-md sticky top-0 z-50 py-2">
-      {/* Bungkusan max-w-6xl mx-auto px-4 membuat posisi logo dan tombol Masuk sejajar dengan konten halaman & mendekat ke menu tengah */}
+    <nav
+      className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ease-in-out ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      } ${
+        isScrolled
+          ? "bg-white/70 backdrop-blur-md shadow-sm py-2" // Efek Glassmorphism saat di-scroll
+          : "bg-white shadow-none py-3" // Putih bersih saat berada paling atas
+      }`}
+    >
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
-        {/* Bagian Kiri: Logo Asli (Ukuran tinggi disesuaikan presisi 60-66px sesuai Figma) */}
+        {/* Bagian Kiri: Logo */}
         <Link to="/" className="flex items-center">
           <img
             src={logo}
             alt="Rata.in Logo"
-            className="h-16 md:h-12 w-auto object-contain"
+            className="h-14.5 md:h-16.5 w-auto object-contain"
           />
         </Link>
 
