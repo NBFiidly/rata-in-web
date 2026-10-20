@@ -60,7 +60,7 @@ export default function Navbar() {
           <img
             src={logo}
             alt="Rata.in Logo"
-            className="h-14.5 md:h-16.5 w-auto object-contain"
+            className="h-10.5 md:h-11 w-auto object-contain"
           />
         </Link>
 
