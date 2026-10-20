@@ -1,6 +1,5 @@
 // File: src/pages/Status.jsx
 import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
 import { Link } from "react-router-dom";
 
 export default function Status() {
@@ -11,7 +10,7 @@ export default function Status() {
     <div className="min-h-screen bg-grey-light flex flex-col">
       <Navbar />
 
-      <main className="grow flex flex-col items-center px-4 py-12">
+      <main className="grow flex flex-col items-center pt-32 px-4 py-12">
         {!isLoggedIn ? (
           // ... (Kode tampilan belum login biarkan saja seperti sebelumnya jika mau, atau hapus)
           <div>Belum login...</div>
@@ -166,8 +165,6 @@ export default function Status() {
           </div>
         )}
       </main>
-
-      <Footer />
     </div>
   );
 }
