@@ -1,18 +1,19 @@
 // File: src/components/layout/Footer.jsx
+import logo from "../../assets/img/logo-ratain.png";
+
 export default function Footer() {
   return (
-    <footer className="w-full bg-white border-t border-grey-1 pt-12 pb-16 mt-20">
+    <footer className="w-full bg-white pt-12 pb-16 mt-20">
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-10 md:gap-4">
         {/* Kolom Kiri: Logo & Deskripsi */}
         <div className="flex flex-col gap-4 max-w-[320px]">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-green flex items-center justify-center text-white font-bold italic">
-              R
-            </div>
-            <span className="font-bold text-xl text-black">
-              Rata.<span className="text-green">in</span>
-            </span>
+          {/* Logo Gambar Rata.in */}
+          <div className="flex items-center">
+            <img
+              src={logo}
+              alt="Rata.in Logo"
+              className="h-12 w-auto object-contain"
+            />
           </div>
           {/* Deskripsi */}
           <p className="text-black text-sm leading-relaxed">
