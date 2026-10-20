@@ -25,3 +25,7 @@
     background-color: var(--color-white);
   }
 }
+
+html {
+  overflow-y: scroll;
+}

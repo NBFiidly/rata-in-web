@@ -6,45 +6,48 @@ import logo from "../../assets/img/logo-ratain.png";
 export default function Navbar() {
   const location = useLocation();
 
-  // State HANYA untuk tampilan (UI)
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
-  // useRef untuk melacak data di balik layar tanpa memicu re-render
   const lastScrollYRef = useRef(0);
   const scrollTimeoutRef = useRef(null);
 
+  // PERBAIKAN 1: Reset posisi layar dan bentuk navbar setiap pindah halaman
+  useEffect(() => {
+    window.scrollTo(0, 0); // Kembalikan ke paling atas
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsScrolled(false); // Matikan efek glassmorphism
+    setIsVisible(true); // Munculkan navbar
+    lastScrollYRef.current = 0;
+  }, [location.pathname]); // Akan bereaksi setiap kali link menu diklik
+
+  // PERBAIKAN 2: Logika Scroll
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // 1. Deteksi efek Glassmorphism
+      // Deteksi efek Glassmorphism
       setIsScrolled(currentScrollY > 20);
 
-      // Bersihkan timer sebelumnya setiap kali ada pergerakan scroll
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
 
-      // 2. Deteksi arah scroll
+      // Deteksi arah scroll
       if (currentScrollY > lastScrollYRef.current && currentScrollY > 80) {
-        // Jika scroll ke BAWAH: sembunyikan navbar
-        setIsVisible(false);
+        setIsVisible(false); // Sembunyikan saat scroll ke bawah
 
-        // Buat timer: Munculkan kembali setelah berhenti scroll selama 1.2 detik
+        // Munculkan otomatis jika berhenti scroll 1.2 detik
         scrollTimeoutRef.current = setTimeout(() => {
           setIsVisible(true);
         }, 1200);
       } else {
-        // Jika scroll ke ATAS: langsung munculkan navbar
-        setIsVisible(true);
+        setIsVisible(true); // Munculkan saat scroll ke atas
       }
 
-      // Catat posisi scroll terakhir
       lastScrollYRef.current = currentScrollY;
     };
 
-    // Tambahkan passive: true agar performa scroll browser tetap mulus
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
@@ -53,7 +56,7 @@ export default function Navbar() {
         clearTimeout(scrollTimeoutRef.current);
       }
     };
-  }, []); // Dependency array kosong agar event listener tidak di-reset terus menerus
+  }, []);
 
   const getLinkClass = (path) => {
     const isActive = location.pathname === path;
@@ -78,7 +81,7 @@ export default function Navbar() {
           <img
             src={logo}
             alt="Rata.in Logo"
-            className="h-14.5 md:h-12.5 w-auto object-contain"
+            className="h-14.5 md:h-16.5 w-auto object-contain"
           />
         </Link>
 
