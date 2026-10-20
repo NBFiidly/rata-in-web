@@ -1,7 +1,6 @@
 // File: src/pages/ReportFlow.jsx
 import { useState } from "react";
 import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
 import Stepper from "../components/Stepper";
 import UploadStep from "../features/report/UploadStep";
 import LocationStep from "../features/report/LocationStep";
@@ -21,7 +20,7 @@ export default function ReportFlow() {
       <Navbar />
 
       {/* Konten Utam Lapor */}
-      <main className="grow py-12 px-4">
+      <main className="grow pt-32 py-12 px-4">
         <div className="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-sm border border-grey-1">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-black mb-2">
@@ -44,9 +43,6 @@ export default function ReportFlow() {
           </div>
         </div>
       </main>
-
-      {/* Footer Bawah */}
-      <Footer />
     </div>
   );
 }
