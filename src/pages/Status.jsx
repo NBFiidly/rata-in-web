@@ -148,7 +148,7 @@ export default function Status() {
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
       <Navbar />
 
-      <main className="grow flex flex-col items-center pt-[104px] px-4 pb-12 w-full max-w-7xl mx-auto">
+      <main className="grow flex flex-col items-center pt-26 px-4 pb-12 w-full max-w-7xl mx-auto">
         {!isLoggedIn ? (
           // ==================== TAMPILAN BELUM LOGIN ====================
           <div className="flex flex-col items-center justify-center text-center max-w-md w-full my-auto h-full">
@@ -234,7 +234,7 @@ export default function Status() {
             {/* Pencarian & Statistik */}
             <div className="flex flex-col w-full gap-4">
               {/* Search Bar */}
-              <div className="relative w-full max-w-[600px]">
+              <div className="relative w-full max-w-150">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <svg
                     width="18"
@@ -402,7 +402,7 @@ export default function Status() {
 
               {/* KOLOM KANAN: Detail & Alur Status */}
               <div className="lg:col-span-4 flex flex-col">
-                <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm sticky top-[100px]">
+                <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm sticky top-25">
                   {/* Header Detail */}
                   <p className="text-xs text-[#94A3B8] font-medium mb-1">
                     {selectedReport.id}
@@ -459,11 +459,11 @@ export default function Status() {
 
                   <div className="flex flex-col gap-6 relative">
                     {/* Garis vertikal timeline bg */}
-                    <div className="absolute left-[15px] top-4 bottom-4 w-[2px] bg-[#E2E8F0] z-0"></div>
+                    <div className="absolute left-3.75 top-4 bottom-4 w-0.5 bg-[#E2E8F0] z-0"></div>
 
                     {/* Garis hijau aktif */}
                     <div
-                      className="absolute left-[15px] top-4 w-[2px] bg-[#22C55E] z-0 transition-all duration-500"
+                      className="absolute left-3.75 top-4 w-0.5 bg-[#22C55E] z-0 transition-all duration-500"
                       style={{
                         height: `${(selectedReport.activeStep / (selectedReport.timeline.length - 1)) * 100}%`,
                         maxHeight: "100%",
@@ -481,7 +481,7 @@ export default function Status() {
                             className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center border-4 border-white ${
                               isDone
                                 ? "bg-[#22C55E]"
-                                : "bg-white border-2 !border-[#E2E8F0]"
+                                : "bg-white border-2 !border-[#E2E8F0]!"
                             }`}
                           >
                             {isDone ? (

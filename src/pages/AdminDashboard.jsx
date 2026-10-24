@@ -91,6 +91,18 @@ const mockReports = [
 export default function AdminDashboard() {
   const [selectedReport, setSelectedReport] = useState(mockReports[5]); // Default pilih Jl. Engku Putri
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [reportsPerPage, setReportsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(mockReports.length / reportsPerPage);
+  const firstReportIndex = (currentPage - 1) * reportsPerPage;
+  const visibleReports = mockReports.slice(
+    firstReportIndex,
+    firstReportIndex + reportsPerPage,
+  );
+  const lastReportIndex = Math.min(
+    firstReportIndex + reportsPerPage,
+    mockReports.length,
+  );
 
   // Fungsi helper untuk warna status/tingkat kerusakan
   const getSeverityColor = (severity) => {
@@ -451,7 +463,7 @@ export default function AdminDashboard() {
                     Kelola Laporan
                   </h2>
                   <span className="px-2.5 py-1 bg-grey-light text-grey-2 text-xs font-semibold rounded-full">
-                    8 laporan
+                    {mockReports.length} laporan
                   </span>
                 </div>
                 <button className="px-4 py-2 border border-grey-1 rounded-lg text-sm font-semibold text-black hover:bg-grey-light transition-colors">
@@ -539,11 +551,11 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="text-sm">
-                    {mockReports.map((report, idx) => {
+                    {visibleReports.map((report) => {
                       const isSelected = selectedReport?.id === report.id;
                       return (
                         <tr
-                          key={idx}
+                          key={report.id}
                           onClick={() => setSelectedReport(report)}
                           className={`border-b border-grey-1 cursor-pointer transition-colors ${isSelected ? "bg-soft-green/30 border-l-4 border-l-green" : "hover:bg-grey-light border-l-4 border-l-transparent"}`}
                         >
@@ -603,15 +615,63 @@ export default function AdminDashboard() {
 
               {/* Pagination */}
               <div className="px-5 pt-4 flex justify-between items-center text-xs text-grey-2 font-medium">
-                <span>Menampilkan 1-8 dari 8 laporan</span>
+                <div className="flex items-center gap-3">
+                  <label htmlFor="reports-per-page">Laporan per halaman</label>
+                  <select
+                    id="reports-per-page"
+                    value={reportsPerPage}
+                    onChange={(event) => {
+                      setReportsPerPage(Number(event.target.value));
+                      setCurrentPage(1);
+                    }}
+                    className="px-2 py-1 bg-white border border-grey-1 rounded text-xs text-black focus:outline-none focus:border-green"
+                  >
+                    {Array.from({ length: 10 }, (_, index) => (index + 1) * 5).map(
+                      (count) => (
+                        <option key={count} value={count}>
+                          {count}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                  <span>
+                    Menampilkan {mockReports.length ? firstReportIndex + 1 : 0}-
+                    {lastReportIndex} dari {mockReports.length} laporan
+                  </span>
+                </div>
                 <div className="flex gap-2 items-center">
-                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-grey-light">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
+                    disabled={currentPage === 1}
+                    aria-label="Halaman sebelumnya"
+                    className="w-7 h-7 flex items-center justify-center rounded hover:bg-grey-light disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
                     &lt;
                   </button>
-                  <button className="w-7 h-7 flex items-center justify-center rounded bg-soft-green text-green font-bold">
-                    1
-                  </button>
-                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-grey-light">
+                  {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                    (page) => (
+                      <button
+                        key={page}
+                        type="button"
+                        onClick={() => setCurrentPage(page)}
+                        aria-label={`Halaman ${page}`}
+                        aria-current={currentPage === page ? "page" : undefined}
+                        className={`w-7 h-7 flex items-center justify-center rounded ${currentPage === page ? "bg-soft-green text-green font-bold" : "hover:bg-grey-light"}`}
+                      >
+                        {page}
+                      </button>
+                    ),
+                  )}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCurrentPage((page) => Math.min(page + 1, totalPages))
+                    }
+                    disabled={currentPage === totalPages}
+                    aria-label="Halaman berikutnya"
+                    className="w-7 h-7 flex items-center justify-center rounded hover:bg-grey-light disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
                     &gt;
                   </button>
                 </div>
