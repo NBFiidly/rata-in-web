@@ -90,6 +90,7 @@ const mockReports = [
 
 export default function AdminDashboard() {
   const [selectedReport, setSelectedReport] = useState(mockReports[5]); // Default pilih Jl. Engku Putri
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // Fungsi helper untuk warna status/tingkat kerusakan
   const getSeverityColor = (severity) => {
@@ -125,16 +126,16 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex font-sans">
       {/* ================= SIDEBAR ================= */}
-      <aside className="w-64 bg-white border-r border-grey-1 flex flex-col fixed h-full z-20">
+      <aside
+        id="admin-sidebar"
+        className={`w-64 bg-white border-r border-grey-1 flex flex-col fixed h-full z-20 transition-transform duration-300 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+      >
         <div className="p-5 border-b border-grey-1 flex flex-col gap-1">
           <img
             src={logo}
             alt="Rata.in Admin"
-            className="h-8 w-auto object-contain self-start"
+            className="h-20 w-auto object-contain self-start"
           />
-          <span className="text-[10px] font-bold text-green bg-soft-green px-2 py-0.5 rounded self-start mt-2">
-            Ruang admin
-          </span>
         </div>
 
         <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
@@ -223,15 +224,35 @@ export default function AdminDashboard() {
       </aside>
 
       {/* ================= MAIN CONTENT ================= */}
-      <div className="flex-1 ml-64 flex">
+      <div
+        className={`flex-1 flex transition-[margin] duration-300 ${isSidebarOpen ? "ml-64" : "ml-0"}`}
+      >
         <div
           className={`flex-1 flex flex-col h-screen overflow-y-auto ${selectedReport ? "pr-90" : ""}`}
         >
           {/* Header Atas */}
           <header className="bg-white border-b border-grey-1 px-8 py-3 flex justify-between items-center">
-            <div className="flex items-center gap-4 text-sm text-grey-2 font-medium">
-              <span>Ruang admin</span>
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsSidebarOpen((isOpen) => !isOpen)}
+              aria-label={isSidebarOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
+              aria-expanded={isSidebarOpen}
+              aria-controls="admin-sidebar"
+              className="text-grey-2 hover:text-black p-2 rounded-lg hover:bg-grey-light transition-colors"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
             <div className="flex items-center gap-6">
               <a
                 href="/"
