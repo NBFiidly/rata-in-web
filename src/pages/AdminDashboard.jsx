@@ -9,6 +9,7 @@ const mockReports = [
   {
     id: "#RTN-2026-0008",
     street: "Jl. Yos Sudarso",
+    region: "Batu Ampar",
     date: "24 September 2026",
     damage: "Lubang Berat",
     severity: "Berat",
@@ -19,6 +20,7 @@ const mockReports = [
   {
     id: "#RTN-2026-0007",
     street: "Jl. Gajah Mada",
+    region: "Batam Kota",
     date: "24 September 2026",
     damage: "Retak Sedang",
     severity: "Sedang",
@@ -29,6 +31,7 @@ const mockReports = [
   {
     id: "#RTN-2026-0006",
     street: "Jl. Duyung",
+    region: "Batu Ampar",
     date: "23 September 2026",
     damage: "Retak Sedang",
     severity: "Sedang",
@@ -39,6 +42,7 @@ const mockReports = [
   {
     id: "#RTN-2026-0005",
     street: "Jl. Letjen Suprapto",
+    region: "Batu Ampar",
     date: "23 September 2026",
     damage: "Lubang Berat",
     severity: "Berat",
@@ -49,6 +53,7 @@ const mockReports = [
   {
     id: "#RTN-2026-0004",
     street: "Jl. Imam Bonjol",
+    region: "Batam Kota",
     date: "22 September 2026",
     damage: "Lubang Kecil",
     severity: "Ringan",
@@ -59,6 +64,7 @@ const mockReports = [
   {
     id: "#RTN-2026-0003",
     street: "Jl. Engku Putri",
+    region: "Batam Kota",
     date: "22 September 2026",
     damage: "Lubang Berat",
     severity: "Berat",
@@ -69,6 +75,7 @@ const mockReports = [
   {
     id: "#RTN-2026-0002",
     street: "Jl. Ahmad Yani",
+    region: "Batam Kota",
     date: "20 September 2026",
     damage: "Retak Sedang",
     severity: "Sedang",
@@ -79,6 +86,7 @@ const mockReports = [
   {
     id: "#RTN-2026-0001",
     street: "Jl. Raja Isa",
+    region: "Batam Kota",
     date: "10 September 2026",
     damage: "Lubang Kecil",
     severity: "Ringan",
@@ -97,19 +105,27 @@ export default function AdminDashboard() {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(() => new Date());
   const [reportSearch, setReportSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [severityFilter, setSeverityFilter] = useState("");
+  const [regionFilter, setRegionFilter] = useState("");
   const [displayedMonth, setDisplayedMonth] = useState(() => {
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth(), 1);
   });
   const [reportsPerPage, setReportsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredReports = mockReports.filter((report) => {
-    const searchTerm = reportSearch.trim().toLocaleLowerCase("id-ID");
-    return (
-      report.id.toLocaleLowerCase("id-ID").includes(searchTerm) ||
-      report.street.toLocaleLowerCase("id-ID").includes(searchTerm)
-    );
-  });
+  const searchTerm = reportSearch.trim().toLocaleLowerCase("id-ID");
+  const filteredReports = mockReports.filter(
+    (report) =>
+      (report.id.toLocaleLowerCase("id-ID").includes(searchTerm) ||
+        report.street.toLocaleLowerCase("id-ID").includes(searchTerm)) &&
+      (!statusFilter || report.status === statusFilter) &&
+      (!severityFilter || report.severity === severityFilter) &&
+      (!regionFilter || report.region === regionFilter),
+  );
+  const reportStatuses = [...new Set(mockReports.map((report) => report.status))];
+  const reportSeverities = [...new Set(mockReports.map((report) => report.severity))];
+  const reportRegions = [...new Set(mockReports.map((report) => report.region))];
   const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
   const firstReportIndex = (currentPage - 1) * reportsPerPage;
   const visibleReports = filteredReports.slice(
@@ -676,34 +692,64 @@ export default function AdminDashboard() {
                     <label className="text-xs font-medium text-grey-2">
                       Status laporan
                     </label>
-                    <select className="w-full px-3 py-2 bg-white border border-grey-1 rounded-lg text-sm text-black focus:outline-none focus:border-green appearance-none">
-                      <option>Semua status</option>
-                      <option>Laporan di Terima</option>
-                      <option>Analaisis AI</option>
-                      <option>Diverifikasi</option>
-                      <option>Dalam Penanganan</option>
-                      <option>Selesai</option>
+                    <select
+                      value={statusFilter}
+                      onChange={(event) => {
+                        setStatusFilter(event.target.value);
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-3 py-2 bg-white border border-grey-1 rounded-lg text-sm text-black focus:outline-none focus:border-green appearance-none"
+                    >
+                      <option value="">Semua status</option>
+                      {reportStatuses.map((status) => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-medium text-grey-2">
                       Tingkat kerusakan
                     </label>
-                    <select className="w-full px-3 py-2 bg-white border border-grey-1 rounded-lg text-sm text-black focus:outline-none focus:border-green appearance-none">
-                      <option>Semua tingkat</option>
-                      <option>Ringan</option>
-                      <option>Sedang</option>
-                      <option>Berat</option>
+                    <select
+                      value={severityFilter}
+                      onChange={(event) => {
+                        setSeverityFilter(event.target.value);
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-3 py-2 bg-white border border-grey-1 rounded-lg text-sm text-black focus:outline-none focus:border-green appearance-none"
+                    >
+                      <option value="">Semua tingkat</option>
+                      {reportSeverities.map((severity) => (
+                        <option key={severity} value={severity}>
+                          {severity}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium text-grey-2">
+                    <label
+                      htmlFor="report-region-filter"
+                      className="text-xs font-medium text-grey-2"
+                    >
                       Wilayah
                     </label>
-                    <select className="w-full px-3 py-2 bg-white border border-grey-1 rounded-lg text-sm text-black focus:outline-none focus:border-green appearance-none">
-                      <option>Semua kecamatan</option>
-                      <option>Batam Kota</option>
-                      <option>Baru Ampar</option>
+                    <select
+                      id="report-region-filter"
+                      value={regionFilter}
+                      onChange={(event) => {
+                        setRegionFilter(event.target.value);
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-3 py-2 bg-white border border-grey-1 rounded-lg text-sm text-black focus:outline-none focus:border-green appearance-none"
+                    >
+                      <option value="">Semua wilayah</option>
+                      {reportRegions.map((region) => (
+                        <option key={region} value={region}>
+                          {region}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -735,7 +781,7 @@ export default function AdminDashboard() {
                           colSpan={5}
                           className="px-5 py-8 text-center text-grey-2"
                         >
-                          Tidak ada laporan yang cocok dengan pencarian.
+                          Tidak ada laporan yang cocok dengan pencarian atau filter.
                         </td>
                       </tr>
                     ) : (
@@ -937,7 +983,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-between border-b border-grey-1 pb-2">
                   <span className="text-grey-2">Wilayah</span>
                   <span className="font-semibold text-black text-right">
-                    Batam Kota, Kepulauan Riau
+                    {selectedReport.region}, Kepulauan Riau
                   </span>
                 </div>
                 <div className="flex justify-between border-b border-grey-1 pb-2">
