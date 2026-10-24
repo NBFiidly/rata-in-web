@@ -9,10 +9,10 @@ export default function Navbar() {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-
+  
   // State untuk melacak status login reaktif
   const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("isLoggedIn") === "true",
+    localStorage.getItem("isLoggedIn") === "true"
   );
 
   const lastScrollYRef = useRef(0);
@@ -33,16 +33,16 @@ export default function Navbar() {
 
   // PERBAIKAN: Gunakan setTimeout untuk menghindari "cascading renders" secara sinkronus
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0); 
     lastScrollYRef.current = 0;
 
     const timer = setTimeout(() => {
-      setIsScrolled(false);
-      setIsVisible(true);
+      setIsScrolled(false); 
+      setIsVisible(true); 
     }, 0);
 
     return () => clearTimeout(timer);
-  }, [location.pathname]);
+  }, [location.pathname]); 
 
   // Logika Scroll
   useEffect(() => {
@@ -130,11 +130,7 @@ export default function Navbar() {
               title="Klik untuk Keluar"
               className="w-11 h-11 rounded-full bg-soft-green flex items-center justify-center border border-green/20 hover:ring-2 hover:ring-green transition-all overflow-hidden"
             >
-              <img
-                src={logo}
-                alt="Profile"
-                className="w-7 h-7 object-contain"
-              />
+              <img src={logo} alt="Profile" className="w-7 h-7 object-contain" />
             </button>
           ) : (
             <Link
