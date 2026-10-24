@@ -96,21 +96,29 @@ export default function AdminDashboard() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(() => new Date());
+  const [reportSearch, setReportSearch] = useState("");
   const [displayedMonth, setDisplayedMonth] = useState(() => {
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth(), 1);
   });
   const [reportsPerPage, setReportsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(mockReports.length / reportsPerPage);
+  const filteredReports = mockReports.filter((report) => {
+    const searchTerm = reportSearch.trim().toLocaleLowerCase("id-ID");
+    return (
+      report.id.toLocaleLowerCase("id-ID").includes(searchTerm) ||
+      report.street.toLocaleLowerCase("id-ID").includes(searchTerm)
+    );
+  });
+  const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
   const firstReportIndex = (currentPage - 1) * reportsPerPage;
-  const visibleReports = mockReports.slice(
+  const visibleReports = filteredReports.slice(
     firstReportIndex,
     firstReportIndex + reportsPerPage,
   );
   const lastReportIndex = Math.min(
     firstReportIndex + reportsPerPage,
-    mockReports.length,
+    filteredReports.length,
   );
   const monthName = displayedMonth.toLocaleDateString("id-ID", {
     month: "long",
@@ -623,7 +631,7 @@ export default function AdminDashboard() {
                     Kelola Laporan
                   </h2>
                   <span className="px-2.5 py-1 bg-grey-light text-grey-2 text-xs font-semibold rounded-full">
-                    {mockReports.length} laporan
+                    {filteredReports.length} laporan
                   </span>
                 </div>
                 <button
@@ -652,8 +660,14 @@ export default function AdminDashboard() {
                   </svg>
                   <input
                     type="text"
+                    value={reportSearch}
+                    onChange={(event) => {
+                      setReportSearch(event.target.value);
+                      setCurrentPage(1);
+                    }}
                     placeholder="Cari berdasarkan ID laporan atau nama jalan..."
-                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-grey-1 rounded-lg text-sm focus:outline-none focus:border-green"
+                    aria-label="Cari berdasarkan ID laporan atau nama jalan"
+                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-grey-1 rounded-lg text-sm font-medium text-black placeholder-grey-2 focus:outline-none focus:border-green focus:ring-1 focus:ring-green"
                   />
                 </div>
 
@@ -715,7 +729,17 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="text-sm">
-                    {visibleReports.map((report) => {
+                    {visibleReports.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="px-5 py-8 text-center text-grey-2"
+                        >
+                          Tidak ada laporan yang cocok dengan pencarian.
+                        </td>
+                      </tr>
+                    ) : (
+                      visibleReports.map((report) => {
                       const isSelected = selectedReport?.id === report.id;
                       return (
                         <tr
@@ -772,7 +796,8 @@ export default function AdminDashboard() {
                           </td>
                         </tr>
                       );
-                    })}
+                      })
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -799,15 +824,15 @@ export default function AdminDashboard() {
                     )}
                   </select>
                   <span>
-                    Menampilkan {mockReports.length ? firstReportIndex + 1 : 0}-
-                    {lastReportIndex} dari {mockReports.length} laporan
+                    Menampilkan {filteredReports.length ? firstReportIndex + 1 : 0}-
+                    {lastReportIndex} dari {filteredReports.length} laporan
                   </span>
                 </div>
                 <div className="flex gap-2 items-center">
                   <button
                     type="button"
                     onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
-                    disabled={currentPage === 1}
+                    disabled={currentPage === 1 || totalPages === 0}
                     aria-label="Halaman sebelumnya"
                     className="w-7 h-7 flex items-center justify-center rounded hover:bg-grey-light disabled:opacity-40 disabled:cursor-not-allowed"
                   >
@@ -832,7 +857,7 @@ export default function AdminDashboard() {
                     onClick={() =>
                       setCurrentPage((page) => Math.min(page + 1, totalPages))
                     }
-                    disabled={currentPage === totalPages}
+                    disabled={totalPages === 0 || currentPage >= totalPages}
                     aria-label="Halaman berikutnya"
                     className="w-7 h-7 flex items-center justify-center rounded hover:bg-grey-light disabled:opacity-40 disabled:cursor-not-allowed"
                   >
