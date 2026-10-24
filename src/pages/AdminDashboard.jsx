@@ -225,7 +225,7 @@ export default function AdminDashboard() {
       {/* ================= MAIN CONTENT ================= */}
       <div className="flex-1 ml-64 flex">
         <div
-          className={`flex-1 flex flex-col h-screen overflow-y-auto ${selectedReport ? "pr-[360px]" : ""}`}
+          className={`flex-1 flex flex-col h-screen overflow-y-auto ${selectedReport ? "pr-90" : ""}`}
         >
           {/* Header Atas */}
           <header className="bg-white border-b border-grey-1 px-8 py-3 flex justify-between items-center">
@@ -601,7 +601,7 @@ export default function AdminDashboard() {
 
         {/* ================= RIGHT PANEL (DETAIL LAPORAN) ================= */}
         {selectedReport && (
-          <aside className="w-[360px] bg-white border-l border-grey-1 fixed right-0 top-0 h-full z-30 shadow-2xl overflow-y-auto flex flex-col">
+          <aside className="w-90 bg-white border-l border-grey-1 fixed right-0 top-0 h-full z-30 shadow-2xl overflow-y-auto flex flex-col">
             <div className="p-5 border-b border-grey-1 flex flex-col gap-1 sticky top-0 bg-white z-10">
               <div className="flex justify-between items-center w-full mb-2">
                 <span className="text-[11px] font-medium text-grey-2">
@@ -609,7 +609,7 @@ export default function AdminDashboard() {
                 </span>
                 <button
                   onClick={() => setSelectedReport(null)}
-                  className="text-black hover:text-[#DD4343]"
+                  className="text-black hover:text-red"
                 >
                   <svg
                     width="18"
@@ -656,7 +656,7 @@ export default function AdminDashboard() {
                   alt={`Dokumentasi ${selectedReport.street}`}
                   className="w-full h-full object-cover absolute inset-0"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 text-white text-[11px] font-medium px-3 py-2 w-full flex justify-between items-center">
                   <span>Dokumentasi laporan warga</span>
                 </div>
@@ -704,10 +704,10 @@ export default function AdminDashboard() {
                   Alur Status
                 </h3>
                 <div className="flex flex-col gap-4 relative pl-3">
-                  <div className="absolute left-[17px] top-2 bottom-2 w-0.5 bg-grey-1 z-0"></div>
+                  <div className="absolute left-4.25 top-2 bottom-2 w-0.5 bg-grey-1 z-0"></div>
 
                   <div className="flex gap-4 relative z-10">
-                    <div className="w-3 h-3 rounded-full bg-green flex-shrink-0 mt-1 ring-4 ring-white"></div>
+                    <div className="w-3 h-3 rounded-full bg-green shrink-0 mt-1 ring-4 ring-white"></div>
                     <div>
                       <p className="text-xs font-bold text-black leading-none">
                         Laporan Dikirim
@@ -715,7 +715,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="flex gap-4 relative z-10">
-                    <div className="w-3 h-3 rounded-full bg-green flex-shrink-0 mt-1 ring-4 ring-white"></div>
+                    <div className="w-3 h-3 rounded-full bg-green shrink-0 mt-1 ring-4 ring-white"></div>
                     <div>
                       <p className="text-xs font-bold text-black leading-none">
                         Analisis AI
@@ -723,7 +723,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="flex gap-4 relative z-10">
-                    <div className="w-5 h-5 -ml-1 rounded-full bg-green flex-shrink-0 ring-4 ring-white flex items-center justify-center">
+                    <div className="w-5 h-5 -ml-1 rounded-full bg-green shrink-0 ring-4 ring-white flex items-center justify-center">
                       <div className="w-2 h-2 bg-white rounded-full"></div>
                     </div>
                     <div>
@@ -736,7 +736,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="flex gap-4 relative z-10">
-                    <div className="w-3 h-3 rounded-full bg-grey-1 flex-shrink-0 mt-1 ring-4 ring-white"></div>
+                    <div className="w-3 h-3 rounded-full bg-grey-1 shrink-0 mt-1 ring-4 ring-white"></div>
                     <div>
                       <p className="text-xs font-bold text-grey-2 leading-none">
                         Proses Perbaikan
@@ -744,7 +744,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="flex gap-4 relative z-10">
-                    <div className="w-3 h-3 rounded-full bg-grey-1 flex-shrink-0 mt-1 ring-4 ring-white"></div>
+                    <div className="w-3 h-3 rounded-full bg-grey-1 shrink-0 mt-1 ring-4 ring-white"></div>
                     <div>
                       <p className="text-xs font-bold text-grey-2 leading-none">
                         Selesai
@@ -762,7 +762,7 @@ export default function AdminDashboard() {
 
                 <div className="bg-soft-green border border-green/30 p-3 rounded-lg flex gap-3">
                   <svg
-                    className="text-green flex-shrink-0 mt-0.5"
+                    className="text-green shrink-0 mt-0.5"
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
