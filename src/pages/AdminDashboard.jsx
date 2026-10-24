@@ -164,6 +164,43 @@ export default function AdminDashboard() {
     navigate("/login");
   };
 
+  const handleExportReports = () => {
+    const csvValue = (value) => {
+      const text = String(value ?? "");
+      return `"${text.replaceAll('"', '""')}"`;
+    };
+    const rows = [
+      ["ID Laporan", "Jalan", "Tanggal", "Kerusakan", "Tingkat", "Status", "Progres"],
+      ...mockReports.map((report) => [
+        report.id,
+        report.street,
+        report.date,
+        report.damage,
+        report.severity,
+        report.status,
+        `${report.progress}%`,
+      ]),
+    ];
+    const csvContent = `\uFEFF${rows.map((row) => row.map(csvValue).join(",")).join("\r\n")}`;
+    const downloadUrl = URL.createObjectURL(
+      new Blob([csvContent], { type: "text/csv;charset=utf-8" }),
+    );
+    const link = document.createElement("a");
+    const today = new Date();
+    const dateStamp = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, "0"),
+      String(today.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    link.href = downloadUrl;
+    link.download = `laporan-jalan-${dateStamp}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 0);
+  };
+
   // Fungsi helper untuk warna status/tingkat kerusakan
   const getSeverityColor = (severity) => {
     switch (severity) {
@@ -589,7 +626,11 @@ export default function AdminDashboard() {
                     {mockReports.length} laporan
                   </span>
                 </div>
-                <button className="px-4 py-2 border border-grey-1 rounded-lg text-sm font-semibold text-black hover:bg-grey-light transition-colors">
+                <button
+                  type="button"
+                  onClick={handleExportReports}
+                  className="px-4 py-2 border border-grey-1 rounded-lg text-sm font-semibold text-black hover:bg-grey-light transition-colors"
+                >
                   Ekspor laporan
                 </button>
               </div>
