@@ -47,9 +47,9 @@ export default function ConfirmStep() {
           kami dalam 24 jam.
         </p>
 
-        {/* Tombol Selesai, kembali ke Beranda */}
+        {/* Tombol Selesai, menuju halaman status */}
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/status")}
           className="px-8 py-3 bg-green text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
         >
           Selesai
