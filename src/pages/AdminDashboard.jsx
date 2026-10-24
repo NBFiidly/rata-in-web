@@ -91,8 +91,15 @@ const mockReports = [
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const profileMenuRef = useRef(null);
+  const datePickerRef = useRef(null);
   const [selectedReport, setSelectedReport] = useState(mockReports[5]); // Default pilih Jl. Engku Putri
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(() => new Date());
+  const [displayedMonth, setDisplayedMonth] = useState(() => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), 1);
+  });
   const [reportsPerPage, setReportsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(mockReports.length / reportsPerPage);
@@ -105,17 +112,42 @@ export default function AdminDashboard() {
     firstReportIndex + reportsPerPage,
     mockReports.length,
   );
+  const monthName = displayedMonth.toLocaleDateString("id-ID", {
+    month: "long",
+  });
+  const displayedYear = displayedMonth.getFullYear();
+  const firstWeekdayOffset = (new Date(displayedYear, displayedMonth.getMonth(), 1).getDay() + 6) % 7;
+  const daysInMonth = new Date(
+    displayedYear,
+    displayedMonth.getMonth() + 1,
+    0,
+  ).getDate();
+  const calendarCells = Array.from(
+    { length: firstWeekdayOffset + daysInMonth },
+    (_, index) => (index < firstWeekdayOffset ? null : index - firstWeekdayOffset + 1),
+  );
+  const yearOptions = Array.from(
+    { length: 21 },
+    (_, index) => displayedYear - 10 + index,
+  );
 
   useEffect(() => {
-    if (!isProfileMenuOpen) return undefined;
+    if (!isProfileMenuOpen && !isDatePickerOpen) return undefined;
 
     const handlePointerDown = (event) => {
-      if (!profileMenuRef.current?.contains(event.target)) {
+      if (
+        isProfileMenuOpen &&
+        !profileMenuRef.current?.contains(event.target)
+      ) {
         setIsProfileMenuOpen(false);
+      }
+      if (isDatePickerOpen && !datePickerRef.current?.contains(event.target)) {
+        setIsDatePickerOpen(false);
       }
     };
     const handleKeyDown = (event) => {
       if (event.key === "Escape") setIsProfileMenuOpen(false);
+      if (event.key === "Escape") setIsDatePickerOpen(false);
     };
 
     document.addEventListener("pointerdown", handlePointerDown);
@@ -124,7 +156,7 @@ export default function AdminDashboard() {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isProfileMenuOpen]);
+  }, [isDatePickerOpen, isProfileMenuOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -281,32 +313,176 @@ export default function AdminDashboard() {
                   Batam.
                 </p>
               </div>
-              <button className="flex items-center gap-2 px-4 py-2 bg-white border border-grey-1 rounded-lg text-sm font-semibold text-black shadow-sm">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
+              <div className="relative" ref={datePickerRef}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsProfileMenuOpen(false);
+                    setIsDatePickerOpen((isOpen) => !isOpen);
+                  }}
+                  aria-haspopup="dialog"
+                  aria-expanded={isDatePickerOpen}
+                  aria-controls="admin-date-picker"
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-grey-1 rounded-lg text-sm font-semibold text-black shadow-sm"
                 >
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" />
-                  <line x1="8" y1="2" x2="8" y2="6" />
-                  <line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-                September 2026
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </button>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  {selectedDate.toLocaleDateString("id-ID", {
+                    month: "long",
+                    year: "numeric",
+                  })}
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                {isDatePickerOpen && (
+                  <div
+                    id="admin-date-picker"
+                    role="dialog"
+                    aria-label="Pilih tanggal laporan"
+                    className="absolute right-0 top-full z-40 mt-2 w-72 rounded-xl border border-grey-1 bg-white p-4 shadow-xl"
+                  >
+                    <div className="mb-4 flex items-center justify-between gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setDisplayedMonth(
+                            new Date(displayedYear, displayedMonth.getMonth() - 1, 1),
+                          )
+                        }
+                        aria-label="Bulan sebelumnya"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg text-grey-2 hover:bg-grey-light hover:text-black"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                      </button>
+                      <div className="flex flex-1 items-center justify-center gap-2">
+                        <span className="text-sm font-semibold text-black">
+                          {monthName}
+                        </span>
+                        <select
+                          aria-label="Pilih tahun"
+                          value={displayedYear}
+                          onChange={(event) =>
+                            setDisplayedMonth(
+                              new Date(
+                                Number(event.target.value),
+                                displayedMonth.getMonth(),
+                                1,
+                              ),
+                            )
+                          }
+                          className="rounded-md border border-grey-1 bg-white px-2 py-1 text-sm font-semibold text-black focus:outline-none focus:border-green"
+                        >
+                          {yearOptions.map((year) => (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setDisplayedMonth(
+                            new Date(displayedYear, displayedMonth.getMonth() + 1, 1),
+                          )
+                        }
+                        aria-label="Bulan berikutnya"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg text-grey-2 hover:bg-grey-light hover:text-black"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="mb-2 grid grid-cols-7 text-center text-xs font-medium text-grey-2">
+                      {["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"].map(
+                        (day) => (
+                          <span key={day} className="py-1">
+                            {day}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                    <div className="grid grid-cols-7 gap-y-1 text-center text-sm">
+                      {calendarCells.map((day, index) => {
+                        if (day === null) {
+                          return <span key={`empty-${index}`} />;
+                        }
+
+                        const date = new Date(
+                          displayedYear,
+                          displayedMonth.getMonth(),
+                          day,
+                        );
+                        const isSelected =
+                          selectedDate.getFullYear() === displayedYear &&
+                          selectedDate.getMonth() === displayedMonth.getMonth() &&
+                          selectedDate.getDate() === day;
+                        const today = new Date();
+                        const isToday =
+                          today.getFullYear() === displayedYear &&
+                          today.getMonth() === displayedMonth.getMonth() &&
+                          today.getDate() === day;
+
+                        return (
+                          <button
+                            key={date.toISOString()}
+                            type="button"
+                            onClick={() => {
+                              setSelectedDate(date);
+                              setIsDatePickerOpen(false);
+                            }}
+                            aria-label={date.toLocaleDateString("id-ID", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                            aria-pressed={isSelected}
+                            className={`mx-auto flex h-8 w-8 items-center justify-center rounded-full transition-colors ${isSelected ? "bg-green text-white font-bold" : isToday ? "border border-green text-green font-semibold" : "text-black hover:bg-grey-light"}`}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* 4 Kartu Statistik */}
