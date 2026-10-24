@@ -7,17 +7,19 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    // 1. Simpan status login ke localStorage
+    localStorage.setItem("isLoggedIn", "true");
+    // 2. Beritahu seluruh aplikasi bahwa status autentikasi berubah
+    window.dispatchEvent(new Event("authChange"));
+    // 3. Pindah ke halaman status
     navigate("/status");
   };
 
   return (
-    // Pembungkus utama Split Screen (Layout 50/50 di desktop)
     <div className="min-h-screen w-full flex bg-soft-green font-sans">
       {/* ================= BAGIAN KIRI: ILUSTRASI SVG ================= */}
-      {/* Tersembunyi di mobile (hidden), muncul di layar besar (lg:flex) */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center p-12 relative overflow-hidden bg-white/40 border-r border-green/20">
         <div className="w-full max-w-md relative z-10">
-          {/* Ilustrasi SVG Kustom */}
           <svg
             viewBox="0 0 400 400"
             fill="none"
@@ -112,12 +114,9 @@ export default function Login() {
         </div>
       </div>
 
-      {/* ================= BAGIAN KANAN: FORM LOGIN ASLI ================= */}
-      {/* Menggunakan lebar penuh di mobile, setengah layar di desktop */}
+      {/* ================= BAGIAN KANAN: FORM LOGIN ================= */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative bg-soft-green">
-        {/* Kontainer Form Asli (Sama persis dengan kode awal tanpa diubah kelasnya) */}
-        <div className="bg-white w-full max-w-[420px] rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col">
-          {/* Header Form */}
+        <div className="bg-white w-full max-w-105 rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col">
           <div className="flex flex-col items-center text-center mb-8">
             <img
               src={logo}
@@ -132,9 +131,7 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Form Input */}
           <form onSubmit={handleLogin} className="flex flex-col gap-5 w-full">
-            {/* Field Email */}
             <div className="flex flex-col gap-1.5 text-left">
               <label className="text-sm font-semibold text-black">Email</label>
               <input
@@ -145,7 +142,6 @@ export default function Login() {
               />
             </div>
 
-            {/* Field Password */}
             <div className="flex flex-col gap-1.5 text-left">
               <label className="text-sm font-semibold text-black">
                 Password
@@ -158,7 +154,6 @@ export default function Login() {
               />
             </div>
 
-            {/* Opsi Tambahan (Ingat saya & Lupa Password) */}
             <div className="flex items-center justify-between mt-1">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -175,7 +170,6 @@ export default function Login() {
               </Link>
             </div>
 
-            {/* Tombol Masuk */}
             <button
               type="submit"
               className="w-full py-3.5 bg-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity mt-2"
@@ -184,7 +178,6 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Bagian Bawah Form */}
           <div className="flex flex-col items-center mt-6">
             <p className="text-sm text-grey-2 mb-6">
               Belum punya akun?{" "}
@@ -195,8 +188,6 @@ export default function Login() {
                 Daftar sekarang
               </Link>
             </p>
-
-            {/* Garis Pemisah */}
             <div className="flex items-center w-full mb-6">
               <div className="flex-1 h-px bg-grey-1"></div>
               <span className="px-4 text-xs text-grey-2 uppercase tracking-wider font-medium">
@@ -204,8 +195,6 @@ export default function Login() {
               </span>
               <div className="flex-1 h-px bg-grey-1"></div>
             </div>
-
-            {/* Tombol Google */}
             <button
               type="button"
               className="w-full py-3 border border-grey-1 rounded-xl flex items-center justify-center gap-3 hover:bg-grey-light transition-colors font-semibold text-black"

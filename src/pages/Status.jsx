@@ -1,10 +1,25 @@
 // File: src/pages/Status.jsx
-import Navbar from "../components/layout/Navbar";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../components/layout/Navbar";
 
 export default function Status() {
-  // Ubah menjadi true agar halaman menampilkan mode "Sudah Login"
-  const isLoggedIn = true;
+  // 1. Lacak status login yang dihubungkan dengan custom event
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true",
+  );
+
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    };
+    window.addEventListener("storage", checkLoginStatus);
+    window.addEventListener("authChange", checkLoginStatus);
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+      window.removeEventListener("authChange", checkLoginStatus);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-grey-light flex flex-col">
@@ -12,8 +27,99 @@ export default function Status() {
 
       <main className="grow flex flex-col items-center pt-32 px-4 py-12">
         {!isLoggedIn ? (
-          // ... (Kode tampilan belum login biarkan saja seperti sebelumnya jika mau, atau hapus)
-          <div>Belum login...</div>
+          // ---------------------------------------------------
+          // TAMPILAN BELUM LOGIN (Desain Sesuai Screenshot)
+          // ---------------------------------------------------
+          <div className="flex flex-col items-center justify-center text-center max-w-md w-full my-auto h-full">
+            {/* Ilustrasi Gembok dan Dokumen */}
+            <div className="relative mb-8 flex justify-center items-center h-32 w-40">
+              <div className="w-32 h-32 bg-[#F0FDF4] rounded-full absolute z-0"></div>
+
+              {/* Dokumen Icon */}
+              <div className="relative z-10 bg-white shadow-sm border border-grey-1 rounded-xl p-4 w-28 h-24 transform -rotate-6 flex flex-col gap-2.5 mr-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-3.5 h-3.5 bg-grey-1 rounded-sm"></div>
+                  <div className="h-2.5 w-14 bg-grey-1/50 rounded-full"></div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3.5 h-3.5 bg-grey-1 rounded-sm"></div>
+                  <div className="h-2.5 w-10 bg-grey-1/50 rounded-full"></div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3.5 h-3.5 bg-grey-1 rounded-sm"></div>
+                  <div className="h-2.5 w-12 bg-grey-1/50 rounded-full"></div>
+                </div>
+              </div>
+
+              {/* Gembok Icon Bulat */}
+              <div className="absolute right-0 bottom-2 z-20 w-12 h-12 bg-green rounded-full flex items-center justify-center shadow-lg border-4 border-[#F0FDF4]">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect
+                    x="3"
+                    y="11"
+                    width="18"
+                    height="11"
+                    rx="2"
+                    ry="2"
+                  ></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+
+              {/* Sparkles */}
+              <div className="absolute top-2 right-4 text-green/40">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                >
+                  <line x1="12" y1="2" x2="12" y2="6"></line>
+                  <line x1="20" y1="10" x2="16" y2="10"></line>
+                  <line x1="18" y1="4" x2="15" y2="7"></line>
+                </svg>
+              </div>
+            </div>
+
+            <h1 className="text-2xl font-bold text-black mb-3 leading-snug">
+              Masuk dulu untuk melihat <br /> status laporan Anda
+            </h1>
+            <p className="text-grey-2 text-sm mb-6 leading-relaxed">
+              Login terlebih dahulu untuk mengakses dan memantau laporan
+              kerusakan jalan yang Anda kirim.
+            </p>
+            <Link
+              to="/login"
+              className="px-6 py-2.5 bg-green text-white rounded-lg font-bold hover:opacity-90 flex items-center gap-2 transition-opacity shadow-sm"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              Masuk
+            </Link>
+          </div>
         ) : (
           // ---------------------------------------------------
           // TAMPILAN SUDAH LOGIN (DAFTAR & STATUS LAPORAN)
