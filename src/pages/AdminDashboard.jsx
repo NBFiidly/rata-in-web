@@ -291,7 +291,7 @@ export default function AdminDashboard() {
                       type="button"
                       role="menuitem"
                       onClick={handleLogout}
-                      className="w-full rounded-md px-3 py-2 text-left text-sm font-medium text-[#DD4343] hover:bg-grey-light transition-colors"
+                      className="w-full rounded-md px-3 py-2 text-left text-sm font-medium text-red hover:bg-grey-light transition-colors"
                     >
                       Logout
                     </button>
