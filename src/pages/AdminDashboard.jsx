@@ -1,5 +1,6 @@
 // File: src/pages/AdminDashboard.jsx
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/img/logo-ratain.png";
 import jalanImg from "../assets/img/jalan.jpeg";
 
@@ -88,7 +89,10 @@ const mockReports = [
 ];
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
+  const profileMenuRef = useRef(null);
   const [selectedReport, setSelectedReport] = useState(mockReports[5]); // Default pilih Jl. Engku Putri
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [reportsPerPage, setReportsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(mockReports.length / reportsPerPage);
@@ -101,6 +105,32 @@ export default function AdminDashboard() {
     firstReportIndex + reportsPerPage,
     mockReports.length,
   );
+
+  useEffect(() => {
+    if (!isProfileMenuOpen) return undefined;
+
+    const handlePointerDown = (event) => {
+      if (!profileMenuRef.current?.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setIsProfileMenuOpen(false);
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isProfileMenuOpen]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    window.dispatchEvent(new Event("authChange"));
+    navigate("/login");
+  };
 
   // Fungsi helper untuk warna status/tingkat kerusakan
   const getSeverityColor = (severity) => {
@@ -179,26 +209,62 @@ export default function AdminDashboard() {
                   <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
               </button>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-soft-green text-green flex items-center justify-center font-bold text-xs">
+              <div className="relative" ref={profileMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsProfileMenuOpen((isOpen) => !isOpen)}
+                  aria-haspopup="menu"
+                  aria-expanded={isProfileMenuOpen}
+                  aria-controls="admin-profile-menu"
+                  className="flex items-center gap-3 rounded-lg p-2 text-left hover:bg-grey-light transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-soft-green text-green flex items-center justify-center font-bold text-xs">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-bold text-black leading-tight">
+                      Admin Dinas
+                    </span>
+                    <span className="text-xs text-grey-2">Pengelola laporan</span>
+                  </div>
                   <svg
-                    width="16"
-                    height="16"
+                    width="14"
+                    height="14"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
+                    aria-hidden="true"
                   >
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
+                    <path d="m6 9 6 6 6-6" />
                   </svg>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-bold text-black leading-tight">
-                    Admin Dinas
-                  </span>
-                  <span className="text-xs text-grey-2">Pengelola laporan</span>
-                </div>
+                </button>
+                {isProfileMenuOpen && (
+                  <div
+                    id="admin-profile-menu"
+                    role="menu"
+                    className="absolute right-0 top-full z-50 mt-2 min-w-40 rounded-lg border border-grey-1 bg-white p-1 shadow-lg"
+                  >
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={handleLogout}
+                      className="w-full rounded-md px-3 py-2 text-left text-sm font-medium text-[#DD4343] hover:bg-grey-light transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </header>
