@@ -96,6 +96,14 @@ const mockReports = [
   },
 ];
 
+const reportStatusSteps = [
+  "Laporan Dikirim",
+  "Analisis AI",
+  "Diverifikasi",
+  "Proses Perbaikan",
+  "Selesai",
+];
+
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const profileMenuRef = useRef(null);
@@ -114,6 +122,7 @@ export default function AdminDashboard() {
   });
   const [reportsPerPage, setReportsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const currentStatusIndex = reportStatusSteps.indexOf(selectedReport?.status);
   const searchTerm = reportSearch.trim().toLocaleLowerCase("id-ID");
   const filteredReports = mockReports.filter(
     (report) =>
@@ -917,7 +926,7 @@ export default function AdminDashboard() {
 
         {/* ================= RIGHT PANEL (DETAIL LAPORAN) ================= */}
         {selectedReport && (
-          <aside className="w-90 bg-white border-l border-grey-1 fixed right-0 top-0 h-full z-30 shadow-2xl overflow-y-auto flex flex-col">
+          <aside className="w-90 bg-white border-l border-grey-1 fixed right-0 top-0 h-full z-30 isolate shadow-2xl overflow-y-auto flex flex-col">
             <div className="p-5 border-b border-grey-1 flex flex-col gap-1 sticky top-0 bg-white z-10">
               <div className="flex justify-between items-center w-full mb-2">
                 <span className="text-[11px] font-medium text-grey-2">
@@ -964,7 +973,7 @@ export default function AdminDashboard() {
               </p>
             </div>
 
-            <div className="p-5 flex flex-col gap-6 flex-1">
+            <div className="p-5 flex flex-col gap-6 flex-1 relative z-0">
               {/* Image Box */}
               <div className="w-full h-44 bg-grey-light rounded-xl relative overflow-hidden flex items-end shadow-sm">
                 <img
@@ -1021,52 +1030,45 @@ export default function AdminDashboard() {
                 </h3>
                 <div className="flex flex-col gap-4 relative pl-3">
                   <div className="absolute left-4.25 top-2 bottom-2 w-0.5 bg-grey-1 z-0"></div>
+                  {reportStatusSteps.map((status, index) => {
+                    const isCurrent = index === currentStatusIndex;
+                    const isComplete = index < currentStatusIndex;
 
-                  <div className="flex gap-4 relative z-10">
-                    <div className="w-3 h-3 rounded-full bg-green shrink-0 mt-1 ring-4 ring-white"></div>
-                    <div>
-                      <p className="text-xs font-bold text-black leading-none">
-                        Laporan Dikirim
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex gap-4 relative z-10">
-                    <div className="w-3 h-3 rounded-full bg-green shrink-0 mt-1 ring-4 ring-white"></div>
-                    <div>
-                      <p className="text-xs font-bold text-black leading-none">
-                        Analisis AI
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex gap-4 relative z-10">
-                    <div className="w-5 h-5 -ml-1 rounded-full bg-green shrink-0 ring-4 ring-white flex items-center justify-center">
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-black leading-none mb-1">
-                        Diverifikasi
-                      </p>
-                      <p className="text-[10px] text-grey-2 leading-none">
-                        Telah ditinjau oleh Admin Dinas
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex gap-4 relative z-10">
-                    <div className="w-3 h-3 rounded-full bg-grey-1 shrink-0 mt-1 ring-4 ring-white"></div>
-                    <div>
-                      <p className="text-xs font-bold text-grey-2 leading-none">
-                        Proses Perbaikan
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex gap-4 relative z-10">
-                    <div className="w-3 h-3 rounded-full bg-grey-1 shrink-0 mt-1 ring-4 ring-white"></div>
-                    <div>
-                      <p className="text-xs font-bold text-grey-2 leading-none">
-                        Selesai
-                      </p>
-                    </div>
-                  </div>
+                    return (
+                      <div key={status} className="flex gap-4 relative z-10">
+                        <div
+                          className={`${
+                            isCurrent
+                              ? "w-5 h-5 -ml-1 flex items-center justify-center"
+                              : "w-3 h-3 mt-1"
+                          } rounded-full shrink-0 ring-4 ring-white ${
+                            isComplete || isCurrent ? "bg-green" : "bg-grey-1"
+                          }`}
+                        >
+                          {isCurrent && (
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          )}
+                        </div>
+                        <div>
+                          <p
+                            className={`text-xs leading-none ${
+                              index <= currentStatusIndex
+                                ? "font-bold text-black"
+                                : "font-bold text-grey-2"
+                            } ${status === "Diverifikasi" ? "mb-1" : ""}`}
+                          >
+                            {status}
+                          </p>
+                          {status === "Diverifikasi" &&
+                            currentStatusIndex >= index && (
+                              <p className="text-[10px] text-grey-2 leading-none mt-1">
+                                Telah ditinjau oleh Admin Dinas
+                              </p>
+                            )}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
