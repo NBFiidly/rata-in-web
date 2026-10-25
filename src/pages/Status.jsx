@@ -143,6 +143,16 @@ export default function Status() {
 
   const [selectedReport, setSelectedReport] = useState(reports[0]);
   const [searchQuery, setSearchQuery] = useState("");
+  const searchTerm = searchQuery.trim().toLocaleLowerCase("id-ID");
+  const filteredReports = reports.filter(
+    (report) =>
+      report.id.toLocaleLowerCase("id-ID").includes(searchTerm) ||
+      report.lokasi.toLocaleLowerCase("id-ID").includes(searchTerm),
+  );
+  const displayedReport =
+    filteredReports.find((report) => report.id === selectedReport?.id) ??
+    filteredReports[0] ??
+    null;
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
@@ -234,7 +244,7 @@ export default function Status() {
             {/* Pencarian & Statistik */}
             <div className="flex flex-col w-full gap-4">
               {/* Search Bar */}
-              <div className="relative w-full max-w-150">
+              <div className="relative w-full md:w-[calc((100%_-_2rem)_/_3)]">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <svg
                     width="18"
@@ -253,7 +263,7 @@ export default function Status() {
                 <input
                   type="text"
                   placeholder="Cari laporan berdasarkan ID atau nama jalan..."
-                  className="w-full pl-11 pr-4 py-3.5 bg-white border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all"
+                  className="w-full pl-11 pr-4 py-3.5 bg-white border border-[#E2E8F0] rounded-xl text-sm font-medium text-[#1E293B] placeholder:font-medium placeholder:text-[#64748B] focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -292,8 +302,13 @@ export default function Status() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-2">
               {/* KOLOM KIRI: Daftar Laporan */}
               <div className="lg:col-span-8 flex flex-col gap-4">
-                {reports.map((report) => {
-                  const isSelected = selectedReport.id === report.id;
+                {filteredReports.length === 0 ? (
+                  <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 text-center text-sm text-[#64748B]">
+                    Tidak ada laporan yang cocok dengan pencarian.
+                  </div>
+                ) : (
+                  filteredReports.map((report) => {
+                  const isSelected = displayedReport?.id === report.id;
 
                   // Helper function untuk warna badge keparahan
                   const getSeverityStyle = (severity) => {
@@ -397,15 +412,17 @@ export default function Status() {
                       </div>
                     </div>
                   );
-                })}
+                  })
+                )}
               </div>
 
               {/* KOLOM KANAN: Detail & Alur Status */}
               <div className="lg:col-span-4 flex flex-col">
-                <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm sticky top-25">
+                {displayedReport ? (
+                  <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm sticky top-25">
                   {/* Header Detail */}
                   <p className="text-xs text-[#94A3B8] font-medium mb-1">
-                    {selectedReport.id}
+                    {displayedReport.id}
                   </p>
                   <div className="flex justify-between items-center mb-6">
                     <h3 className="text-lg font-bold text-[#1E293B]">
@@ -413,14 +430,14 @@ export default function Status() {
                     </h3>
                     <span
                       className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
-                        selectedReport.keparahan === "Berat"
+                        displayedReport.keparahan === "Berat"
                           ? "bg-[#FEF2F2] text-[#EF4444] border border-[#FECACA]"
-                          : selectedReport.keparahan === "Sedang"
+                          : displayedReport.keparahan === "Sedang"
                             ? "bg-[#FFF7ED] text-[#F97316] border border-[#FED7AA]"
                             : "bg-[#F0FDF4] text-[#22C55E] border border-[#BBF7D0]"
                       }`}
                     >
-                      {selectedReport.keparahan}
+                      {displayedReport.keparahan}
                     </span>
                   </div>
 
@@ -429,25 +446,25 @@ export default function Status() {
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-[#64748B]">Lokasi</span>
                       <span className="text-sm font-medium text-[#1E293B]">
-                        {selectedReport.lokasi}
+                        {displayedReport.lokasi}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-[#64748B]">Kota</span>
                       <span className="text-sm font-medium text-[#1E293B]">
-                        {selectedReport.kota}
+                        {displayedReport.kota}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-[#64748B]">Deteksi AI</span>
                       <span className="text-sm font-medium text-[#1E293B]">
-                        {selectedReport.kategori}
+                        {displayedReport.kategori}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-[#64748B]">Diperbarui</span>
                       <span className="text-sm font-medium text-[#1E293B]">
-                        {selectedReport.tanggal}
+                        {displayedReport.tanggal}
                       </span>
                     </div>
                   </div>
@@ -465,14 +482,14 @@ export default function Status() {
                     <div
                       className="absolute left-3.75 top-4 w-0.5 bg-[#22C55E] z-0 transition-all duration-500"
                       style={{
-                        height: `${(selectedReport.activeStep / (selectedReport.timeline.length - 1)) * 100}%`,
+                        height: `${(displayedReport.activeStep / (displayedReport.timeline.length - 1)) * 100}%`,
                         maxHeight: "100%",
                       }}
                     ></div>
 
-                    {selectedReport.timeline.map((step, idx) => {
+                    {displayedReport.timeline.map((step, idx) => {
                       const isDone = step.done;
-                      const isActive = idx === selectedReport.activeStep;
+                      const isActive = idx === displayedReport.activeStep;
 
                       return (
                         <div key={idx} className="flex gap-4 relative z-10">
@@ -517,7 +534,12 @@ export default function Status() {
                       );
                     })}
                   </div>
-                </div>
+                  </div>
+                ) : (
+                  <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 text-center text-sm text-[#64748B]">
+                    Detail laporan akan muncul saat ada hasil pencarian.
+                  </div>
+                )}
               </div>
             </div>
           </div>
