@@ -155,7 +155,7 @@ export default function Status() {
     null;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-inter">
       <Navbar />
 
       <main className="grow flex flex-col items-center pt-26 px-4 pb-12 w-full max-w-7xl mx-auto">

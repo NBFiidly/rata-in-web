@@ -4,7 +4,7 @@ import Navbar from "../components/layout/Navbar";
 export default function Map() {
   return (
     // Struktur luar dikunci sebesar layar (h-screen) dan sisa konten disembunyikan (overflow-hidden)
-    <div className="h-screen w-full bg-[#F8FAFC] flex flex-col font-sans overflow-hidden">
+    <div className="h-screen w-full bg-[#F8FAFC] flex flex-col font-inter overflow-hidden">
       <Navbar />
 
       {/* Main container diberikan overflow-hidden agar sidebar di dalamnya yang melakukan scroll */}

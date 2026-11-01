@@ -46,7 +46,7 @@ export default function ForgotPassword() {
 
   return (
     // Pembungkus utama Split Screen (Layout 50/50 di desktop)
-    <div className="min-h-screen w-full flex bg-soft-green font-sans">
+    <div className="min-h-screen w-full flex bg-soft-green font-inter">
       {/* ================= BAGIAN KIRI: ILUSTRASI SVG ================= */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center p-12 relative overflow-hidden bg-white/40 border-r border-green/20">
         <div className="w-full max-w-md relative z-10">

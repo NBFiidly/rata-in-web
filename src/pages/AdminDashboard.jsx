@@ -266,7 +266,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex font-sans">
+    <div className="min-h-screen bg-[#F8FAFC] flex font-inter">
       <div className="flex-1 flex">
         <div
           className={`flex-1 flex flex-col h-screen overflow-y-auto ${selectedReport ? "pr-90" : ""}`}

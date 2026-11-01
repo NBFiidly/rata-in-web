@@ -9,14 +9,16 @@ export default function Navbar() {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  
+  const [showDropdown, setShowDropdown] = useState(false);
+
   // State untuk melacak status login reaktif
   const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("isLoggedIn") === "true"
+    localStorage.getItem("isLoggedIn") === "true",
   );
 
   const lastScrollYRef = useRef(0);
   const scrollTimeoutRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   // Pantau perubahan dari proses Login/Logout
   useEffect(() => {
@@ -31,18 +33,31 @@ export default function Navbar() {
     };
   }, []);
 
-  // PERBAIKAN: Gunakan setTimeout untuk menghindari "cascading renders" secara sinkronus
+  // Tutup dropdown saat klik di luar
   useEffect(() => {
-    window.scrollTo(0, 0); 
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Hindari cascading render saat pindah halaman
+  useEffect(() => {
+    window.scrollTo(0, 0);
     lastScrollYRef.current = 0;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setShowDropdown(false);
 
     const timer = setTimeout(() => {
-      setIsScrolled(false); 
-      setIsVisible(true); 
+      setIsScrolled(false);
+      setIsVisible(true);
     }, 0);
 
     return () => clearTimeout(timer);
-  }, [location.pathname]); 
+  }, [location.pathname]);
 
   // Logika Scroll
   useEffect(() => {
@@ -75,39 +90,90 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
     window.dispatchEvent(new Event("authChange"));
-    navigate("/"); // Redirect ke beranda setelah logout
+    navigate("/");
   };
 
   const getLinkClass = (path) => {
     const isActive = location.pathname === path;
     return isActive
-      ? "px-5 py-2 rounded-full bg-soft-green text-green font-semibold text-sm transition-colors"
-      : "px-5 py-2 rounded-full text-grey-2 hover:text-green font-medium text-sm transition-colors";
+      ? "px-5 py-2 md:rounded-lg rounded-md bg-[#DCFCE7] text-[#16A34A] font-semibold text-sm transition-colors whitespace-nowrap"
+      : "px-5 py-2 md:rounded-lg rounded-md text-[#64748B] hover:text-[#16A34A] font-medium text-sm transition-colors whitespace-nowrap";
   };
 
   return (
     <nav
-      className={`w-full fixed top-0 left-0 z-50 transition-all duration-500 ease-in-out ${
+      className={`w-full fixed top-0 left-0 z-50 bg-white transition-transform duration-500 ease-in-out border-b border-[#E2E8F0] ${
         isVisible ? "translate-y-0" : "-translate-y-full"
-      } ${
-        isScrolled
-          ? "bg-white/70 backdrop-blur-md shadow-sm py-2"
-          : "bg-white shadow-none py-3"
-      }`}
+      } ${isScrolled ? "shadow-sm" : ""}`}
     >
-      <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
-        {/* Bagian Kiri: Logo */}
-        <Link to="/" className="flex items-center">
-          <img
-            src={logo}
-            alt="Rata.in Logo"
-            className="h-14.5 md:h-16.5 w-auto object-contain"
-          />
-        </Link>
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        {/* BARIS 1: Logo & Auth (Mobile & Desktop) */}
+        <div className="flex justify-between items-center h-16 md:h-18">
+          {/* Logo */}
+          <Link to="/" className="flex items-center shrink-0">
+            <img
+              src={logo}
+              alt="Rata.in Logo"
+              className="h-9 md:h-12 w-auto object-contain"
+            />
+          </Link>
 
-        {/* Bagian Tengah: Menu Navigasi */}
-        <div className="hidden md:flex items-center gap-2">
+          {/* Menu Desktop (Sembunyi di Mobile) */}
+          <div className="hidden md:flex items-center justify-center gap-2 flex-1">
+            <Link to="/" className={getLinkClass("/")}>
+              Beranda
+            </Link>
+            <Link to="/report" className={getLinkClass("/report")}>
+              Lapor
+            </Link>
+            <Link to="/peta" className={getLinkClass("/peta")}>
+              Peta
+            </Link>
+            <Link to="/status" className={getLinkClass("/status")}>
+              Status
+            </Link>
+          </div>
+
+          {/* Auth (Masuk/Logout) */}
+          <div className="shrink-0 relative" ref={dropdownRef}>
+            {isLoggedIn ? (
+              <div>
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="w-9 h-9 md:w-11 md:h-11 rounded-full bg-[#E8F5E9] flex items-center justify-center border border-transparent hover:border-[#22C55E] transition-all overflow-hidden"
+                >
+                  <img
+                    src={logo}
+                    alt="Profile"
+                    className="w-5 h-5 md:w-7 md:h-7 object-contain"
+                  />
+                </button>
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-[#E2E8F0] rounded-xl shadow-lg py-2 z-50">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-[#EF4444] font-semibold hover:bg-[#FEE2E2] transition-colors"
+                    >
+                      Keluar
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="px-5 py-2 rounded-md md:rounded-lg border border-green text-green font-semibold text-sm hover:bg-[#F0FDF4] transition-colors"
+              >
+                Masuk
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* BARIS 2: Menu Mobile (Sembunyi di Desktop) */}
+        <div className="flex md:hidden items-center gap-2 py-3 border-t border-[#F1F5F9] overflow-x-auto hide-scrollbar">
           <Link to="/" className={getLinkClass("/")}>
             Beranda
           </Link>
@@ -120,26 +186,6 @@ export default function Navbar() {
           <Link to="/status" className={getLinkClass("/status")}>
             Status
           </Link>
-        </div>
-
-        {/* Bagian Kanan: Logika Login / Logout dengan desain bulatan hijau */}
-        <div>
-          {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              title="Klik untuk Keluar"
-              className="w-11 h-11 rounded-full bg-soft-green flex items-center justify-center border border-green/20 hover:ring-2 hover:ring-green transition-all overflow-hidden"
-            >
-              <img src={logo} alt="Profile" className="w-7 h-7 object-contain" />
-            </button>
-          ) : (
-            <Link
-              to="/login"
-              className="px-6 py-2 rounded-full border border-green text-green font-semibold text-sm hover:bg-soft-green transition-colors inline-block"
-            >
-              Masuk
-            </Link>
-          )}
         </div>
       </div>
     </nav>
