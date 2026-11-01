@@ -8,9 +8,9 @@ export default function Map() {
       <Navbar />
 
       {/* Main container diberikan overflow-hidden agar sidebar di dalamnya yang melakukan scroll */}
-      <main className="flex-1 w-full pt-[72px] flex flex-col md:flex-row overflow-hidden">
+      <main className="flex-1 w-full pt-18 flex flex-col md:flex-row overflow-hidden">
         {/* --- PANEL KIRI (Statistik & Daftar Lokasi) --- */}
-        <aside className="w-full md:w-80 lg:w-[400px] h-full bg-[#F8FAFC] border-r border-[#E2E8F0] overflow-y-auto flex-shrink-0 custom-scrollbar z-10">
+        <aside className="w-full md:w-80 lg:w-100 h-full bg-[#F8FAFC] border-r border-[#E2E8F0] overflow-y-auto shrink-0 custom-scrollbar z-10">
           <div className="p-6 flex flex-col gap-6">
             <h1 className="text-[22px] font-bold text-[#1E293B]">
               Statistik Kerusakan
@@ -259,7 +259,7 @@ export default function Map() {
           {/* Peta Google Maps difokuskan di koordinat Batam Center agar jalan-jalan sesuai muncul */}
           <iframe
             src="https://maps.google.com/maps?q=1.1275,104.0565&z=14&output=embed"
-            className="w-full h-full border-0 grayscale-[10%] opacity-90"
+            className="w-full h-full border-0 grayscale-10 opacity-90"
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
