@@ -16,7 +16,7 @@ export default function Home() {
             Sustainable Cities & Communities
           </span>
 
-          <h1 className="text-3xl md:text-5xl font-bold text-black leading-tight mb-4">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-black leading-tight mb-4">
             Laporkan Jalan Rusak,
             <br />
             <span className="text-green">Bangun Jalan</span> Lebih Aman
