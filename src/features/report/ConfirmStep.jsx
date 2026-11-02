@@ -62,16 +62,16 @@ export default function ConfirmStep() {
   // KONDISI 2: TAMPILAN RINGKASAN KONFIRMASI (Sebelum dikirim)
   // ----------------------------------------------------------------
   return (
-    <div className="flex flex-col w-full text-left py-4">
+    <div className="flex flex-col w-full text-left py-1 md:py-4">
       {/* Header Langkah 4 */}
-      <h2 className="text-2xl font-bold text-black mb-1">Konfirmasi Laporan</h2>
-      <p className="text-grey-2 mb-6">
+      <h2 className="text-base md:text-2xl font-bold text-black mb-0.5 md:mb-1">Konfirmasi Laporan</h2>
+      <p className="text-xs md:text-base text-grey-2 mb-3 md:mb-6">
         Periksa kembali detail laporan sebelum mengirim
       </p>
 
-      <div className="flex flex-col gap-3 mb-6">
+      <div className="flex flex-col gap-2 md:gap-3 mb-3 md:mb-6">
         {/* Baris 1: Foto */}
-        <div className="flex items-center gap-4 p-4 border border-grey-1 rounded-xl bg-white">
+        <div className="flex items-center gap-3 p-2 md:p-4 border border-grey-1 rounded-xl bg-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -95,7 +95,7 @@ export default function ConfirmStep() {
         </div>
 
         {/* Baris 2: Lokasi */}
-        <div className="flex items-center gap-4 p-4 border border-grey-1 rounded-xl bg-white">
+        <div className="flex items-center gap-3 p-2 md:p-4 border border-grey-1 rounded-xl bg-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -119,7 +119,7 @@ export default function ConfirmStep() {
         </div>
 
         {/* Baris 3: Jenis Kerusakan */}
-        <div className="flex items-center gap-4 p-4 border border-grey-1 rounded-xl bg-white">
+        <div className="flex items-center gap-3 p-2 md:p-4 border border-grey-1 rounded-xl bg-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -143,7 +143,7 @@ export default function ConfirmStep() {
         </div>
 
         {/* Baris 4: Keparahan */}
-        <div className="flex items-center gap-4 p-4 border border-grey-1 rounded-xl bg-white">
+        <div className="flex items-center gap-3 p-2 md:p-4 border border-grey-1 rounded-xl bg-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -169,13 +169,13 @@ export default function ConfirmStep() {
       </div>
 
       {/* Textarea Catatan Tambahan */}
-      <div className="mb-6">
-        <label className="block text-sm font-semibold text-black mb-2">
+      <div className="mb-3 md:mb-6">
+        <label className="block text-xs md:text-sm font-semibold text-black mb-1 md:mb-2">
           Catatan Tambahan (opsional)
         </label>
         <textarea
-          className="w-full p-4 border border-grey-1 rounded-xl bg-white text-sm text-black placeholder-grey-2 focus:outline-none focus:border-green transition-colors resize-none"
-          rows="3"
+          className="w-full p-2 md:p-4 border border-grey-1 rounded-xl bg-white text-xs md:text-sm text-black placeholder-grey-2 focus:outline-none focus:border-green transition-colors resize-none"
+          rows="2"
           placeholder="Tambahkan keterangan lain jika diperlukan..."
         ></textarea>
       </div>
@@ -183,7 +183,7 @@ export default function ConfirmStep() {
       {/* Tombol Kirim */}
       <button
         onClick={handleSubmit}
-        className="w-full py-3.5 bg-green text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
+        className="w-full py-2.5 md:py-3.5 bg-green text-white rounded-lg text-sm md:text-base font-semibold hover:opacity-90 transition-opacity"
       >
         Kirim Laporan
       </button>

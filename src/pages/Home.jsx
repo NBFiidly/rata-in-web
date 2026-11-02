@@ -12,14 +12,25 @@ export default function Home() {
       <main className="max-w-6xl w-full mx-auto px-4 pt-32 pb-12 md:pb-16 flex flex-col items-start text-left">
         {/* --- SECTION 1: Hero Banner (Rata Kiri dengan Font Semula) --- */}
         <section className="w-full flex flex-col items-start text-left mb-16">
-          <span className="text-green font-bold text-sm md:text-base mb-3">
+          <span className="hidden md:block text-green font-bold text-sm md:text-base mb-3">
             Sustainable Cities & Communities
           </span>
 
-          <h1 className="text-3xl md:text-5xl font-extrabold text-black leading-tight mb-4">
-            Laporkan Jalan Rusak,
-            <br />
-            <span className="text-green">Bangun Jalan</span> Lebih Aman
+          <h1 className="mt-7 md:mt-0 text-[38px] md:text-5xl font-black text-black leading-[1.1] mb-4">
+            <span className="md:hidden">
+              Laporkan Jalan
+              <br />
+              <span className="text-green">Rusak, Bangun</span>
+              <br />
+              Jalan Lebih
+              <br />
+              Aman
+            </span>
+            <span className="hidden md:inline">
+              Laporkan Jalan Rusak,
+              <br />
+              <span className="text-green">Bangun Jalan</span> Lebih Aman
+            </span>
           </h1>
 
           <p className="text-grey-2 text-base md:text-md max-w-2xl mb-8 leading-relaxed">

@@ -108,15 +108,15 @@ export default function LocationStep({ onNext }) {
   }, [locationText, isManualMode]);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="text-left mb-2">
-        <h2 className="text-xl font-bold text-black mb-1">Konfirmasi Lokasi</h2>
-        <p className="text-sm text-grey-2">
+    <div className="flex flex-col gap-3 md:gap-6">
+      <div className="text-left mb-0 md:mb-2">
+        <h2 className="text-base md:text-xl font-bold text-black mb-0.5 md:mb-1">Konfirmasi Lokasi</h2>
+        <p className="text-xs md:text-sm text-grey-2">
           Pastikan lokasi kerusakan jalan sudah benar.
         </p>
       </div>
 
-      <div className="w-full h-[280px] bg-[#E2E8F0] relative overflow-hidden rounded-xl border border-grey-1 shadow-inner">
+      <div className="w-full h-44 md:h-[280px] bg-[#E2E8F0] relative overflow-hidden rounded-xl border border-grey-1 shadow-inner">
         {/* PERBAIKAN: Dibuat selalu terang (opacity-100 blur-0) kecuali saat benar-benar loading mencari koordinat */}
         <iframe
           src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&output=embed`}
@@ -174,7 +174,7 @@ export default function LocationStep({ onNext }) {
               ? "Ketik alamat (Cth: Mandiangin Timur, Jambi)..."
               : "Menunggu deteksi lokasi..."
           }
-          className={`w-full pl-10 pr-4 py-3 border rounded-xl text-sm font-medium text-black focus:outline-none resize-none leading-snug transition-all ${
+          className={`w-full pl-10 pr-4 py-2 md:py-3 border rounded-xl text-xs md:text-sm font-medium text-black focus:outline-none resize-none leading-snug transition-all ${
             isManualMode
               ? "border-[#F97316] bg-white ring-2 ring-[#F97316]/20"
               : "border-grey-1 bg-grey-light/30"
@@ -182,11 +182,11 @@ export default function LocationStep({ onNext }) {
         />
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="grid grid-cols-2 gap-2 md:flex md:gap-4">
         <button
           type="button"
           onClick={autoDetectLocation}
-          className={`flex-1 py-3 border rounded-xl flex items-center justify-center gap-2 font-semibold transition-colors ${
+          className={`flex-1 px-1 py-2.5 md:py-3 border rounded-xl flex items-center justify-center gap-1.5 text-xs md:text-base md:gap-2 font-semibold transition-colors ${
             !isManualMode
               ? "border-green text-green bg-soft-green/30"
               : "border-grey-1 text-black hover:bg-grey-light"
@@ -211,7 +211,7 @@ export default function LocationStep({ onNext }) {
         <button
           type="button"
           onClick={enableManualMode}
-          className={`flex-1 py-3 border rounded-xl flex items-center justify-center gap-2 font-semibold transition-colors ${
+          className={`flex-1 px-1 py-2.5 md:py-3 border rounded-xl flex items-center justify-center gap-1.5 text-xs md:text-base md:gap-2 font-semibold transition-colors ${
             isManualMode
               ? "border-[#F97316] text-[#F97316] bg-[#FFF7ED]"
               : "border-grey-1 text-black hover:bg-grey-light"
@@ -241,7 +241,7 @@ export default function LocationStep({ onNext }) {
             ? locationText.trim().length === 0
             : !isLocationFound || isLoading
         }
-        className={`w-full py-3.5 mt-2 rounded-xl font-bold transition-all shadow-sm ${
+        className={`w-full py-2.5 md:py-3.5 mt-1 md:mt-2 rounded-xl text-sm md:text-base font-bold transition-all shadow-sm ${
           (isManualMode && locationText.trim().length > 0) ||
           (isLocationFound && !isManualMode)
             ? "bg-green text-white hover:opacity-90"

@@ -72,15 +72,15 @@ export default function AnalysisStep({ onNext }) {
   }
 
   return (
-    <div className="flex flex-col w-full text-left py-4">
-      <h2 className="text-2xl font-bold text-black mb-1">
+    <div className="flex flex-col w-full text-left py-1 md:py-4">
+      <h2 className="text-base md:text-2xl font-bold text-black mb-0.5 md:mb-1">
         AI Analisis Kerusakan
       </h2>
-      <p className="text-grey-2 mb-6">
+      <p className="text-xs md:text-base text-grey-2 mb-3 md:mb-6">
         Sistem akan menganalisis foto menggunakan Computer Vision.
       </p>
 
-      <div className="w-full flex flex-col p-5 md:p-6 rounded-xl border border-[#EB8E8E] bg-[#FCECEC] gap-5 shadow-sm mb-6">
+      <div className="w-full flex flex-col p-3 md:p-6 rounded-xl border border-[#EB8E8E] bg-[#FCECEC] gap-3 md:gap-5 shadow-sm mb-3 md:mb-6">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-soft-red">
             <svg
@@ -102,22 +102,22 @@ export default function AnalysisStep({ onNext }) {
           <h3 className="text-black text-lg font-semibold">Hasil Deteksi AI</h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-2">
-          <div className="flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-[#EB8E8E] bg-white">
+        <div className="grid grid-cols-3 gap-2 md:gap-4 w-full mt-0 md:mt-2">
+          <div className="flex flex-col items-center justify-center py-2 md:py-4 px-1 md:px-2 rounded-xl border border-[#EB8E8E] bg-white">
             <p className="text-grey-2 text-xs mb-1">Jenis</p>
             <p className="text-black text-base font-semibold leading-tight">
               Lubang
             </p>
             <p className="text-grey-2 text-[11px]">Road Pothole</p>
           </div>
-          <div className="flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-[#EB8E8E] bg-red">
+          <div className="flex flex-col items-center justify-center py-2 md:py-4 px-1 md:px-2 rounded-xl border border-[#EB8E8E] bg-red">
             <p className="text-white/90 text-xs mb-1">Keparahan</p>
             <p className="text-white text-base font-semibold leading-tight">
               BERAT
             </p>
             <p className="text-white/90 text-[11px]">HIGH</p>
           </div>
-          <div className="flex flex-col items-center justify-center py-4 px-2 rounded-xl border border-[#EB8E8E] bg-white">
+          <div className="flex flex-col items-center justify-center py-2 md:py-4 px-1 md:px-2 rounded-xl border border-[#EB8E8E] bg-white">
             <p className="text-grey-2 text-xs mb-1 text-center">
               Tingkat Urgensi
             </p>
@@ -132,7 +132,7 @@ export default function AnalysisStep({ onNext }) {
       {/* 2. Tambahkan tombol Lanjut di sini */}
       <button
         onClick={onNext}
-        className="w-full py-3.5 bg-green text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
+        className="w-full py-2.5 md:py-3.5 bg-green text-white rounded-lg text-sm md:text-base font-semibold hover:opacity-90 transition-opacity"
       >
         Lanjut ke Konfirmasi
       </button>

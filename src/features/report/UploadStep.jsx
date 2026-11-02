@@ -70,18 +70,18 @@ export default function UploadStep({ onNext }) {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="text-left mb-2">
-        <h2 className="text-xl font-bold text-black mb-1">
+    <div className="flex flex-col gap-3 md:gap-6">
+      <div className="text-left mb-0 md:mb-2">
+        <h2 className="text-base md:text-xl font-bold text-black mb-0.5 md:mb-1">
           Upload Foto Jalan Rusak
         </h2>
-        <p className="text-sm text-grey-2">
+        <p className="text-xs md:text-sm text-grey-2">
           Ambil foto atau pilih dari galeri untuk memulai analisis.
         </p>
       </div>
 
       {/* Area Pratinjau (Preview) & Live Camera */}
-      <div className="border-2 border-dashed border-grey-1 rounded-xl p-8 flex flex-col items-center justify-center text-center min-h-[280px] bg-grey-light/50 relative overflow-hidden">
+      <div className="border-2 border-dashed border-grey-1 rounded-xl p-4 md:p-8 flex flex-col items-center justify-center text-center h-36 md:h-[280px] bg-grey-light/50 relative overflow-hidden">
         {isCameraOpen ? (
           <div className="absolute inset-0 bg-black flex flex-col">
             <video
@@ -127,7 +127,7 @@ export default function UploadStep({ onNext }) {
                 <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
             </div>
-            <h3 className="text-base font-bold text-black mb-1">
+            <h3 className="text-sm md:text-base font-bold text-black mb-1">
               Ambil Foto atau Upload Gambar Jalan Rusak
             </h3>
             <p className="text-xs text-grey-2">
@@ -151,11 +151,11 @@ export default function UploadStep({ onNext }) {
 
       {/* TAMPILKAN TOMBOL PILIH JIKA BELUM ADA FOTO */}
       {!image && !isCameraOpen && (
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="grid grid-cols-2 gap-2 md:flex md:gap-4">
           <button
             type="button"
             onClick={() => galleryInputRef.current.click()}
-            className="flex-1 py-3 border border-grey-1 rounded-xl flex items-center justify-center gap-2 font-semibold text-black hover:bg-grey-light transition-colors"
+            className="flex-1 py-2.5 px-1 border border-grey-1 rounded-xl flex items-center justify-center gap-1.5 text-xs md:text-base md:py-3 md:gap-2 font-semibold text-black hover:bg-grey-light transition-colors"
           >
             <svg
               width="18"
@@ -175,7 +175,7 @@ export default function UploadStep({ onNext }) {
           <button
             type="button"
             onClick={startCamera}
-            className="flex-1 py-3 border border-grey-1 rounded-xl flex items-center justify-center gap-2 font-semibold text-black hover:bg-grey-light transition-colors"
+            className="flex-1 py-2.5 px-1 border border-grey-1 rounded-xl flex items-center justify-center gap-1.5 text-xs md:text-base md:py-3 md:gap-2 font-semibold text-black hover:bg-grey-light transition-colors"
           >
             <svg
               width="18"
@@ -223,7 +223,7 @@ export default function UploadStep({ onNext }) {
       <button
         onClick={onNext}
         disabled={!image || isCameraOpen}
-        className={`w-full py-3.5 mt-2 rounded-xl font-bold transition-all ${
+        className={`w-full py-2.5 md:py-3.5 mt-1 md:mt-2 rounded-xl text-sm md:text-base font-bold transition-all ${
           image && !isCameraOpen
             ? "bg-green text-white hover:opacity-90 shadow-md"
             : "bg-grey-1 text-grey-2 cursor-not-allowed"

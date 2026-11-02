@@ -17,9 +17,6 @@ export default function Navbar() {
 
   const dropdownRef = useRef(null);
 
-  // PERBAIKAN: Deteksi apakah pengguna sedang berada di halaman Lapor
-  const isReportPage = location.pathname === "/report";
-
   // Pantau perubahan dari proses Login/Logout
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -79,18 +76,15 @@ export default function Navbar() {
   const getLinkClass = (path) => {
     const isActive = location.pathname === path;
     return isActive
-      ? "px-5 py-2 md:rounded-lg rounded-md bg-[#DCFCE7] text-[#16A34A] font-semibold text-sm transition-colors whitespace-nowrap"
-      : "px-5 py-2 md:rounded-lg rounded-md text-[#64748B] hover:text-[#16A34A] font-medium text-sm transition-colors whitespace-nowrap";
+      ? "px-2.5 py-2 md:px-5 md:rounded-lg rounded-md bg-[#DCFCE7] text-[#16A34A] font-semibold text-sm transition-colors whitespace-nowrap"
+      : "px-2.5 py-2 md:px-5 md:rounded-lg rounded-md text-[#64748B] hover:text-[#16A34A] font-medium text-sm transition-colors whitespace-nowrap";
   };
 
   return (
     <nav
-      // PERBAIKAN: Gunakan 'sticky' dan z-index maksimal khusus untuk halaman Lapor
-      // agar Baris 1 (Logo & Auth) tidak ikut tergulung ke atas di layar mobile.
-      // Halaman lain tetap menggunakan 'fixed' agar desain awalnya tidak terpengaruh.
-      className={`w-full bg-white border-b border-[#E2E8F0] transition-all ${
-        isReportPage ? "sticky top-0 z-9999" : "fixed top-0 left-0 z-50"
-      } ${isScrolled ? "shadow-sm" : ""}`}
+      className={`fixed top-0 left-0 z-50 w-full bg-white border-b border-[#E2E8F0] transition-all ${
+        isScrolled ? "shadow-sm" : ""
+      }`}
     >
       <div className="max-w-6xl mx-auto px-4 md:px-6 bg-white">
         {/* BARIS 1: Logo & Auth (Mobile & Desktop) */}
@@ -100,7 +94,7 @@ export default function Navbar() {
             <img
               src={logo}
               alt="Rata.in Logo"
-              className="h-9 md:h-12 w-auto object-contain"
+              className="h-12 w-auto object-contain"
             />
           </Link>
 
@@ -163,7 +157,7 @@ export default function Navbar() {
         </div>
 
         {/* BARIS 2: Menu Mobile (Sembunyi di Desktop) */}
-        <div className="flex md:hidden items-center gap-2 py-3 border-t border-[#F1F5F9] overflow-x-auto hide-scrollbar">
+        <div className="flex md:hidden items-center justify-between gap-1 py-3 border-t border-[#F1F5F9] overflow-x-auto hide-scrollbar">
           <Link to="/" className={getLinkClass("/")}>
             Beranda
           </Link>

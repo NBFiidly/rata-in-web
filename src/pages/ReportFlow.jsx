@@ -20,20 +20,20 @@ export default function ReportFlow() {
       <Navbar />
 
       {/* Konten Utam Lapor */}
-      <main className="grow pt-32 py-12 px-4">
-        <div className="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-sm border border-grey-1">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-black mb-2">
+      <main className="grow pt-[126px] px-3 pb-3 md:pt-32 md:px-4 md:py-12">
+        <div className="max-w-3xl mx-auto bg-white p-4 md:p-10 rounded-xl shadow-sm border border-grey-1 md:h-auto">
+          <div className="text-center mb-3 md:mb-8">
+            <h1 className="text-xl md:text-3xl font-bold text-black mb-1 md:mb-2">
               Lapor Kerusakan Jalan
             </h1>
-            <p className="text-grey-2">
+            <p className="text-xs md:text-base text-grey-2">
               Ikuti langkah berikut untuk mengirim laporan
             </p>
           </div>
 
           <Stepper currentStep={currentStep} />
 
-          <div className="mt-8 bg-white flex justify-center">
+          <div className="mt-3 md:mt-8 bg-white flex justify-center">
             <div className="w-full max-w-2xl">
               {currentStep === 1 && <UploadStep onNext={nextStep} />}
               {currentStep === 2 && <LocationStep onNext={nextStep} />}
