@@ -8,7 +8,6 @@ export default function Home() {
     <div className="min-h-screen bg-white flex flex-col justify-between">
       <Navbar />
 
-      {/* PERBAIKAN: Menambahkan pt-28 untuk memberi ruang napas dari Navbar yang berposisi fixed */}
       <main className="max-w-6xl w-full mx-auto px-4 pt-32 pb-12 md:pb-16 flex flex-col items-start text-left">
         {/* --- SECTION 1: Hero Banner (Rata Kiri dengan Font Semula) --- */}
         <section className="w-full flex flex-col items-start text-left mb-16">
