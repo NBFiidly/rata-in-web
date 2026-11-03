@@ -8,6 +8,9 @@ export default function LocationStep({ onNext }) {
   const [coords, setCoords] = useState({ lat: 1.1119, lng: 103.9575 });
 
   const [isManualMode, setIsManualMode] = useState(false);
+  // State untuk mengatur mode peta: 'roadmap' (standar) atau 'satellite' (satelit)
+  const [mapType, setMapType] = useState("roadmap");
+
   const textAreaRef = useRef(null);
 
   const autoDetectLocation = () => {
@@ -108,59 +111,66 @@ export default function LocationStep({ onNext }) {
   }, [locationText, isManualMode]);
 
   return (
-    <div className="flex flex-col gap-3 md:gap-6">
-      <div className="text-left mb-0 md:mb-2">
-        <h2 className="text-base md:text-xl font-bold text-black mb-0.5 md:mb-1">Konfirmasi Lokasi</h2>
-        <p className="text-xs md:text-sm text-grey-2">
+    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-8 flex flex-col w-full">
+      {/* Header Dalam Kartu */}
+      <div className="text-center mb-3 md:mb-6">
+        <h2 className="text-[15px] md:text-[20px] font-bold text-black mb-0.5 md:mb-1.5">
+          Konfirmasi Lokasi
+        </h2>
+        <p className="text-[11px] md:text-[14px] text-grey-2">
           Pastikan lokasi kerusakan jalan sudah benar.
         </p>
       </div>
 
-      <div className="w-full h-44 md:h-[280px] bg-[#E2E8F0] relative overflow-hidden rounded-xl border border-grey-1 shadow-inner">
-        {/* PERBAIKAN: Dibuat selalu terang (opacity-100 blur-0) kecuali saat benar-benar loading mencari koordinat */}
+      {/* Area Peta dengan Tombol Ganti Mode (Roadmap / Satellite) */}
+      <div className="w-full h-44 md:h-[220px] bg-grey-light relative overflow-hidden rounded-[16px] md:rounded-[20px] border border-grey-1 mb-2.5 md:mb-4">
+        {/* Parameter t=k untuk satelit, t=m untuk peta jalan standar */}
         <iframe
-          src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&output=embed`}
-          className={`w-full h-full border-0 grayscale-[30%] mix-blend-multiply transition-all duration-700 ${isLoading ? "opacity-40 blur-[2px]" : "opacity-100 blur-0"}`}
+          src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&t=${mapType === "satellite" ? "k" : "m"}&output=embed`}
+          className={`w-full h-full border-0 transition-all duration-700 pointer-events-none ${isLoading ? "opacity-50 blur-[2px]" : "opacity-90 blur-0"}`}
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
 
-        <div className="absolute inset-0 bg-blue-100/10 pointer-events-none"></div>
+        {/* Tombol Pengubah Mode Peta di Pojok Kanan Atas */}
+        <div className="absolute top-2 right-2 z-20 flex bg-white/90 backdrop-blur-sm rounded-lg p-1 shadow-md border border-grey-1">
+          <button
+            type="button"
+            onClick={() => setMapType("roadmap")}
+            className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${
+              mapType === "roadmap"
+                ? "bg-green text-white shadow-sm"
+                : "text-grey-2 hover:text-black"
+            }`}
+          >
+            Peta
+          </button>
+          <button
+            type="button"
+            onClick={() => setMapType("satellite")}
+            className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${
+              mapType === "satellite"
+                ? "bg-green text-white shadow-sm"
+                : "text-grey-2 hover:text-black"
+            }`}
+          >
+            Satelit
+          </button>
+        </div>
 
         {isLoading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/40 backdrop-blur-sm z-10">
-            <div className="w-8 h-8 border-4 border-green border-t-transparent rounded-full animate-spin mb-3"></div>
-            <span className="text-sm font-bold text-black bg-white/80 px-3 py-1 rounded-full shadow-sm">
-              Mencari Lokasi...
-            </span>
+            <div className="w-6 h-6 md:w-8 md:h-8 border-[3px] border-green border-t-transparent rounded-full animate-spin mb-2"></div>
           </div>
         )}
-
-        <div
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full pointer-events-none drop-shadow-xl transition-all duration-500 transform ${(isLocationFound || isManualMode) && !isLoading ? "scale-100 translate-y-[-100%]" : "scale-0 translate-y-0"}`}
-        >
-          <svg
-            width="40"
-            height="52"
-            viewBox="0 0 32 42"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16 0C7.163 0 0 7.163 0 16C0 27 16 42 16 42C16 42 32 27 32 16C32 7.163 24.837 0 16 0Z"
-              fill={isManualMode ? "#F97316" : "#208144"}
-            />
-            <path d="M14.5 9h3v8h-3V9zm0 11h3v3h-3v-3z" fill="white" />
-          </svg>
-          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-1.5 bg-black/30 rounded-[100%] blur-[2px]"></div>
-        </div>
       </div>
 
-      <div className="relative">
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
+      {/* Input / Indikator Nama Lokasi */}
+      <div className="relative mb-2 md:mb-4">
+        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center">
           <div
-            className={`w-3 h-3 rounded-full ${isManualMode ? "bg-[#F97316]" : isLocationFound ? "bg-green" : isLoading ? "bg-[#F97316] animate-pulse" : "bg-[#EF4444]"}`}
+            className={`w-3 h-3 rounded-full ${isManualMode ? "bg-[#F97316]" : isLocationFound ? "bg-green" : isLoading ? "bg-grey-2 animate-pulse" : "bg-[#EF4444]"}`}
           ></div>
         </div>
         <textarea
@@ -168,33 +178,33 @@ export default function LocationStep({ onNext }) {
           value={locationText}
           onChange={(e) => setLocationText(e.target.value)}
           readOnly={!isManualMode}
-          rows="2"
+          rows="1"
           placeholder={
-            isManualMode
-              ? "Ketik alamat (Cth: Mandiangin Timur, Jambi)..."
-              : "Menunggu deteksi lokasi..."
+            isManualMode ? "Ketik alamat..." : "Menunggu deteksi lokasi..."
           }
-          className={`w-full pl-10 pr-4 py-2 md:py-3 border rounded-xl text-xs md:text-sm font-medium text-black focus:outline-none resize-none leading-snug transition-all ${
+          className={`w-full pl-9 pr-3 py-2.5 md:py-3 rounded-[12px] md:rounded-xl text-[10px] md:text-[13px] font-medium text-black focus:outline-none resize-none leading-snug transition-all overflow-hidden whitespace-nowrap ${
             isManualMode
-              ? "border-[#F97316] bg-white ring-2 ring-[#F97316]/20"
-              : "border-grey-1 bg-grey-light/30"
+              ? "border border-[#F97316] bg-white ring-2 ring-[#F97316]/20"
+              : "border border-grey-1 bg-grey-light"
           }`}
+          style={{ whiteSpace: "nowrap", overflowX: "auto" }}
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-2 md:flex md:gap-4">
+      {/* Tombol Aksi */}
+      <div className="flex gap-2 md:gap-3 mb-3 md:mb-6">
         <button
           type="button"
           onClick={autoDetectLocation}
-          className={`flex-1 px-1 py-2.5 md:py-3 border rounded-xl flex items-center justify-center gap-1.5 text-xs md:text-base md:gap-2 font-semibold transition-colors ${
+          className={`flex-1 py-2.5 md:py-3 border rounded-xl flex items-center justify-center gap-1.5 text-[10px] md:text-[13px] font-bold transition-colors shadow-sm ${
             !isManualMode
-              ? "border-green text-green bg-soft-green/30"
+              ? "border-green text-green"
               : "border-grey-1 text-black hover:bg-grey-light"
           }`}
         >
           <svg
-            width="18"
-            height="18"
+            width="14"
+            height="14"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -211,29 +221,17 @@ export default function LocationStep({ onNext }) {
         <button
           type="button"
           onClick={enableManualMode}
-          className={`flex-1 px-1 py-2.5 md:py-3 border rounded-xl flex items-center justify-center gap-1.5 text-xs md:text-base md:gap-2 font-semibold transition-colors ${
+          className={`flex-1 py-2.5 md:py-3 border rounded-xl flex items-center justify-center gap-1.5 text-[10px] md:text-[13px] font-bold transition-colors shadow-sm ${
             isManualMode
-              ? "border-[#F97316] text-[#F97316] bg-[#FFF7ED]"
+              ? "border-black text-black"
               : "border-grey-1 text-black hover:bg-grey-light"
           }`}
         >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
           Input Manual
         </button>
       </div>
 
+      {/* Tombol Lanjut ke Analisis AI */}
       <button
         onClick={onNext}
         disabled={
@@ -241,11 +239,11 @@ export default function LocationStep({ onNext }) {
             ? locationText.trim().length === 0
             : !isLocationFound || isLoading
         }
-        className={`w-full py-2.5 md:py-3.5 mt-1 md:mt-2 rounded-xl text-sm md:text-base font-bold transition-all shadow-sm ${
+        className={`w-full py-2.5 md:py-3.5 rounded-xl font-bold text-[12px] md:text-[14px] transition-all shadow-sm ${
           (isManualMode && locationText.trim().length > 0) ||
           (isLocationFound && !isManualMode)
             ? "bg-green text-white hover:opacity-90"
-            : "bg-grey-1 text-grey-2 cursor-not-allowed"
+            : "bg-grey-light text-grey-1 cursor-not-allowed border border-grey-1"
         }`}
       >
         Lanjut ke Analisis AI

@@ -64,44 +64,44 @@ export default function UploadStep({ onNext }) {
   };
 
   useEffect(() => {
-    return () => {
-      stopCamera();
-    };
+    return () => stopCamera();
   }, []);
 
   return (
-    <div className="flex flex-col gap-3 md:gap-6">
-      <div className="text-left mb-0 md:mb-2">
-        <h2 className="text-base md:text-xl font-bold text-black mb-0.5 md:mb-1">
+    // Padding kartu di mobile disesuaikan menjadi p-5 agar lebih rapat
+    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-8 flex flex-col w-full">
+      {/* Header Dalam Kartu */}
+      <div className="text-center mb-4 md:mb-6">
+        <h2 className="text-[15px] md:text-[20px] font-bold text-black mb-1 md:mb-1.5">
           Upload Foto Jalan Rusak
         </h2>
-        <p className="text-xs md:text-sm text-grey-2">
+        <p className="text-[11px] md:text-[14px] text-grey-2">
           Ambil foto atau pilih dari galeri untuk memulai analisis.
         </p>
       </div>
 
-      {/* Area Pratinjau (Preview) & Live Camera */}
-      <div className="border-2 border-dashed border-grey-1 rounded-xl p-4 md:p-8 flex flex-col items-center justify-center text-center h-36 md:h-[280px] bg-grey-light/50 relative overflow-hidden">
+      {/* Kotak Putus-putus: DITINGGIKAN menjadi h-56 di mobile (hampir persegi panjang ke atas seperti desain) */}
+      <div className="border-2 border-dashed border-grey-1 rounded-[16px] md:rounded-[20px] p-4 md:p-6 flex flex-col items-center justify-center text-center h-56 md:h-[260px] bg-grey-light hover:opacity-80 transition-opacity cursor-pointer mb-5 relative overflow-hidden">
         {isCameraOpen ? (
-          <div className="absolute inset-0 bg-black flex flex-col">
+          <div className="absolute inset-0 bg-black flex flex-col z-10">
             <video
               ref={videoRef}
               autoPlay
               playsInline
               className="w-full h-full object-cover"
             />
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4">
+            <div className="absolute bottom-3 md:bottom-4 left-0 right-0 flex justify-center gap-3 md:gap-4">
               <button
                 onClick={stopCamera}
-                className="px-4 py-2 bg-white/20 text-white rounded-full font-semibold backdrop-blur-sm hover:bg-white/40"
+                className="px-4 py-1.5 md:px-4 md:py-2 bg-white/20 text-white rounded-full font-semibold backdrop-blur-sm hover:bg-white/40 text-xs md:text-sm"
               >
                 Batal
               </button>
               <button
                 onClick={capturePhoto}
-                className="px-6 py-2 bg-green text-white rounded-full font-bold shadow-lg hover:opacity-90 flex items-center gap-2"
+                className="px-5 py-1.5 md:px-6 md:py-2 bg-green text-white rounded-full font-bold shadow-lg hover:opacity-90 flex items-center gap-1.5 text-xs md:text-sm"
               >
-                📸 Jepret
+                Jepret
               </button>
             </div>
           </div>
@@ -109,38 +109,38 @@ export default function UploadStep({ onNext }) {
           <img
             src={image}
             alt="Preview Jalan Rusak"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover z-10"
           />
         ) : (
           <>
-            <div className="w-12 h-12 rounded-lg bg-grey-1 flex items-center justify-center text-grey-2 mb-4">
+            <div className="w-10 h-10 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-white border border-grey-1 flex items-center justify-center mb-3 text-grey-2">
               <svg
-                width="24"
-                height="24"
+                className="w-5 h-5"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" y1="3" x2="12" y2="15" />
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
               </svg>
             </div>
-            <h3 className="text-sm md:text-base font-bold text-black mb-1">
+
+            <h3 className="text-[12px] md:text-[15px] font-bold text-black mb-1.5 md:mb-2 max-w-[200px] md:max-w-xs leading-snug">
               Ambil Foto atau Upload Gambar Jalan Rusak
             </h3>
-            <p className="text-xs text-grey-2">
-              Seret & lepas file di sini, atau klik untuk memilih
-              <br />
-              JPG, PNG, HEIC hingga 10 MB
+            <p className="text-[9px] md:text-[11px] text-grey-2 max-w-[200px] md:max-w-xs leading-relaxed">
+              Seret & lepas file di sini, atau klik untuk memilih JPG, PNG, HEIC
+              hingga 10 MB
             </p>
           </>
         )}
       </div>
 
       <canvas ref={canvasRef} className="hidden" />
-
       <input
         type="file"
         accept="image/*"
@@ -149,21 +149,24 @@ export default function UploadStep({ onNext }) {
         className="hidden"
       />
 
-      {/* TAMPILKAN TOMBOL PILIH JIKA BELUM ADA FOTO */}
+      {/* TOMBOL PILIH/KAMERA */}
       {!image && !isCameraOpen && (
-        <div className="grid grid-cols-2 gap-2 md:flex md:gap-4">
+        <div className="flex flex-col gap-2.5 md:gap-3">
           <button
             type="button"
             onClick={() => galleryInputRef.current.click()}
-            className="flex-1 py-2.5 px-1 border border-grey-1 rounded-xl flex items-center justify-center gap-1.5 text-xs md:text-base md:py-3 md:gap-2 font-semibold text-black hover:bg-grey-light transition-colors"
+            className="w-full py-2.5 md:py-3.5 rounded-xl border border-grey-1 bg-white text-black font-bold text-[12px] md:text-[14px] flex items-center justify-center gap-2 hover:bg-grey-light transition-colors shadow-sm"
           >
             <svg
-              width="18"
-              height="18"
+              width="14"
+              height="14"
+              className="md:w-4 md:h-4"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
               <circle cx="8.5" cy="8.5" r="1.5" />
@@ -175,15 +178,18 @@ export default function UploadStep({ onNext }) {
           <button
             type="button"
             onClick={startCamera}
-            className="flex-1 py-2.5 px-1 border border-grey-1 rounded-xl flex items-center justify-center gap-1.5 text-xs md:text-base md:py-3 md:gap-2 font-semibold text-black hover:bg-grey-light transition-colors"
+            className="w-full py-2.5 md:py-3.5 rounded-xl border border-grey-1 bg-white text-black font-bold text-[12px] md:text-[14px] flex items-center justify-center gap-2 hover:bg-grey-light transition-colors shadow-sm"
           >
             <svg
-              width="18"
-              height="18"
+              width="14"
+              height="14"
+              className="md:w-4 md:h-4"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
               <circle cx="12" cy="13" r="4" />
@@ -193,40 +199,42 @@ export default function UploadStep({ onNext }) {
         </div>
       )}
 
-      {/* TAMPILKAN TOMBOL HAPUS JIKA FOTO SUDAH ADA (Desain Lebih Profesional) */}
+      {/* Tombol Hapus */}
       {image && !isCameraOpen && (
-        <button
-          onClick={() => setImage(null)}
-          className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-[#DD4343] text-[#DD4343] font-bold hover:bg-[#FCECEC] transition-colors"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        <div className="mb-2 md:mb-4">
+          <button
+            onClick={() => setImage(null)}
+            className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3.5 rounded-xl border border-red text-red font-bold text-[12px] md:text-[14px] hover:bg-soft-red transition-colors"
           >
-            <path d="M3 6h18"></path>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-            <line x1="10" y1="11" x2="10" y2="17"></line>
-            <line x1="14" y1="11" x2="14" y2="17"></line>
-          </svg>
-          Hapus & Ganti Foto
-        </button>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 6h18"></path>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+              <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+            Hapus & Ganti Foto
+          </button>
+        </div>
       )}
 
-      {/* Tombol Lanjut */}
+      {/* Tombol Lanjut ke Lokasi dengan margin yang rapat di bawah */}
       <button
         onClick={onNext}
         disabled={!image || isCameraOpen}
-        className={`w-full py-2.5 md:py-3.5 mt-1 md:mt-2 rounded-xl text-sm md:text-base font-bold transition-all ${
+        className={`w-full py-3 md:py-4 mt-2.5 md:mt-4 rounded-xl font-bold text-[12px] md:text-[14px] transition-all ${
           image && !isCameraOpen
             ? "bg-green text-white hover:opacity-90 shadow-md"
-            : "bg-grey-1 text-grey-2 cursor-not-allowed"
+            : "bg-grey-light text-grey-1 cursor-not-allowed border border-grey-1"
         }`}
       >
         Lanjut ke Lokasi

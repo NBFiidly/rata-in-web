@@ -19,9 +19,9 @@ export default function Home() {
             <span className="md:hidden">
               Laporkan Jalan
               <br />
-              <span className="text-green">Rusak, Bangun</span>
+              Rusak,<span className="text-green"> Bangun</span>
               <br />
-              Jalan Lebih
+              <span className="text-green"> Jalan</span> Lebih
               <br />
               Aman
             </span>
