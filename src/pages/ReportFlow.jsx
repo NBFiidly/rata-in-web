@@ -21,8 +21,8 @@ export default function ReportFlow() {
     <div className="min-h-screen bg-grey-light flex flex-col font-sans">
       <Navbar />
 
-      <main className="grow pt-[140px] md:pt-32 pb-4 md:pb-12 flex flex-col items-center">
-        {/* Header di luar kartu putih */}
+      {/* pt-[140px] diganti pt-35 */}
+      <main className="grow pt-35 md:pt-32 pb-4 md:pb-12 flex flex-col items-center">
         <div className="text-center mb-3 md:mb-8 px-4">
           <h1 className="text-[20px] md:text-4xl font-bold text-black mb-0.5 md:mb-2">
             Lapor Kerusakan Jalan
@@ -32,7 +32,6 @@ export default function ReportFlow() {
           </p>
         </div>
 
-        {/* PERBAIKAN: Menambahkan md:overflow-hidden untuk mematikan scrollbar di desktop */}
         <div className="flex items-center justify-between md:justify-center gap-2 md:gap-4 mb-4 md:mb-10 w-full max-w-2xl md:max-w-3xl px-5 md:px-2 overflow-x-auto md:overflow-hidden hide-scrollbar">
           {/* Step 1 */}
           <div className="flex items-center gap-2 shrink-0">
@@ -70,8 +69,8 @@ export default function ReportFlow() {
             </div>
           </div>
 
-          {/* Garis */}
-          <div className="hidden md:block w-10 md:w-24 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
+          {/* h-[2px] diganti h-0.5 */}
+          <div className="hidden md:block w-10 md:w-24 h-0.5 bg-grey-1 mx-1 shrink-0"></div>
 
           {/* Step 2 */}
           <div className="flex items-center gap-2 shrink-0">
@@ -107,7 +106,7 @@ export default function ReportFlow() {
             </div>
           </div>
 
-          <div className="hidden md:block w-10 md:w-24 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
+          <div className="hidden md:block w-10 md:w-24 h-0.5 bg-grey-1 mx-1 shrink-0"></div>
 
           {/* Step 3 */}
           <div className="flex items-center gap-2 shrink-0">
@@ -145,7 +144,7 @@ export default function ReportFlow() {
             </div>
           </div>
 
-          <div className="hidden md:block w-10 md:w-24 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
+          <div className="hidden md:block w-10 md:w-24 h-0.5 bg-grey-1 mx-1 shrink-0"></div>
 
           {/* Step 4 */}
           <div className="flex items-center gap-2 shrink-0">
@@ -182,8 +181,8 @@ export default function ReportFlow() {
           </div>
         </div>
 
-        {/* Area Kartu Konten */}
-        <div className="w-full max-w-[360px] md:max-w-3xl px-4">
+        {/* max-w-[360px] diganti max-w-90 */}
+        <div className="w-full max-w-90 md:max-w-3xl px-4">
           {currentStep === 1 && <UploadStep onNext={nextStep} />}
           {currentStep === 2 && (
             <LocationStep onNext={nextStep} onPrev={prevStep} />

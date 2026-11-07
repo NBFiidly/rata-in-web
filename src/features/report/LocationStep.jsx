@@ -110,8 +110,8 @@ export default function LocationStep({ onNext }) {
   }, [locationText, isManualMode]);
 
   return (
-    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-8 flex flex-col w-full">
-      {/* Header Dalam Kartu */}
+    // rounded-3xl
+    <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-5 md:p-8 flex flex-col w-full">
       <div className="text-center mb-3 md:mb-6">
         <h2 className="text-[15px] md:text-[20px] font-bold text-black mb-0.5 md:mb-1.5">
           Konfirmasi Lokasi
@@ -121,9 +121,8 @@ export default function LocationStep({ onNext }) {
         </p>
       </div>
 
-      {/* Area Peta dengan Tombol Ganti Mode (Roadmap / Satellite) */}
-      {/* PERBAIKAN: Menambah tinggi peta di ukuran desktop (md:h-[320px] -> cukup lebar & luas sesuai gambar) */}
-      <div className="w-full h-44 md:h-[320px] bg-grey-light relative overflow-hidden rounded-[16px] md:rounded-[20px] border border-grey-1 mb-2.5 md:mb-4">
+      {/* md:h-80 dan rounded-2xl md:rounded-2xl */}
+      <div className="w-full h-44 md:h-80 bg-grey-light relative overflow-hidden rounded-2xl border border-grey-1 mb-2.5 md:mb-4">
         <iframe
           src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&t=${mapType === "satellite" ? "k" : "m"}&output=embed`}
           className={`w-full h-full border-0 transition-all duration-700 pointer-events-none ${isLoading ? "opacity-50 blur-[2px]" : "opacity-90 blur-0"}`}
@@ -164,13 +163,13 @@ export default function LocationStep({ onNext }) {
         )}
       </div>
 
-      {/* Input / Indikator Nama Lokasi */}
       <div className="relative mb-2 md:mb-4">
         <div className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center">
           <div
             className={`w-3 h-3 rounded-full ${isManualMode ? "bg-[#F97316]" : isLocationFound ? "bg-green" : isLoading ? "bg-grey-2 animate-pulse" : "bg-[#EF4444]"}`}
           ></div>
         </div>
+        {/* rounded-xl */}
         <textarea
           ref={textAreaRef}
           value={locationText}
@@ -180,7 +179,7 @@ export default function LocationStep({ onNext }) {
           placeholder={
             isManualMode ? "Ketik alamat..." : "Menunggu deteksi lokasi..."
           }
-          className={`w-full pl-9 pr-3 py-2.5 md:py-3 rounded-[12px] md:rounded-xl text-[10px] md:text-[13px] font-medium text-black focus:outline-none resize-none leading-snug transition-all overflow-hidden whitespace-nowrap ${
+          className={`w-full pl-9 pr-3 py-2.5 md:py-3 rounded-xl text-[10px] md:text-[13px] font-medium text-black focus:outline-none resize-none leading-snug transition-all overflow-hidden whitespace-nowrap ${
             isManualMode
               ? "border border-[#F97316] bg-white ring-2 ring-[#F97316]/20"
               : "border border-grey-1 bg-grey-light"
@@ -189,7 +188,6 @@ export default function LocationStep({ onNext }) {
         />
       </div>
 
-      {/* Tombol Aksi */}
       <div className="flex gap-2 md:gap-3 mb-3 md:mb-6">
         <button
           type="button"
@@ -229,7 +227,6 @@ export default function LocationStep({ onNext }) {
         </button>
       </div>
 
-      {/* Tombol Lanjut ke Analisis AI */}
       <button
         onClick={onNext}
         disabled={

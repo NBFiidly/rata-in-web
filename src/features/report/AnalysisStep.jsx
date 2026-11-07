@@ -13,7 +13,8 @@ export default function AnalysisStep({ onNext }) {
 
   if (isAnalyzing) {
     return (
-      <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-8 md:p-16 flex flex-col items-center justify-center gap-6 w-full min-h-[300px]">
+      // rounded-3xl md:rounded-3xl, min-h-75
+      <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-8 md:p-16 flex flex-col items-center justify-center gap-6 w-full min-h-75">
         <div className="w-24 h-24 relative flex items-center justify-center">
           <div className="inline-flex p-2 items-center justify-center rounded-full bg-soft-green absolute z-10 w-12 h-12">
             <svg
@@ -60,7 +61,8 @@ export default function AnalysisStep({ onNext }) {
   }
 
   return (
-    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full text-left">
+    // rounded-3xl
+    <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full text-left">
       <h2 className="text-[15px] md:text-[24px] font-bold text-black mb-1 md:mb-2">
         AI Analisis Kerusakan
       </h2>
@@ -68,10 +70,11 @@ export default function AnalysisStep({ onNext }) {
         Sistem akan menganalisis foto menggunakan Computer Vision.
       </p>
 
-      {/* Kotak Hasil Deteksi (merah muda) */}
-      <div className="w-full flex flex-col p-4 md:p-6 rounded-[16px] md:rounded-2xl border border-[#EB8E8E] bg-[#FCECEC] gap-4 md:gap-5 shadow-sm mb-4 md:mb-8">
+      {/* Kotak Hasil Deteksi: rounded-2xl md:rounded-2xl */}
+      <div className="w-full flex flex-col p-4 md:p-6 rounded-2xl border border-[#EB8E8E] bg-[#FCECEC] gap-4 md:gap-5 shadow-sm mb-4 md:mb-8">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-soft-red text-[#DD4343]">
+          {/* text-red menggantikan text-[#DD4343] */}
+          <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-soft-red text-red">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -93,7 +96,6 @@ export default function AnalysisStep({ onNext }) {
           </h3>
         </div>
 
-        {/* 3 Kartu Analisis */}
         <div className="grid grid-cols-3 gap-2 md:gap-4 w-full">
           <div className="flex flex-col items-center justify-center py-3 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-white text-center">
             <p className="text-grey-2 text-[10px] md:text-xs mb-1">Jenis</p>

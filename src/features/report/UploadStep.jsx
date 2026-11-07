@@ -68,8 +68,8 @@ export default function UploadStep({ onNext }) {
   }, []);
 
   return (
-    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full">
-      {/* Header Dalam Kartu */}
+    // rounded-3xl
+    <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full">
       <div className="text-center mb-4 md:mb-8">
         <h2 className="text-[15px] md:text-[24px] font-bold text-black mb-1 md:mb-2">
           Upload Foto Jalan Rusak
@@ -79,8 +79,8 @@ export default function UploadStep({ onNext }) {
         </p>
       </div>
 
-      {/* Kotak Putus-putus */}
-      <div className="border-2 border-dashed border-grey-1 rounded-[16px] md:rounded-[20px] p-4 md:p-8 flex flex-col items-center justify-center text-center h-56 md:h-[320px] bg-grey-light hover:opacity-80 transition-opacity cursor-pointer mb-5 md:mb-8 relative overflow-hidden">
+      {/* h-80, rounded-2xl md:rounded-2xl */}
+      <div className="border-2 border-dashed border-grey-1 rounded-2xl p-4 md:p-8 flex flex-col items-center justify-center text-center h-56 md:h-80 bg-grey-light hover:opacity-80 transition-opacity cursor-pointer mb-5 md:mb-8 relative overflow-hidden">
         {isCameraOpen ? (
           <div className="absolute inset-0 bg-black flex flex-col z-10">
             <video
@@ -128,10 +128,11 @@ export default function UploadStep({ onNext }) {
               </svg>
             </div>
 
-            <h3 className="text-[12px] md:text-[18px] font-bold text-black mb-1.5 md:mb-3 max-w-[200px] md:max-w-sm leading-snug">
+            {/* max-w-50 (mobile) dan max-w-sm (desktop) */}
+            <h3 className="text-[12px] md:text-[18px] font-bold text-black mb-1.5 md:mb-3 max-w-50 md:max-w-sm leading-snug">
               Ambil Foto atau Upload Gambar Jalan Rusak
             </h3>
-            <p className="text-[9px] md:text-[13px] text-grey-2 max-w-[200px] md:max-w-sm leading-relaxed">
+            <p className="text-[9px] md:text-[13px] text-grey-2 max-w-50 md:max-w-sm leading-relaxed">
               Seret & lepas file di sini, atau klik untuk memilih JPG, PNG, HEIC
               hingga 10 MB
             </p>
@@ -148,7 +149,6 @@ export default function UploadStep({ onNext }) {
         className="hidden"
       />
 
-      {/* TOMBOL PILIH/KAMERA (flex-col di mobile, flex-row sejajar di desktop) */}
       {!image && !isCameraOpen && (
         <div className="flex flex-col md:flex-row gap-2.5 md:gap-4">
           <button
@@ -198,7 +198,6 @@ export default function UploadStep({ onNext }) {
         </div>
       )}
 
-      {/* Tombol Hapus */}
       {image && !isCameraOpen && (
         <div className="mb-2 md:mb-4">
           <button
@@ -227,7 +226,6 @@ export default function UploadStep({ onNext }) {
         </div>
       )}
 
-      {/* Tombol Lanjut ke Lokasi */}
       <button
         onClick={onNext}
         disabled={!image || isCameraOpen}

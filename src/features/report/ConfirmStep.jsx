@@ -10,10 +10,10 @@ export default function ConfirmStep() {
     setIsSubmitted(true);
   };
 
-  // KONDISI SUKSES
   if (isSubmitted) {
     return (
-      <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-8 md:p-16 flex flex-col items-center justify-center text-center w-full min-h-[400px]">
+      // rounded-3xl, min-h-100
+      <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-8 md:p-16 flex flex-col items-center justify-center text-center w-full min-h-100">
         <div className="w-16 h-16 md:w-20 md:h-20 bg-soft-green rounded-full flex items-center justify-center mb-4 md:mb-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,8 @@ export default function ConfirmStep() {
         <p className="text-black text-[13px] md:text-base font-medium mb-3 md:mb-4">
           ID Laporan: <span className="font-bold">#RTN-2026-0003</span>
         </p>
-        <p className="text-grey-2 text-[12px] md:text-[15px] mb-6 md:mb-8 max-w-[280px] md:max-w-md">
+        {/* max-w-70 di mobile */}
+        <p className="text-grey-2 text-[12px] md:text-[15px] mb-6 md:mb-8 max-w-70 md:max-w-md">
           Laporan Anda telah berhasil dikirim dan akan diverifikasi oleh tim
           kami dalam 24 jam.
         </p>
@@ -52,9 +53,9 @@ export default function ConfirmStep() {
     );
   }
 
-  // KONDISI KONFIRMASI
   return (
-    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full text-left">
+    // rounded-3xl
+    <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full text-left">
       <h2 className="text-[15px] md:text-[24px] font-bold text-black mb-1 md:mb-2">
         Konfirmasi Laporan
       </h2>
@@ -63,8 +64,8 @@ export default function ConfirmStep() {
       </p>
 
       <div className="flex flex-col gap-2.5 md:gap-4 mb-4 md:mb-6">
-        {/* Info 1: Foto */}
-        <div className="flex items-center gap-3 p-3 md:p-4 border border-grey-1 rounded-[12px] md:rounded-xl bg-grey-light/30">
+        {/* rounded-xl diganti dari rounded-[12px] */}
+        <div className="flex items-center gap-3 p-3 md:p-4 border border-grey-1 rounded-xl bg-grey-light/30">
           <svg
             width="20"
             height="20"
@@ -88,8 +89,7 @@ export default function ConfirmStep() {
           </div>
         </div>
 
-        {/* Info 2: Lokasi */}
-        <div className="flex items-center gap-3 p-3 md:p-4 border border-grey-1 rounded-[12px] md:rounded-xl bg-grey-light/30">
+        <div className="flex items-center gap-3 p-3 md:p-4 border border-grey-1 rounded-xl bg-grey-light/30">
           <svg
             width="20"
             height="20"
@@ -112,8 +112,7 @@ export default function ConfirmStep() {
           </div>
         </div>
 
-        {/* Info 3: Jenis Kerusakan */}
-        <div className="flex items-center gap-3 p-3 md:p-4 border border-grey-1 rounded-[12px] md:rounded-xl bg-grey-light/30">
+        <div className="flex items-center gap-3 p-3 md:p-4 border border-grey-1 rounded-xl bg-grey-light/30">
           <svg
             width="20"
             height="20"
@@ -138,8 +137,7 @@ export default function ConfirmStep() {
           </div>
         </div>
 
-        {/* Info 4: Keparahan */}
-        <div className="flex items-center gap-3 p-3 md:p-4 border border-grey-1 rounded-[12px] md:rounded-xl bg-grey-light/30">
+        <div className="flex items-center gap-3 p-3 md:p-4 border border-grey-1 rounded-xl bg-grey-light/30">
           <svg
             width="20"
             height="20"
@@ -166,13 +164,12 @@ export default function ConfirmStep() {
         </div>
       </div>
 
-      {/* Catatan Tambahan */}
       <div className="mb-4 md:mb-8">
         <label className="block text-[11px] md:text-[14px] font-bold text-black mb-1.5 md:mb-2">
           Catatan Tambahan (opsional)
         </label>
         <textarea
-          className="w-full p-3 md:p-4 border border-grey-1 rounded-[12px] md:rounded-xl bg-white text-[12px] md:text-[15px] text-black placeholder-grey-2 focus:outline-none focus:border-green transition-colors resize-none"
+          className="w-full p-3 md:p-4 border border-grey-1 rounded-xl bg-white text-[12px] md:text-[15px] text-black placeholder-grey-2 focus:outline-none focus:border-green transition-colors resize-none"
           rows="2"
           placeholder="Tambahkan keterangan lain jika diperlukan..."
         ></textarea>

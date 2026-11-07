@@ -76,13 +76,13 @@ export default function Navbar() {
   const getLinkClass = (path) => {
     const isActive = location.pathname === path;
     return isActive
-      ? "px-2.5 py-2 md:px-5 md:rounded-lg rounded-md bg-[#DCFCE7] text-[#16A34A] font-semibold text-sm transition-colors whitespace-nowrap"
-      : "px-2.5 py-2 md:px-5 md:rounded-lg rounded-md text-[#64748B] hover:text-[#16A34A] font-medium text-sm transition-colors whitespace-nowrap";
+      ? "px-2.5 py-2 md:px-5 md:rounded-lg rounded-md bg-soft-green text-green font-semibold text-sm transition-colors whitespace-nowrap"
+      : "px-2.5 py-2 md:px-5 md:rounded-lg rounded-md text-grey-2 hover:text-green font-medium text-sm transition-colors whitespace-nowrap";
   };
 
   return (
     <nav
-      className={`fixed top-0 left-0 z-50 w-full bg-white border-b border-[#E2E8F0] transition-all ${
+      className={`fixed top-0 left-0 z-50 w-full bg-white border-b border-grey-light transition-all ${
         isScrolled ? "shadow-sm" : ""
       }`}
     >
@@ -123,7 +123,7 @@ export default function Navbar() {
               <div>
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="w-9 h-9 md:w-11 md:h-11 shrink-0 rounded-full bg-[#E8F5E9] flex items-center justify-center border border-transparent hover:border-[#22C55E] transition-all overflow-hidden"
+                  className="w-9 h-9 md:w-11 md:h-11 shrink-0 rounded-full bg-soft-green flex items-center justify-center border border-transparent hover:border-green transition-all overflow-hidden"
                   type="button"
                   aria-label="Buka menu profil"
                   aria-expanded={showDropdown}
@@ -135,10 +135,11 @@ export default function Navbar() {
                   />
                 </button>
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white border border-[#E2E8F0] rounded-xl shadow-lg py-2 z-[60">
+                  // z-[60] diubah jadi z-60
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-grey-light rounded-xl shadow-lg py-2 z-60">
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-[#EF4444] font-semibold hover:bg-[#FEE2E2] transition-colors"
+                      className="w-full text-left px-4 py-2 text-sm text-red font-semibold hover:bg-soft-red transition-colors"
                     >
                       Keluar
                     </button>
@@ -148,7 +149,7 @@ export default function Navbar() {
             ) : (
               <Link
                 to="/login"
-                className="px-4 md:px-5 py-2 shrink-0 rounded-md md:rounded-lg border border-green text-green font-semibold text-sm hover:bg-[#F0FDF4] transition-colors"
+                className="px-4 md:px-5 py-2 shrink-0 rounded-md md:rounded-lg border border-green text-green font-semibold text-sm hover:bg-soft-green transition-colors"
               >
                 Masuk
               </Link>
@@ -157,7 +158,7 @@ export default function Navbar() {
         </div>
 
         {/* BARIS 2: Menu Mobile (Sembunyi di Desktop) */}
-        <div className="flex md:hidden items-center justify-between gap-1 py-3 border-t border-[#F1F5F9] overflow-x-auto hide-scrollbar">
+        <div className="flex md:hidden items-center justify-between gap-1 py-3 border-t border-grey-light overflow-x-auto hide-scrollbar">
           <Link to="/" className={getLinkClass("/")}>
             Beranda
           </Link>
