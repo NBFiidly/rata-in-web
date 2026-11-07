@@ -18,7 +18,7 @@ export default function ReportFlow() {
   };
 
   return (
-    <div className="min-h-screen bg-grey-light flex flex-col font-sans">
+    <div className="min-h-screen bg-grey-light flex flex-col font-inter">
       <Navbar />
 
       {/* pt-[140px] diganti pt-35 */}
