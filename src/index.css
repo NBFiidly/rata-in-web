@@ -1,20 +1,21 @@
+/* File: src/index.css */
 @import "@fontsource-variable/inter";
 @import "tailwindcss";
 
 @theme {
   --default-font-family: "Inter Variable", sans-serif;
-  --color-grey: #D9D9D9;
-  --color-green: #31AA5E;
-  --color-orange: #E56A29;
-  --color-red: #DD4343;
-  --color-soft-green: #D6EEDf;
+  --color-grey: #d9d9d9;
+  --color-green: #31aa5e;
+  --color-orange: #e56a29;
+  --color-red: #dd4343;
+  --color-soft-green: #d6eedf;
   --color-black: #202020;
   --color-grey-1: #919191;
   --color-grey-2: #606060;
-  --color-soft-orange: #fAE1D4;
-  --color-soft-red: #F8D9D9;
-  --color-grey-light: #F8F8F8;
-  --color-white: #FFFFFF;
+  --color-soft-orange: #fae1d4;
+  --color-soft-red: #f8d9d9;
+  --color-grey-light: #f8f8f8;
+  --color-white: #ffffff;
 
   --font-inter: "Inter Variable", sans-serif;
 }
@@ -33,8 +34,8 @@
     color: var(--color-grey);
     background-color: var(--color-white);
   }
-}
 
-html {
-  overflow-y: scroll;
+  html {
+    overflow-y: scroll;
+  }
 }

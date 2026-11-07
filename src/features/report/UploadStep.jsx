@@ -70,7 +70,7 @@ export default function UploadStep({ onNext }) {
   return (
     // rounded-3xl
     <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full">
-      <div className="text-center mb-4 md:mb-8">
+      <div className="text-left mb-4 md:mb-8">
         <h2 className="text-[15px] md:text-[24px] font-bold text-black mb-1 md:mb-2">
           Upload Foto Jalan Rusak
         </h2>

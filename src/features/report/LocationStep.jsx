@@ -112,7 +112,7 @@ export default function LocationStep({ onNext }) {
   return (
     // rounded-3xl
     <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-5 md:p-8 flex flex-col w-full">
-      <div className="text-center mb-3 md:mb-6">
+      <div className="text-left mb-3 md:mb-6">
         <h2 className="text-[15px] md:text-[20px] font-bold text-black mb-0.5 md:mb-1.5">
           Konfirmasi Lokasi
         </h2>
