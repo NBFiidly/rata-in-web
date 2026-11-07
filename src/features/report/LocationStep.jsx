@@ -8,7 +8,6 @@ export default function LocationStep({ onNext }) {
   const [coords, setCoords] = useState({ lat: 1.1119, lng: 103.9575 });
 
   const [isManualMode, setIsManualMode] = useState(false);
-  // State untuk mengatur mode peta: 'roadmap' (standar) atau 'satellite' (satelit)
   const [mapType, setMapType] = useState("roadmap");
 
   const textAreaRef = useRef(null);
@@ -123,8 +122,8 @@ export default function LocationStep({ onNext }) {
       </div>
 
       {/* Area Peta dengan Tombol Ganti Mode (Roadmap / Satellite) */}
-      <div className="w-full h-44 md:h-[220px] bg-grey-light relative overflow-hidden rounded-[16px] md:rounded-[20px] border border-grey-1 mb-2.5 md:mb-4">
-        {/* Parameter t=k untuk satelit, t=m untuk peta jalan standar */}
+      {/* PERBAIKAN: Menambah tinggi peta di ukuran desktop (md:h-[320px] -> cukup lebar & luas sesuai gambar) */}
+      <div className="w-full h-44 md:h-[320px] bg-grey-light relative overflow-hidden rounded-[16px] md:rounded-[20px] border border-grey-1 mb-2.5 md:mb-4">
         <iframe
           src={`https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&t=${mapType === "satellite" ? "k" : "m"}&output=embed`}
           className={`w-full h-full border-0 transition-all duration-700 pointer-events-none ${isLoading ? "opacity-50 blur-[2px]" : "opacity-90 blur-0"}`}
@@ -133,7 +132,6 @@ export default function LocationStep({ onNext }) {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
 
-        {/* Tombol Pengubah Mode Peta di Pojok Kanan Atas */}
         <div className="absolute top-2 right-2 z-20 flex bg-white/90 backdrop-blur-sm rounded-lg p-1 shadow-md border border-grey-1">
           <button
             type="button"

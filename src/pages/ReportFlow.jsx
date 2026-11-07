@@ -23,8 +23,8 @@ export default function ReportFlow() {
 
       <main className="grow pt-[140px] md:pt-32 pb-4 md:pb-12 flex flex-col items-center">
         {/* Header di luar kartu putih */}
-        <div className="text-center mb-3 md:mb-6 px-4">
-          <h1 className="text-[20px] md:text-3xl font-bold text-black mb-0.5 md:mb-1">
+        <div className="text-center mb-3 md:mb-8 px-4">
+          <h1 className="text-[20px] md:text-4xl font-bold text-black mb-0.5 md:mb-2">
             Lapor Kerusakan Jalan
           </h1>
           <p className="text-[12px] md:text-base text-grey-2">
@@ -32,12 +32,12 @@ export default function ReportFlow() {
           </p>
         </div>
 
-        {/* Stepper dengan Logika Ceklis */}
-        <div className="flex items-center justify-between md:justify-center gap-2 md:gap-3 mb-4 md:mb-8 w-full max-w-2xl px-5 md:px-2 overflow-x-auto hide-scrollbar">
+        {/* PERBAIKAN: Menambahkan md:overflow-hidden untuk mematikan scrollbar di desktop */}
+        <div className="flex items-center justify-between md:justify-center gap-2 md:gap-4 mb-4 md:mb-10 w-full max-w-2xl md:max-w-3xl px-5 md:px-2 overflow-x-auto md:overflow-hidden hide-scrollbar">
           {/* Step 1 */}
           <div className="flex items-center gap-2 shrink-0">
             <div
-              className={`w-6 h-6 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center font-bold text-[10px] md:text-xs transition-all ${
+              className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex items-center justify-center font-bold text-[10px] md:text-[14px] transition-all ${
                 currentStep > 1
                   ? "bg-green border-green text-white"
                   : currentStep === 1
@@ -47,7 +47,7 @@ export default function ReportFlow() {
             >
               {currentStep > 1 ? (
                 <svg
-                  className="w-3.5 h-3.5 md:w-4 md:h-4"
+                  className="w-3.5 h-3.5 md:w-5 md:h-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -62,7 +62,7 @@ export default function ReportFlow() {
               )}
             </div>
             <div
-              className={`font-semibold text-[10px] md:text-xs leading-tight ${currentStep >= 1 ? "text-green" : "text-grey-1"}`}
+              className={`font-semibold text-[10px] md:text-[13px] leading-tight ${currentStep >= 1 ? "text-green" : "text-grey-1"}`}
             >
               Upload
               <br />
@@ -70,12 +70,13 @@ export default function ReportFlow() {
             </div>
           </div>
 
-          <div className="hidden md:block w-10 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
+          {/* Garis */}
+          <div className="hidden md:block w-10 md:w-24 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
 
           {/* Step 2 */}
           <div className="flex items-center gap-2 shrink-0">
             <div
-              className={`w-6 h-6 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center font-bold text-[10px] md:text-xs transition-all ${
+              className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex items-center justify-center font-bold text-[10px] md:text-[14px] transition-all ${
                 currentStep > 2
                   ? "bg-green border-green text-white"
                   : currentStep === 2
@@ -85,7 +86,7 @@ export default function ReportFlow() {
             >
               {currentStep > 2 ? (
                 <svg
-                  className="w-3.5 h-3.5 md:w-4 md:h-4"
+                  className="w-3.5 h-3.5 md:w-5 md:h-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -100,18 +101,18 @@ export default function ReportFlow() {
               )}
             </div>
             <div
-              className={`font-semibold text-[10px] md:text-xs leading-tight ${currentStep >= 2 ? "text-green" : "text-grey-1"}`}
+              className={`font-semibold text-[10px] md:text-[13px] leading-tight ${currentStep >= 2 ? "text-green" : "text-grey-1"}`}
             >
               Lokasi
             </div>
           </div>
 
-          <div className="hidden md:block w-10 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
+          <div className="hidden md:block w-10 md:w-24 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
 
           {/* Step 3 */}
           <div className="flex items-center gap-2 shrink-0">
             <div
-              className={`w-6 h-6 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center font-bold text-[10px] md:text-xs transition-all ${
+              className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex items-center justify-center font-bold text-[10px] md:text-[14px] transition-all ${
                 currentStep > 3
                   ? "bg-green border-green text-white"
                   : currentStep === 3
@@ -121,7 +122,7 @@ export default function ReportFlow() {
             >
               {currentStep > 3 ? (
                 <svg
-                  className="w-3.5 h-3.5 md:w-4 md:h-4"
+                  className="w-3.5 h-3.5 md:w-5 md:h-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -136,7 +137,7 @@ export default function ReportFlow() {
               )}
             </div>
             <div
-              className={`font-semibold text-[10px] md:text-xs leading-tight ${currentStep >= 3 ? "text-green" : "text-grey-1"}`}
+              className={`font-semibold text-[10px] md:text-[13px] leading-tight ${currentStep >= 3 ? "text-green" : "text-grey-1"}`}
             >
               AI
               <br />
@@ -144,12 +145,12 @@ export default function ReportFlow() {
             </div>
           </div>
 
-          <div className="hidden md:block w-10 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
+          <div className="hidden md:block w-10 md:w-24 h-[2px] bg-grey-1 mx-1 shrink-0"></div>
 
           {/* Step 4 */}
           <div className="flex items-center gap-2 shrink-0">
             <div
-              className={`w-6 h-6 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center font-bold text-[10px] md:text-xs transition-all ${
+              className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 flex items-center justify-center font-bold text-[10px] md:text-[14px] transition-all ${
                 currentStep > 4
                   ? "bg-green border-green text-white"
                   : currentStep === 4
@@ -159,7 +160,7 @@ export default function ReportFlow() {
             >
               {currentStep > 4 ? (
                 <svg
-                  className="w-3.5 h-3.5 md:w-4 md:h-4"
+                  className="w-3.5 h-3.5 md:w-5 md:h-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -174,7 +175,7 @@ export default function ReportFlow() {
               )}
             </div>
             <div
-              className={`font-semibold text-[10px] md:text-xs leading-tight ${currentStep >= 4 ? "text-green" : "text-grey-1"}`}
+              className={`font-semibold text-[10px] md:text-[13px] leading-tight ${currentStep >= 4 ? "text-green" : "text-grey-1"}`}
             >
               Konfirmasi
             </div>
@@ -182,7 +183,7 @@ export default function ReportFlow() {
         </div>
 
         {/* Area Kartu Konten */}
-        <div className="w-full max-w-[360px] md:max-w-md px-4">
+        <div className="w-full max-w-[360px] md:max-w-3xl px-4">
           {currentStep === 1 && <UploadStep onNext={nextStep} />}
           {currentStep === 2 && (
             <LocationStep onNext={nextStep} onPrev={prevStep} />

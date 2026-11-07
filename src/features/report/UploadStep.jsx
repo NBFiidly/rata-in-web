@@ -68,20 +68,19 @@ export default function UploadStep({ onNext }) {
   }, []);
 
   return (
-    // Padding kartu di mobile disesuaikan menjadi p-5 agar lebih rapat
-    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-8 flex flex-col w-full">
+    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full">
       {/* Header Dalam Kartu */}
-      <div className="text-center mb-4 md:mb-6">
-        <h2 className="text-[15px] md:text-[20px] font-bold text-black mb-1 md:mb-1.5">
+      <div className="text-center mb-4 md:mb-8">
+        <h2 className="text-[15px] md:text-[24px] font-bold text-black mb-1 md:mb-2">
           Upload Foto Jalan Rusak
         </h2>
-        <p className="text-[11px] md:text-[14px] text-grey-2">
+        <p className="text-[11px] md:text-[15px] text-grey-2">
           Ambil foto atau pilih dari galeri untuk memulai analisis.
         </p>
       </div>
 
-      {/* Kotak Putus-putus: DITINGGIKAN menjadi h-56 di mobile (hampir persegi panjang ke atas seperti desain) */}
-      <div className="border-2 border-dashed border-grey-1 rounded-[16px] md:rounded-[20px] p-4 md:p-6 flex flex-col items-center justify-center text-center h-56 md:h-[260px] bg-grey-light hover:opacity-80 transition-opacity cursor-pointer mb-5 relative overflow-hidden">
+      {/* Kotak Putus-putus */}
+      <div className="border-2 border-dashed border-grey-1 rounded-[16px] md:rounded-[20px] p-4 md:p-8 flex flex-col items-center justify-center text-center h-56 md:h-[320px] bg-grey-light hover:opacity-80 transition-opacity cursor-pointer mb-5 md:mb-8 relative overflow-hidden">
         {isCameraOpen ? (
           <div className="absolute inset-0 bg-black flex flex-col z-10">
             <video
@@ -90,16 +89,16 @@ export default function UploadStep({ onNext }) {
               playsInline
               className="w-full h-full object-cover"
             />
-            <div className="absolute bottom-3 md:bottom-4 left-0 right-0 flex justify-center gap-3 md:gap-4">
+            <div className="absolute bottom-3 md:bottom-6 left-0 right-0 flex justify-center gap-3 md:gap-6">
               <button
                 onClick={stopCamera}
-                className="px-4 py-1.5 md:px-4 md:py-2 bg-white/20 text-white rounded-full font-semibold backdrop-blur-sm hover:bg-white/40 text-xs md:text-sm"
+                className="px-4 py-1.5 md:px-6 md:py-2.5 bg-white/20 text-white rounded-full font-semibold backdrop-blur-sm hover:bg-white/40 text-xs md:text-sm"
               >
                 Batal
               </button>
               <button
                 onClick={capturePhoto}
-                className="px-5 py-1.5 md:px-6 md:py-2 bg-green text-white rounded-full font-bold shadow-lg hover:opacity-90 flex items-center gap-1.5 text-xs md:text-sm"
+                className="px-5 py-1.5 md:px-8 md:py-2.5 bg-green text-white rounded-full font-bold shadow-lg hover:opacity-90 flex items-center gap-1.5 text-xs md:text-sm"
               >
                 Jepret
               </button>
@@ -113,9 +112,9 @@ export default function UploadStep({ onNext }) {
           />
         ) : (
           <>
-            <div className="w-10 h-10 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-white border border-grey-1 flex items-center justify-center mb-3 text-grey-2">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg md:rounded-xl bg-white border border-grey-1 flex items-center justify-center mb-3 md:mb-5 text-grey-2">
               <svg
-                className="w-5 h-5"
+                className="w-5 h-5 md:w-7 md:h-7"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -129,10 +128,10 @@ export default function UploadStep({ onNext }) {
               </svg>
             </div>
 
-            <h3 className="text-[12px] md:text-[15px] font-bold text-black mb-1.5 md:mb-2 max-w-[200px] md:max-w-xs leading-snug">
+            <h3 className="text-[12px] md:text-[18px] font-bold text-black mb-1.5 md:mb-3 max-w-[200px] md:max-w-sm leading-snug">
               Ambil Foto atau Upload Gambar Jalan Rusak
             </h3>
-            <p className="text-[9px] md:text-[11px] text-grey-2 max-w-[200px] md:max-w-xs leading-relaxed">
+            <p className="text-[9px] md:text-[13px] text-grey-2 max-w-[200px] md:max-w-sm leading-relaxed">
               Seret & lepas file di sini, atau klik untuk memilih JPG, PNG, HEIC
               hingga 10 MB
             </p>
@@ -149,18 +148,18 @@ export default function UploadStep({ onNext }) {
         className="hidden"
       />
 
-      {/* TOMBOL PILIH/KAMERA */}
+      {/* TOMBOL PILIH/KAMERA (flex-col di mobile, flex-row sejajar di desktop) */}
       {!image && !isCameraOpen && (
-        <div className="flex flex-col gap-2.5 md:gap-3">
+        <div className="flex flex-col md:flex-row gap-2.5 md:gap-4">
           <button
             type="button"
             onClick={() => galleryInputRef.current.click()}
-            className="w-full py-2.5 md:py-3.5 rounded-xl border border-grey-1 bg-white text-black font-bold text-[12px] md:text-[14px] flex items-center justify-center gap-2 hover:bg-grey-light transition-colors shadow-sm"
+            className="flex-1 py-2.5 md:py-4 rounded-xl border border-grey-1 bg-white text-black font-bold text-[12px] md:text-[14px] flex items-center justify-center gap-2 md:gap-3 hover:bg-grey-light transition-colors shadow-sm"
           >
             <svg
               width="14"
               height="14"
-              className="md:w-4 md:h-4"
+              className="md:w-5 md:h-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -178,12 +177,12 @@ export default function UploadStep({ onNext }) {
           <button
             type="button"
             onClick={startCamera}
-            className="w-full py-2.5 md:py-3.5 rounded-xl border border-grey-1 bg-white text-black font-bold text-[12px] md:text-[14px] flex items-center justify-center gap-2 hover:bg-grey-light transition-colors shadow-sm"
+            className="flex-1 py-2.5 md:py-4 rounded-xl border border-grey-1 bg-white text-black font-bold text-[12px] md:text-[14px] flex items-center justify-center gap-2 md:gap-3 hover:bg-grey-light transition-colors shadow-sm"
           >
             <svg
               width="14"
               height="14"
-              className="md:w-4 md:h-4"
+              className="md:w-5 md:h-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -204,11 +203,12 @@ export default function UploadStep({ onNext }) {
         <div className="mb-2 md:mb-4">
           <button
             onClick={() => setImage(null)}
-            className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3.5 rounded-xl border border-red text-red font-bold text-[12px] md:text-[14px] hover:bg-soft-red transition-colors"
+            className="flex items-center justify-center gap-2 w-full py-2.5 md:py-4 rounded-xl border border-red text-red font-bold text-[12px] md:text-[14px] hover:bg-soft-red transition-colors"
           >
             <svg
               width="16"
               height="16"
+              className="md:w-5 md:h-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -227,11 +227,11 @@ export default function UploadStep({ onNext }) {
         </div>
       )}
 
-      {/* Tombol Lanjut ke Lokasi dengan margin yang rapat di bawah */}
+      {/* Tombol Lanjut ke Lokasi */}
       <button
         onClick={onNext}
         disabled={!image || isCameraOpen}
-        className={`w-full py-3 md:py-4 mt-2.5 md:mt-4 rounded-xl font-bold text-[12px] md:text-[14px] transition-all ${
+        className={`w-full py-3 md:py-4 mt-2.5 md:mt-4 rounded-xl font-bold text-[12px] md:text-[15px] transition-all ${
           image && !isCameraOpen
             ? "bg-green text-white hover:opacity-90 shadow-md"
             : "bg-grey-light text-grey-1 cursor-not-allowed border border-grey-1"

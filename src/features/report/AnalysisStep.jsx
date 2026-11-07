@@ -1,3 +1,4 @@
+// File: src/features/report/AnalysisStep.jsx
 import { useState, useEffect } from "react";
 
 export default function AnalysisStep({ onNext }) {
@@ -12,46 +13,33 @@ export default function AnalysisStep({ onNext }) {
 
   if (isAnalyzing) {
     return (
-      <div className="flex flex-col items-center justify-center py-10 gap-6 w-full">
-        {/* ... (Kode animasi berputar tetap sama) ... */}
-        <div className="w-25.5 h-25.5 relative flex items-center justify-center">
-          <div className="inline-flex p-2 items-center justify-center rounded-full bg-soft-green absolute z-10 w-14 h-14">
+      <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-8 md:p-16 flex flex-col items-center justify-center gap-6 w-full min-h-[300px]">
+        <div className="w-24 h-24 relative flex items-center justify-center">
+          <div className="inline-flex p-2 items-center justify-center rounded-full bg-soft-green absolute z-10 w-12 h-12">
             <svg
-              width="29"
-              height="27"
-              viewBox="0 0 29 27"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
               fill="none"
-              className="absolute"
+              stroke="var(--color-green)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <path
-                d="M14.3949 2.89438L2.45837 25.0701H26.3314L23.4492 19.7142C24.2473 20.1591 25.1098 20.4567 26.0002 20.5945L28.6692 25.5522C28.7482 25.6989 28.7898 25.8652 28.7897 26.0345C28.7897 26.2039 28.748 26.3702 28.669 26.5168C28.5899 26.6634 28.4762 26.7851 28.3392 26.8697C28.2023 26.9542 28.047 26.9986 27.889 26.9985H0.899826C0.741872 26.9985 0.586701 26.9539 0.44991 26.8693C0.313118 26.7847 0.199527 26.6629 0.120551 26.5164C0.0415758 26.3698 -1.00318e-06 26.2035 0 26.0343C1.00322e-06 25.8651 0.0415796 25.6988 0.120557 25.5522L13.6156 0.48204C13.6946 0.33548 13.8082 0.213776 13.945 0.129161C14.0818 0.0445458 14.2369 0 14.3949 0C14.5528 0 14.708 0.0445458 14.8448 0.129161C14.9816 0.213776 15.0952 0.33548 15.1741 0.48204L19.6914 8.87316C19.357 9.76964 19.1663 10.7202 19.1272 11.6847L14.3949 2.89438Z"
-                fill="var(--color-green)"
-              />
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
             </svg>
           </div>
           <div className="w-full h-full absolute animate-spin">
-            <svg
-              width="100"
-              height="100"
-              viewBox="0 0 100 100"
-              fill="none"
-              className="absolute left-px top-px"
-            >
+            <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none">
               <path
-                d="M49.8125 97.625C76.2186 97.625 97.625 76.2186 97.625 49.8125C97.625 23.4064 76.2186 2 49.8125 2C23.4064 2 2 23.4064 2 49.8125C2 76.2186 23.4064 97.625 49.8125 97.625Z"
+                d="M50 96C75.4051 96 96 75.4051 96 50C96 24.5949 75.4051 4 50 4C24.5949 4 4 24.5949 4 50C4 75.4051 24.5949 96 50 96Z"
                 stroke="var(--color-soft-green)"
                 strokeWidth="4"
               />
-            </svg>
-            <svg
-              width="50"
-              height="50"
-              viewBox="0 0 50 50"
-              fill="none"
-              className="absolute left-12.5 top-12.5"
-            >
               <path
-                d="M47.8125 0C47.8125 26.4061 26.4061 47.8125 0 47.8125"
+                d="M48 4C23.6995 4 4 23.6995 4 48"
                 stroke="var(--color-green)"
                 strokeWidth="4"
                 strokeLinecap="round"
@@ -60,10 +48,10 @@ export default function AnalysisStep({ onNext }) {
           </div>
         </div>
         <div className="flex flex-col items-center gap-1 w-full mt-2">
-          <p className="text-black font-semibold text-2xl text-center">
+          <p className="text-black font-bold text-lg md:text-xl text-center">
             Menganalisis foto
           </p>
-          <p className="text-grey-2 text-base text-center">
+          <p className="text-grey-2 text-[13px] md:text-sm text-center">
             Computer Vision sedang memproses gambar
           </p>
         </div>
@@ -72,24 +60,25 @@ export default function AnalysisStep({ onNext }) {
   }
 
   return (
-    <div className="flex flex-col w-full text-left py-1 md:py-4">
-      <h2 className="text-base md:text-2xl font-bold text-black mb-0.5 md:mb-1">
+    <div className="bg-white rounded-[20px] md:rounded-[24px] shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full text-left">
+      <h2 className="text-[15px] md:text-[24px] font-bold text-black mb-1 md:mb-2">
         AI Analisis Kerusakan
       </h2>
-      <p className="text-xs md:text-base text-grey-2 mb-3 md:mb-6">
+      <p className="text-[11px] md:text-[15px] text-grey-2 mb-4 md:mb-6">
         Sistem akan menganalisis foto menggunakan Computer Vision.
       </p>
 
-      <div className="w-full flex flex-col p-3 md:p-6 rounded-xl border border-[#EB8E8E] bg-[#FCECEC] gap-3 md:gap-5 shadow-sm mb-3 md:mb-6">
+      {/* Kotak Hasil Deteksi (merah muda) */}
+      <div className="w-full flex flex-col p-4 md:p-6 rounded-[16px] md:rounded-2xl border border-[#EB8E8E] bg-[#FCECEC] gap-4 md:gap-5 shadow-sm mb-4 md:mb-8">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-soft-red">
+          <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-soft-red text-[#DD4343]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#DD4343"
+              stroke="currentColor"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -99,40 +88,48 @@ export default function AnalysisStep({ onNext }) {
               <path d="M12 17h.01" />
             </svg>
           </div>
-          <h3 className="text-black text-lg font-semibold">Hasil Deteksi AI</h3>
+          <h3 className="text-black text-[15px] md:text-lg font-bold">
+            Hasil Deteksi AI
+          </h3>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 md:gap-4 w-full mt-0 md:mt-2">
-          <div className="flex flex-col items-center justify-center py-2 md:py-4 px-1 md:px-2 rounded-xl border border-[#EB8E8E] bg-white">
-            <p className="text-grey-2 text-xs mb-1">Jenis</p>
-            <p className="text-black text-base font-semibold leading-tight">
+        {/* 3 Kartu Analisis */}
+        <div className="grid grid-cols-3 gap-2 md:gap-4 w-full">
+          <div className="flex flex-col items-center justify-center py-3 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-white text-center">
+            <p className="text-grey-2 text-[10px] md:text-xs mb-1">Jenis</p>
+            <p className="text-black text-[13px] md:text-base font-bold leading-tight">
               Lubang
             </p>
-            <p className="text-grey-2 text-[11px]">Road Pothole</p>
+            <p className="text-grey-2 text-[9px] md:text-[11px]">
+              Road Pothole
+            </p>
           </div>
-          <div className="flex flex-col items-center justify-center py-2 md:py-4 px-1 md:px-2 rounded-xl border border-[#EB8E8E] bg-red">
-            <p className="text-white/90 text-xs mb-1">Keparahan</p>
-            <p className="text-white text-base font-semibold leading-tight">
+          <div className="flex flex-col items-center justify-center py-3 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-red text-center">
+            <p className="text-white/90 text-[10px] md:text-xs mb-1">
+              Keparahan
+            </p>
+            <p className="text-white text-[13px] md:text-base font-bold leading-tight">
               BERAT
             </p>
-            <p className="text-white/90 text-[11px]">HIGH</p>
+            <p className="text-white/90 text-[9px] md:text-[11px]">HIGH</p>
           </div>
-          <div className="flex flex-col items-center justify-center py-2 md:py-4 px-1 md:px-2 rounded-xl border border-[#EB8E8E] bg-white">
-            <p className="text-grey-2 text-xs mb-1 text-center">
+          <div className="flex flex-col items-center justify-center py-3 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-white text-center">
+            <p className="text-grey-2 text-[10px] md:text-xs mb-1">
               Tingkat Urgensi
             </p>
-            <p className="text-red text-base font-semibold leading-tight text-center">
+            <p className="text-red text-[13px] md:text-base font-bold leading-tight">
               Segera diperbaiki
             </p>
-            <p className="text-red text-[11px]">Immediate Repair</p>
+            <p className="text-red text-[9px] md:text-[11px]">
+              Immediate Repair
+            </p>
           </div>
         </div>
       </div>
 
-      {/* 2. Tambahkan tombol Lanjut di sini */}
       <button
         onClick={onNext}
-        className="w-full py-2.5 md:py-3.5 bg-green text-white rounded-lg text-sm md:text-base font-semibold hover:opacity-90 transition-opacity"
+        className="w-full py-3 md:py-4 bg-green text-white rounded-xl text-[12px] md:text-[15px] font-bold hover:opacity-90 transition-opacity shadow-sm"
       >
         Lanjut ke Konfirmasi
       </button>
