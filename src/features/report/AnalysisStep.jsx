@@ -13,13 +13,11 @@ export default function AnalysisStep({ onNext }) {
 
   if (isAnalyzing) {
     return (
-      // rounded-3xl md:rounded-3xl, min-h-75
-      <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-8 md:p-16 flex flex-col items-center justify-center gap-6 w-full min-h-75">
-        <div className="w-24 h-24 relative flex items-center justify-center">
-          <div className="inline-flex p-2 items-center justify-center rounded-full bg-soft-green absolute z-10 w-12 h-12">
+      <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-8 md:p-16 flex flex-col items-center justify-center gap-4 md:gap-6 w-full min-h-60 md:min-h-75">
+        <div className="w-20 h-20 md:w-24 md:h-24 relative flex items-center justify-center">
+          <div className="inline-flex p-2 items-center justify-center rounded-full bg-soft-green absolute z-10 w-10 h-10 md:w-12 md:h-12">
             <svg
-              width="24"
-              height="24"
+              className="w-5 h-5 md:w-6 md:h-6"
               viewBox="0 0 24 24"
               fill="none"
               stroke="var(--color-green)"
@@ -49,10 +47,10 @@ export default function AnalysisStep({ onNext }) {
           </div>
         </div>
         <div className="flex flex-col items-center gap-1 w-full mt-2">
-          <p className="text-black font-bold text-lg md:text-xl text-center">
+          <p className="text-black font-bold text-base md:text-xl text-center">
             Menganalisis foto
           </p>
-          <p className="text-grey-2 text-[13px] md:text-sm text-center">
+          <p className="text-grey-2 text-xs md:text-sm text-center px-4">
             Computer Vision sedang memproses gambar
           </p>
         </div>
@@ -61,24 +59,20 @@ export default function AnalysisStep({ onNext }) {
   }
 
   return (
-    // rounded-3xl
     <div className="bg-white rounded-3xl shadow-sm border border-grey-1 p-5 md:p-10 flex flex-col w-full text-left">
-      <h2 className="text-[15px] md:text-[24px] font-bold text-black mb-1 md:mb-2">
+      <h2 className="text-lg md:text-[24px] font-bold text-black mb-1 md:mb-2">
         AI Analisis Kerusakan
       </h2>
-      <p className="text-[11px] md:text-[15px] text-grey-2 mb-4 md:mb-6">
+      <p className="text-xs md:text-[15px] text-grey-2 mb-4 md:mb-6 leading-relaxed">
         Sistem akan menganalisis foto menggunakan Computer Vision.
       </p>
 
-      {/* Kotak Hasil Deteksi: rounded-2xl md:rounded-2xl */}
-      <div className="w-full flex flex-col p-4 md:p-6 rounded-2xl border border-[#EB8E8E] bg-[#FCECEC] gap-4 md:gap-5 shadow-sm mb-4 md:mb-8">
-        <div className="flex items-center gap-3">
-          {/* text-red menggantikan text-[#DD4343] */}
-          <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-soft-red text-red">
+      {/* Kotak Hasil Deteksi */}
+      <div className="w-full flex flex-col p-3 md:p-6 rounded-2xl border border-[#EB8E8E] bg-[#FCECEC] gap-3 md:gap-5 shadow-sm mb-5 md:mb-8">
+        <div className="flex items-center gap-2.5 md:gap-3 px-1 md:px-0">
+          <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-soft-red text-red shrink-0">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
+              className="w-4 h-4 md:w-5 md:h-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -91,38 +85,45 @@ export default function AnalysisStep({ onNext }) {
               <path d="M12 17h.01" />
             </svg>
           </div>
-          <h3 className="text-black text-[15px] md:text-lg font-bold">
+          <h3 className="text-black text-[14px] md:text-lg font-bold">
             Hasil Deteksi AI
           </h3>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 md:gap-4 w-full">
-          <div className="flex flex-col items-center justify-center py-3 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-white text-center">
-            <p className="text-grey-2 text-[10px] md:text-xs mb-1">Jenis</p>
-            <p className="text-black text-[13px] md:text-base font-bold leading-tight">
+        {/* Grid 3 Kolom */}
+        <div className="grid grid-cols-3 gap-1.5 md:gap-4 w-full">
+          <div className="flex flex-col items-center justify-center py-2 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-white text-center h-full">
+            <p className="text-grey-2 text-[9px] md:text-xs mb-0.5 md:mb-1">
+              Jenis
+            </p>
+            <p className="text-black text-[11px] md:text-base font-bold leading-tight mb-0.5">
               Lubang
             </p>
-            <p className="text-grey-2 text-[9px] md:text-[11px]">
+            <p className="text-grey-2 text-[8px] md:text-[11px] leading-none">
               Road Pothole
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center py-3 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-red text-center">
-            <p className="text-white/90 text-[10px] md:text-xs mb-1">
+
+          <div className="flex flex-col items-center justify-center py-2 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-red text-center h-full">
+            <p className="text-white/90 text-[9px] md:text-xs mb-0.5 md:mb-1">
               Keparahan
             </p>
-            <p className="text-white text-[13px] md:text-base font-bold leading-tight">
+            <p className="text-white text-[11px] md:text-base font-bold leading-tight mb-0.5">
               BERAT
             </p>
-            <p className="text-white/90 text-[9px] md:text-[11px]">HIGH</p>
+            <p className="text-white/90 text-[8px] md:text-[11px] leading-none uppercase">
+              High
+            </p>
           </div>
-          <div className="flex flex-col items-center justify-center py-3 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-white text-center">
-            <p className="text-grey-2 text-[10px] md:text-xs mb-1">
+
+          <div className="flex flex-col items-center justify-center py-2 md:py-5 px-1 rounded-xl border border-[#EB8E8E] bg-white text-center h-full">
+            <p className="text-grey-2 text-[9px] md:text-xs mb-0.5 md:mb-1 leading-tight">
               Tingkat Urgensi
             </p>
-            <p className="text-red text-[13px] md:text-base font-bold leading-tight">
+            <p className="text-red text-[10px] md:text-base font-bold leading-tight mb-0.5">
               Segera diperbaiki
             </p>
-            <p className="text-red text-[9px] md:text-[11px]">
+            <p className="text-red text-[8px] md:text-[11px] leading-none">
               Immediate Repair
             </p>
           </div>
@@ -131,7 +132,7 @@ export default function AnalysisStep({ onNext }) {
 
       <button
         onClick={onNext}
-        className="w-full py-3 md:py-4 bg-green text-white rounded-xl text-[12px] md:text-[15px] font-bold hover:opacity-90 transition-opacity shadow-sm"
+        className="w-full py-3 md:py-4 bg-green text-white rounded-xl text-[13px] md:text-[15px] font-bold hover:opacity-90 transition-opacity shadow-sm"
       >
         Lanjut ke Konfirmasi
       </button>
