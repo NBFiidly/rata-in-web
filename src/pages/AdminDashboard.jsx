@@ -266,25 +266,25 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex font-inter">
-      <div className="flex-1 flex">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row font-inter">
+      <div className="flex-1 flex min-w-0 flex-col lg:flex-row">
         <div
-          className={`flex-1 flex flex-col h-screen overflow-y-auto ${selectedReport ? "pr-90" : ""}`}
+          className={`flex-1 min-w-0 flex flex-col min-h-screen lg:h-screen lg:overflow-y-auto ${selectedReport ? "lg:pr-90" : ""}`}
         >
           {/* Header Atas */}
-          <header className="bg-white border-b border-grey-1 px-8 py-3 flex justify-between items-center">
+          <header className="bg-white border-b border-grey-1 px-4 sm:px-8 py-3 flex justify-between items-center gap-2">
             <img
               src={logo}
               alt="Rata.in Admin"
-              className="h-12 w-auto object-contain"
+              className="h-10 sm:h-12 w-auto object-contain"
             />
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 sm:gap-6">
               <a
                 href="/"
                 target="_blank"
                 className="text-sm font-semibold text-black flex items-center gap-1 hover:text-green"
               >
-                Lihat situs warga{" "}
+                <span className="hidden sm:inline">Lihat situs warga</span>
                 <svg
                   width="14"
                   height="14"
@@ -298,7 +298,11 @@ export default function AdminDashboard() {
                   <line x1="10" y1="14" x2="21" y2="3" />
                 </svg>
               </a>
-              <button className="text-grey-2 hover:text-black">
+              <button
+                type="button"
+                aria-label="Notifikasi"
+                className="text-grey-2 hover:text-black"
+              >
                 <svg
                   width="20"
                   height="20"
@@ -333,7 +337,7 @@ export default function AdminDashboard() {
                       <circle cx="12" cy="7" r="4" />
                     </svg>
                   </div>
-                  <div className="flex flex-col">
+                  <div className="hidden sm:flex flex-col">
                     <span className="text-sm font-bold text-black leading-tight">
                       Admin Dinas
                     </span>
@@ -371,9 +375,9 @@ export default function AdminDashboard() {
             </div>
           </header>
 
-          <main className="p-8 flex flex-col gap-6">
+          <main className="p-4 sm:p-8 flex flex-col gap-6">
             {/* Judul & Date Picker */}
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-end">
               <div>
                 <h1 className="text-2xl font-bold text-black mb-1">
                   Dasbor Admin
@@ -556,8 +560,8 @@ export default function AdminDashboard() {
             </div>
 
             {/* 4 Kartu Statistik */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-white p-5 rounded-xl border border-grey-1 shadow-sm flex flex-col">
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+              <div className="bg-white p-4 sm:p-5 rounded-xl border border-grey-1 shadow-sm flex flex-col">
                 <div className="w-10 h-10 rounded-lg bg-soft-green text-green flex items-center justify-center mb-3">
                   <svg
                     width="20"
@@ -579,7 +583,7 @@ export default function AdminDashboard() {
                   Seluruh laporan warga
                 </span>
               </div>
-              <div className="bg-white p-5 rounded-xl border border-grey-1 shadow-sm flex flex-col">
+              <div className="bg-white p-4 sm:p-5 rounded-xl border border-grey-1 shadow-sm flex flex-col">
                 <div className="w-10 h-10 rounded-lg bg-soft-green text-green flex items-center justify-center mb-3">
                   <svg
                     width="20"
@@ -602,7 +606,7 @@ export default function AdminDashboard() {
                   1 dikirim • 2 analisis AI
                 </span>
               </div>
-              <div className="bg-white p-5 rounded-xl border border-grey-1 shadow-sm flex flex-col">
+              <div className="bg-white p-4 sm:p-5 rounded-xl border border-grey-1 shadow-sm flex flex-col">
                 <div className="w-10 h-10 rounded-lg bg-soft-green text-green flex items-center justify-center mb-3">
                   <svg
                     width="20"
@@ -624,7 +628,7 @@ export default function AdminDashboard() {
                   2 diverifikasi • 1 perbaikan
                 </span>
               </div>
-              <div className="bg-white p-5 rounded-xl border border-grey-1 shadow-sm flex flex-col">
+              <div className="bg-white p-4 sm:p-5 rounded-xl border border-grey-1 shadow-sm flex flex-col">
                 <div className="w-10 h-10 rounded-lg bg-soft-green text-green flex items-center justify-center mb-3">
                   <svg
                     width="20"
@@ -650,8 +654,8 @@ export default function AdminDashboard() {
 
             {/* Tabel Area */}
             <div className="bg-white rounded-xl border border-grey-1 shadow-sm flex flex-col pb-4">
-              <div className="p-5 flex justify-between items-center border-b border-grey-1">
-                <div className="flex items-center gap-3">
+              <div className="p-4 sm:p-5 flex flex-wrap justify-between items-center gap-3 border-b border-grey-1">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <h2 className="text-lg font-bold text-black">
                     Kelola Laporan
                   </h2>
@@ -662,14 +666,14 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={handleExportReports}
-                  className="px-4 py-2 border border-grey-1 rounded-lg text-sm font-semibold text-black hover:bg-grey-light transition-colors"
+                  className="px-4 py-2 border border-grey-1 rounded-lg text-sm font-semibold text-black hover:bg-grey-light transition-colors whitespace-nowrap"
                 >
                   Ekspor laporan
                 </button>
               </div>
 
               {/* Filter Area */}
-              <div className="p-5 flex flex-col gap-4 border-b border-grey-1">
+              <div className="p-4 sm:p-5 flex flex-col gap-4 border-b border-grey-1">
                 <div className="relative w-full">
                   <svg
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-grey-2"
@@ -696,7 +700,7 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-medium text-grey-2">
                       Status laporan
@@ -766,7 +770,7 @@ export default function AdminDashboard() {
 
               {/* Table Data */}
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full min-w-[700px] text-left border-collapse">
                   <thead>
                     <tr className="border-b border-grey-1 text-[11px] text-black font-semibold">
                       <th className="py-3 px-5 w-10">
@@ -858,8 +862,8 @@ export default function AdminDashboard() {
               </div>
 
               {/* Pagination */}
-              <div className="px-5 pt-4 flex justify-between items-center text-xs text-grey-2 font-medium">
-                <div className="flex items-center gap-3">
+              <div className="px-4 sm:px-5 pt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 text-xs text-grey-2 font-medium">
+                <div className="flex flex-wrap items-center gap-3">
                   <label htmlFor="reports-per-page">Laporan per halaman</label>
                   <select
                     id="reports-per-page"
@@ -926,7 +930,7 @@ export default function AdminDashboard() {
 
         {/* ================= RIGHT PANEL (DETAIL LAPORAN) ================= */}
         {selectedReport && (
-          <aside className="w-90 bg-white border-l border-grey-1 fixed right-0 top-0 h-full z-30 isolate shadow-2xl overflow-y-auto flex flex-col">
+          <aside className="static w-full lg:fixed lg:w-90 bg-white border-t border-grey-1 lg:border-t-0 lg:border-l lg:right-0 lg:top-0 lg:h-full lg:z-30 lg:isolate lg:shadow-2xl lg:overflow-y-auto flex flex-col">
             <div className="p-5 border-b border-grey-1 flex flex-col gap-1 sticky top-0 bg-white z-10">
               <div className="flex justify-between items-center w-full mb-2">
                 <span className="text-[11px] font-medium text-grey-2">
