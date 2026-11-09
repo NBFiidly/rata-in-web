@@ -260,6 +260,7 @@ export default function Status() {
   const [selectedReport, setSelectedReport] = useState(reports[0]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false); // State baru untuk trigger animasi keluar
 
   const searchTerm = searchQuery.trim().toLocaleLowerCase("id-ID");
   const filteredReports = reports.filter(
@@ -288,18 +289,23 @@ export default function Status() {
     setSelectedReport(report);
     if (window.innerWidth < 1024) {
       setIsModalOpen(true);
+      setIsClosing(false); // Pastikan state penutup ter-reset
     }
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsClosing(true);
+    // Tunggu 300ms (sesuai durasi animasi) sebelum menghapus elemen dari DOM
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setIsClosing(false);
+    }, 300);
   };
 
   return (
     <div className="min-h-screen bg-grey-light flex flex-col font-inter">
       <Navbar />
 
-      {/* pt-28 diubah menjadi pt-35 md:pt-32 agar jarak ke navbar lebih lega */}
       <main className="grow flex flex-col items-center pt-35 md:pt-32 px-4 pb-12 w-full max-w-7xl mx-auto">
         {!isLoggedIn ? (
           <div className="flex flex-col items-center justify-center text-center max-w-md w-full my-auto h-full">
@@ -371,7 +377,6 @@ export default function Status() {
           </div>
         ) : (
           <div className="w-full flex flex-col gap-6 relative">
-            {/* Teks Header diubah menjadi text-center */}
             <div className="text-center w-full mt-2 md:mt-4">
               <h1 className="text-[24px] md:text-[28px] font-bold text-black mb-1">
                 Status Laporan Saya
@@ -544,22 +549,44 @@ export default function Status() {
             </div>
 
             {isModalOpen && (
-              <div className="fixed inset-0 z-60 flex justify-center items-center p-4 lg:hidden transition-all duration-300">
+              <div className="fixed inset-0 z-60 flex justify-center items-center p-4 lg:hidden overflow-hidden">
                 <div
-                  className="absolute inset-0 bg-black/40 transition-opacity"
+                  className={`absolute inset-0 bg-black/40 ${
+                    isClosing
+                      ? "animate-[fadeOut_0.3s_ease-in_forwards]"
+                      : "animate-[fadeIn_0.3s_ease-out]"
+                  }`}
                   onClick={closeModal}
                 ></div>
 
-                <div className="relative w-full max-w-85 bg-white rounded-2xl max-h-[85vh] overflow-y-auto p-6 shadow-2xl animate-[zoomIn_0.25s_ease-out]">
+                <div
+                  className={`relative w-full max-w-85 bg-white rounded-2xl max-h-[85vh] overflow-y-auto p-6 shadow-2xl ${
+                    isClosing
+                      ? "animate-[slideDownCenter_0.3s_ease-in_forwards]"
+                      : "animate-[slideUpCenter_0.4s_cubic-bezier(0.16,1,0.3,1)]"
+                  }`}
+                >
                   <ReportDetailContent report={displayedReport} />
                 </div>
               </div>
             )}
 
             <style>{`
-              @keyframes zoomIn {
-                from { transform: scale(0.95) translateY(10px); opacity: 0; }
-                to { transform: scale(1) translateY(0); opacity: 1; }
+              @keyframes slideUpCenter {
+                0% { transform: translateY(100vh); opacity: 0; }
+                100% { transform: translateY(0); opacity: 1; }
+              }
+              @keyframes slideDownCenter {
+                0% { transform: translateY(0); opacity: 1; }
+                100% { transform: translateY(100vh); opacity: 0; }
+              }
+              @keyframes fadeIn {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+              }
+              @keyframes fadeOut {
+                0% { opacity: 1; }
+                100% { opacity: 0; }
               }
             `}</style>
           </div>
