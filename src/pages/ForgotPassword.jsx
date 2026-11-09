@@ -46,7 +46,6 @@ export default function ForgotPassword() {
     }
   };
 
-  // Fungsi untuk memicu animasi keluar sebelum kembali
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
@@ -66,18 +65,8 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-grey-light lg:bg-soft-green font-inter relative overflow-hidden">
-      {/* ================= BACKGROUND FAKE UNTUK MOBILE ================= */}
-      <div className="absolute inset-0 flex flex-col items-center pt-32 px-4 lg:hidden opacity-40 pointer-events-none z-0">
-        <div className="w-40 h-32 bg-soft-green rounded-full blur-xl mb-4"></div>
-        <h2 className="text-xl font-bold text-black mb-2">
-          Keamanan Akun Anda
-        </h2>
-        <h2 className="text-xl font-bold text-black mb-4">
-          selalu jadi prioritas
-        </h2>
-      </div>
-
+    // ROOT diubah menjadi transparan dan fixed di mobile agar background asli tembus
+    <div className="fixed inset-0 z-50 lg:relative lg:z-auto lg:min-h-screen w-full flex bg-transparent lg:bg-soft-green font-inter overflow-hidden">
       {/* ================= BACKDROP GELAP (HANYA MOBILE) ================= */}
       <div
         className={`absolute inset-0 bg-black/40 z-40 lg:hidden ${
@@ -184,7 +173,7 @@ export default function ForgotPassword() {
         </div>
       </div>
 
-      {/* ================= BAGIAN KANAN: FORM FORGOT PASSWORD (POPUP DI MOBILE) ================= */}
+      {/* ================= BAGIAN KANAN: FORM FORGOT PASSWORD ================= */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-12 absolute inset-0 lg:relative z-50 pointer-events-none lg:bg-soft-green">
         <div
           className={`bg-white w-full max-w-90 sm:max-w-md lg:max-w-105 max-h-[90vh] overflow-y-auto hide-scrollbar lg:max-h-none lg:overflow-visible rounded-3xl lg:rounded-3xl p-7 lg:p-10 shadow-2xl flex flex-col pointer-events-auto ${
@@ -235,9 +224,7 @@ export default function ForgotPassword() {
             )}
           </div>
 
-          {/* --------------------------------------------------- */}
           {/* STEP 1: INPUT EMAIL */}
-          {/* --------------------------------------------------- */}
           {step === 1 && (
             <form
               onSubmit={handleEmailSubmit}
@@ -256,14 +243,12 @@ export default function ForgotPassword() {
                   required
                 />
               </div>
-
               <button
                 type="submit"
                 className="w-full py-3 bg-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity mt-2"
               >
                 Kirim
               </button>
-
               <div className="text-center mt-3">
                 <p className="text-[13px] text-grey-2">
                   Sudah ingat password Anda?{" "}
@@ -279,9 +264,7 @@ export default function ForgotPassword() {
             </form>
           )}
 
-          {/* --------------------------------------------------- */}
           {/* STEP 2: INPUT OTP 4 DIGIT */}
-          {/* --------------------------------------------------- */}
           {step === 2 && (
             <form
               onSubmit={handleOtpSubmit}
@@ -294,8 +277,6 @@ export default function ForgotPassword() {
                   {email || "user@gmail.com"}
                 </span>
               </p>
-
-              {/* Kotak Input 4 Digit */}
               <div className="flex justify-center gap-2 lg:gap-3 mb-6">
                 {otp.map((digit, index) => (
                   <input
@@ -310,7 +291,6 @@ export default function ForgotPassword() {
                   />
                 ))}
               </div>
-
               <p className="text-[11px] lg:text-xs text-grey-2 mb-2 font-medium">
                 Kirim ulang OTP dalam 60 detik
               </p>
@@ -320,8 +300,6 @@ export default function ForgotPassword() {
               >
                 Kirim ulang
               </button>
-
-              {/* Tombol Atur Ulang */}
               <button
                 type="submit"
                 disabled={otp.join("").length < 4}
@@ -336,9 +314,7 @@ export default function ForgotPassword() {
             </form>
           )}
 
-          {/* --------------------------------------------------- */}
           {/* STEP 3: BUAT PASSWORD BARU */}
-          {/* --------------------------------------------------- */}
           {step === 3 && (
             <form
               onSubmit={handlePasswordSubmit}
@@ -356,7 +332,6 @@ export default function ForgotPassword() {
                   minLength={8}
                 />
               </div>
-
               <div className="flex flex-col gap-1.5 text-left">
                 <label className="text-[13px] lg:text-sm font-bold text-black">
                   Konfirmasi Password Baru
@@ -369,7 +344,6 @@ export default function ForgotPassword() {
                   minLength={8}
                 />
               </div>
-
               <button
                 type="submit"
                 className="w-full py-3 bg-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity mt-2"

@@ -26,7 +26,7 @@ export default function Register() {
     navigate("/login");
   };
 
-  // Fungsi untuk memicu animasi keluar sebelum kembali
+  // Fungsi untuk memicu animasi keluar sebelum kembali (tombol silang/backdrop)
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
@@ -34,6 +34,7 @@ export default function Register() {
     }, 300);
   };
 
+  // Fungsi navigasi khusus antar modal agar animasi penutup berjalan
   const handleNavigate = (event, path) => {
     event.preventDefault();
     if (window.innerWidth >= 1024) {
@@ -46,18 +47,8 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-grey-light lg:bg-soft-green font-inter relative overflow-hidden">
-      {/* ================= BACKGROUND FAKE UNTUK MOBILE ================= */}
-      <div className="absolute inset-0 flex flex-col items-center pt-32 px-4 lg:hidden opacity-40 pointer-events-none z-0">
-        <div className="w-40 h-32 bg-soft-green rounded-full blur-xl mb-4"></div>
-        <h2 className="text-xl font-bold text-black mb-2">
-          Jadilah bagian dari solusi
-        </h2>
-        <h2 className="text-xl font-bold text-black mb-4">
-          untuk jalan yang lebih aman
-        </h2>
-      </div>
-
+    // ROOT diubah menjadi transparan dan fixed di mobile agar background asli tembus
+    <div className="fixed inset-0 z-50 lg:relative lg:z-auto lg:min-h-screen w-full flex bg-transparent lg:bg-soft-green font-inter overflow-hidden">
       {/* ================= BACKDROP GELAP (HANYA MOBILE) ================= */}
       <div
         className={`absolute inset-0 bg-black/40 z-40 lg:hidden ${
@@ -165,7 +156,7 @@ export default function Register() {
         </div>
       </div>
 
-      {/* ================= BAGIAN KANAN: FORM REGISTER (POPUP DI MOBILE) ================= */}
+      {/* ================= BAGIAN KANAN: FORM REGISTER ================= */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-12 absolute inset-0 lg:relative z-50 pointer-events-none lg:bg-soft-green">
         <div
           className={`bg-white w-full max-w-90 sm:max-w-md lg:max-w-105 rounded-3xl lg:rounded-3xl p-7 lg:p-10 shadow-2xl flex flex-col items-center pointer-events-auto max-h-[90vh] overflow-y-auto hide-scrollbar lg:max-h-none lg:overflow-visible lg:h-auto ${
@@ -196,7 +187,6 @@ export default function Register() {
             onSubmit={handleRegister}
             className="flex flex-col gap-3.5 lg:gap-4 w-full shrink-0"
           >
-            {/* Field: Nama Lengkap */}
             <div className="flex flex-col gap-1 lg:gap-1.5 text-left">
               <label className="text-[13px] lg:text-sm font-bold text-black">
                 Nama Lengkap
@@ -209,7 +199,6 @@ export default function Register() {
               />
             </div>
 
-            {/* Field: Email */}
             <div className="flex flex-col gap-1 lg:gap-1.5 text-left">
               <label className="text-[13px] lg:text-sm font-bold text-black">
                 Email
@@ -222,7 +211,6 @@ export default function Register() {
               />
             </div>
 
-            {/* Field: Password */}
             <div className="flex flex-col gap-1 lg:gap-1.5 text-left">
               <label className="text-[13px] lg:text-sm font-bold text-black">
                 Password
@@ -280,7 +268,6 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Field: Konfirmasi Password */}
             <div className="flex flex-col gap-1 lg:gap-1.5 text-left">
               <label className="text-[13px] lg:text-sm font-bold text-black">
                 Konfirmasi Password
@@ -338,7 +325,6 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Checkbox Persetujuan Syarat & Ketentuan */}
             <div className="flex items-start gap-2 mt-1 text-left">
               <input
                 type="checkbox"
@@ -359,7 +345,6 @@ export default function Register() {
               </label>
             </div>
 
-            {/* Tombol Buat Akun */}
             <button
               type="submit"
               className="w-full py-3.5 bg-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity mt-1"
@@ -368,7 +353,6 @@ export default function Register() {
             </button>
           </form>
 
-          {/* Footer Link */}
           <div className="flex items-center justify-center mt-5 mb-4 lg:mb-0 shrink-0">
             <p className="text-[13px] text-grey-2">
               Sudah punya akun?{" "}
