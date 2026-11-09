@@ -29,8 +29,13 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const [isScrolled, setIsScrolled] = useState(false);
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isProfileClosing, setIsProfileClosing] = useState(false);
+
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoginClosing, setIsLoginClosing] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(
     () => localStorage.getItem("isLoggedIn") === "true",
@@ -49,9 +54,35 @@ export default function Navbar() {
     }, 300);
   };
 
-  // Kunci scroll saat modal profil terbuka
+  const openLogin = () => {
+    setIsLoginClosing(false);
+    setIsLoginOpen(true);
+  };
+
+  const closeLogin = () => {
+    setIsLoginClosing(true);
+    setTimeout(() => {
+      setIsLoginOpen(false);
+      setIsLoginClosing(false);
+      setShowPassword(false);
+    }, 300);
+  };
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    localStorage.setItem("isLoggedIn", "true");
+    window.dispatchEvent(new Event("authChange"));
+    closeLogin();
+  };
+
   useEffect(() => {
-    if (isProfileOpen) {
+    const handleOpenLogin = () => openLogin();
+    window.addEventListener("openLogin", handleOpenLogin);
+    return () => window.removeEventListener("openLogin", handleOpenLogin);
+  }, []);
+
+  useEffect(() => {
+    if (isProfileOpen || isLoginOpen) {
       document.documentElement.style.overflowY = "hidden";
       document.body.style.overflow = "hidden";
     } else {
@@ -62,9 +93,8 @@ export default function Navbar() {
       document.documentElement.style.overflowY = "scroll";
       document.body.style.overflow = "auto";
     };
-  }, [isProfileOpen]);
+  }, [isProfileOpen, isLoginOpen]);
 
-  // Listener untuk sinkronisasi status login antar tab/event
   useEffect(() => {
     const checkLoginStatus = () => {
       setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
@@ -77,13 +107,14 @@ export default function Navbar() {
     };
   }, []);
 
-  // Efek saat pindah halaman (Route Change)
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const timer = setTimeout(() => {
       setIsProfileOpen(false);
       setIsProfileClosing(false);
+      setIsLoginOpen(false);
+      setIsLoginClosing(false);
       setIsScrolled(false);
       setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
     }, 0);
@@ -105,8 +136,7 @@ export default function Navbar() {
     localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
     window.dispatchEvent(new Event("authChange"));
-    setIsProfileOpen(false);
-    setIsProfileClosing(false);
+    closeProfile();
     navigate("/");
   };
 
@@ -158,8 +188,6 @@ export default function Navbar() {
                 <button
                   onClick={openProfile}
                   className="w-9 h-9 md:w-11 md:h-11 shrink-0 rounded-full bg-soft-green flex items-center justify-center border border-transparent hover:border-green transition-all overflow-hidden"
-                  type="button"
-                  aria-label="Buka menu profil"
                 >
                   <img
                     src={logo}
@@ -168,12 +196,12 @@ export default function Navbar() {
                   />
                 </button>
               ) : (
-                <Link
-                  to="/login"
-                  className="px-4 md:px-5 py-2 shrink-0 rounded-md md:rounded-lg border border-green text-green font-semibold text-sm hover:bg-soft-green transition-colors"
+                <button
+                  onClick={openLogin}
+                  className="px-4 md:px-5 py-2 shrink-0 rounded-md md:rounded-lg border border-green text-green font-semibold text-sm hover:bg-soft-green transition-colors cursor-pointer"
                 >
                   Masuk
-                </Link>
+                </button>
               )}
             </div>
           </div>
@@ -195,6 +223,192 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* MODAL LOGIN */}
+      {isLoginOpen && (
+        <div className="fixed inset-0 z-120 flex justify-center items-center p-4 font-inter overflow-hidden">
+          <div
+            className={`absolute inset-0 bg-black/40 ${
+              isLoginClosing
+                ? "animate-[fadeOut_0.3s_ease-in_forwards]"
+                : "animate-[fadeIn_0.3s_ease-out]"
+            }`}
+            onClick={closeLogin}
+          ></div>
+
+          <div
+            className={`relative bg-white w-full max-w-90 md:max-w-md rounded-3xl p-7 lg:p-10 shadow-2xl flex flex-col ${
+              isLoginClosing
+                ? "animate-[slideDownCenter_0.3s_ease-in_forwards]"
+                : "animate-[slideUpCenter_0.4s_cubic-bezier(0.16,1,0.3,1)]"
+            }`}
+          >
+            <div className="flex flex-col items-center text-center mb-6 lg:mb-8">
+              <img
+                src={logo}
+                alt="Rata.in Logo"
+                className="h-16 w-16 lg:h-20 lg:w-20 object-contain mb-2 lg:mb-3"
+              />
+              <h1 className="text-xl lg:text-[22px] font-bold text-black mb-1 lg:mb-2">
+                Masuk ke Rata.in
+              </h1>
+              <p className="text-grey-2 text-xs lg:text-sm">
+                Laporkan kerusakan jalan di sekitar Anda
+              </p>
+            </div>
+
+            <form
+              onSubmit={handleLoginSubmit}
+              className="flex flex-col gap-4 lg:gap-5 w-full"
+            >
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-[13px] lg:text-sm font-bold text-black">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="user@gmail.com"
+                  className="w-full px-4 py-3 rounded-xl border border-grey text-black placeholder-grey-1 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all text-sm font-medium"
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-[13px] lg:text-sm font-bold text-black">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Masukkan Password"
+                    className="w-full px-4 py-3 pr-12 rounded-xl border border-grey text-black placeholder-grey-1 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all text-sm font-medium"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-4 text-grey-2 hover:text-green focus:outline-none transition-colors"
+                  >
+                    {showPassword ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between mt-0.5 mb-1">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded border-grey text-green focus:ring-green accent-green"
+                  />
+                  <span className="text-[13px] text-grey-2 font-medium">
+                    ingat saya
+                  </span>
+                </label>
+                <Link
+                  to="/forgot-password"
+                  onClick={closeLogin}
+                  className="text-[13px] text-[#3b82f6] hover:underline font-bold"
+                >
+                  Lupa Password?
+                </Link>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3 bg-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity"
+              >
+                Masuk
+              </button>
+            </form>
+
+            <div className="flex flex-col items-center mt-5 lg:mt-6">
+              <p className="text-[13px] text-grey-2 mb-5">
+                Belum punya akun?{" "}
+                <Link
+                  to="/register"
+                  onClick={closeLogin}
+                  className="text-green font-bold hover:underline"
+                >
+                  Daftar sekarang
+                </Link>
+              </p>
+
+              <div className="flex items-center w-full mb-5">
+                <div className="flex-1 h-px bg-grey"></div>
+                <span className="px-3 text-[11px] text-grey-1 uppercase tracking-wider font-bold">
+                  atau
+                </span>
+                <div className="flex-1 h-px bg-grey"></div>
+              </div>
+
+              <button
+                type="button"
+                className="w-full py-3 bg-white border border-grey rounded-xl flex items-center justify-center gap-3 hover:bg-grey-light transition-colors shadow-sm font-bold text-[13px] text-black"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 48 48"
+                  width="18px"
+                  height="18px"
+                >
+                  <path
+                    fill="#FFC107"
+                    d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+                  />
+                  <path
+                    fill="#FF3D00"
+                    d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+                  />
+                  <path
+                    fill="#4CAF50"
+                    d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+                  />
+                  <path
+                    fill="#1976D2"
+                    d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+                  />
+                </svg>
+                Masuk dengan Google
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* MODAL PROFIL */}
       {isProfileOpen && (
         <div className="fixed inset-0 z-100 flex justify-end font-inter overflow-hidden">
@@ -206,7 +420,6 @@ export default function Navbar() {
             }`}
             onClick={closeProfile}
           ></div>
-
           <div
             className={`relative w-full md:w-100 h-dvh bg-white shadow-2xl flex flex-col ${
               isProfileClosing
@@ -214,6 +427,7 @@ export default function Navbar() {
                 : "animate-[slideInRight_0.3s_ease-out]"
             }`}
           >
+            {/* Header Modal Profil */}
             <div className="flex justify-between items-center p-4 md:p-5 border-b border-grey shrink-0">
               <h2 className="text-lg md:text-xl font-bold text-black">
                 Profil Saya
@@ -237,7 +451,7 @@ export default function Navbar() {
                 </svg>
               </button>
             </div>
-
+            {/* Isi Profil */}
             <div className="flex-1 overflow-y-auto hide-scrollbar flex flex-col">
               <div className="flex items-center gap-4 p-5 md:p-6 border-b border-grey-light">
                 <div className="w-18 h-18 rounded-full bg-soft-green flex items-center justify-center border border-green/20 shrink-0">
@@ -262,7 +476,6 @@ export default function Navbar() {
                   </span>
                 </div>
               </div>
-
               <div className="p-5 md:p-6 border-b-8 border-grey-light">
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   <div className="border border-grey rounded-xl p-4 flex flex-col items-center justify-center shadow-sm">
@@ -282,7 +495,6 @@ export default function Navbar() {
                     </span>
                   </div>
                 </div>
-
                 <div className="w-full py-3 px-4 rounded-full border border-green bg-soft-green/30 flex items-center justify-center gap-2 text-green shadow-sm">
                   <svg
                     width="16"
@@ -302,7 +514,6 @@ export default function Navbar() {
                   </span>
                 </div>
               </div>
-
               <div className="p-5 md:p-6 flex-1">
                 <h4 className="text-sm font-bold text-black mb-4">
                   Riwayat Laporan
@@ -339,11 +550,7 @@ export default function Navbar() {
                         </div>
                       </div>
                       <span
-                        className={`text-[10px] font-bold px-3 py-1.5 rounded-full ${
-                          item.statusColor === "orange"
-                            ? "bg-soft-orange text-orange border border-orange/30"
-                            : "bg-soft-green text-green border border-green/30"
-                        }`}
+                        className={`text-[10px] font-bold px-3 py-1.5 rounded-full ${item.statusColor === "orange" ? "bg-soft-orange text-orange border border-orange/30" : "bg-soft-green text-green border border-green/30"}`}
                       >
                         {item.status}
                       </span>
@@ -352,7 +559,7 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-
+            {/* Footer Profil */}
             <div className="p-5 md:p-6 border-t border-grey shrink-0 bg-white">
               <button className="flex items-center gap-3 w-full text-grey-2 hover:text-black font-bold text-[13px] md:text-sm mb-5 transition-colors">
                 <svg
@@ -396,22 +603,12 @@ export default function Navbar() {
       )}
 
       <style>{`
-        @keyframes slideInRight {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-        @keyframes slideOutRight {
-          from { transform: translateX(0); }
-          to { transform: translateX(100%); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes fadeOut {
-          from { opacity: 1; }
-          to { opacity: 0; }
-        }
+        @keyframes slideUpCenter { 0% { transform: translateY(100vh); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        @keyframes slideDownCenter { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(100vh); opacity: 0; } }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes slideOutRight { from { transform: translateX(0); } to { transform: translateX(100%); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
       `}</style>
     </>
   );

@@ -1,6 +1,5 @@
 // File: src/pages/Status.jsx
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 
 const getSeverityStyle = (severity) => {
@@ -260,7 +259,7 @@ export default function Status() {
   const [selectedReport, setSelectedReport] = useState(reports[0]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false); // State baru untuk trigger animasi keluar
+  const [isClosing, setIsClosing] = useState(false);
 
   const searchTerm = searchQuery.trim().toLocaleLowerCase("id-ID");
   const filteredReports = reports.filter(
@@ -289,13 +288,12 @@ export default function Status() {
     setSelectedReport(report);
     if (window.innerWidth < 1024) {
       setIsModalOpen(true);
-      setIsClosing(false); // Pastikan state penutup ter-reset
+      setIsClosing(false);
     }
   };
 
   const closeModal = () => {
     setIsClosing(true);
-    // Tunggu 300ms (sesuai durasi animasi) sebelum menghapus elemen dari DOM
     setTimeout(() => {
       setIsModalOpen(false);
       setIsClosing(false);
@@ -355,9 +353,9 @@ export default function Status() {
               Login terlebih dahulu untuk mengakses dan memantau laporan
               kerusakan jalan yang Anda kirim.
             </p>
-            <Link
-              to="/login"
-              className="px-6 py-2.5 bg-green text-white rounded-lg font-bold hover:opacity-90 flex items-center gap-2 transition-opacity shadow-sm"
+            <button
+              onClick={() => window.dispatchEvent(new Event("openLogin"))}
+              className="px-6 py-2.5 bg-green text-white rounded-lg font-bold hover:opacity-90 flex items-center gap-2 transition-opacity shadow-sm cursor-pointer"
             >
               <svg
                 width="18"
@@ -373,7 +371,7 @@ export default function Status() {
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>{" "}
               Masuk
-            </Link>
+            </button>
           </div>
         ) : (
           <div className="w-full flex flex-col gap-6 relative">
