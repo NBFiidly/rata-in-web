@@ -770,7 +770,7 @@ export default function AdminDashboard() {
 
               {/* Table Data */}
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[700px] text-left border-collapse">
+                <table className="w-full min-w-175 text-left border-collapse">
                   <thead>
                     <tr className="border-b border-grey-1 text-[11px] text-black font-semibold">
                       <th className="py-3 px-5 w-10">
