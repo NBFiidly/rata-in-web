@@ -1,3 +1,4 @@
+// File: src/pages/Register.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/img/logo-ratain.png";
@@ -9,6 +10,9 @@ export default function Register() {
   // State untuk mengontrol visibilitas masing-masing password
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // State untuk animasi penutupan popup di mobile
+  const [isClosing, setIsClosing] = useState(false);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -22,14 +26,51 @@ export default function Register() {
     navigate("/login");
   };
 
+  // Fungsi untuk memicu animasi keluar sebelum kembali
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      navigate(-1);
+    }, 300);
+  };
+
+  const handleNavigate = (event, path) => {
+    event.preventDefault();
+    if (window.innerWidth >= 1024) {
+      navigate(path);
+      return;
+    }
+
+    setIsClosing(true);
+    setTimeout(() => navigate(path), 300);
+  };
+
   return (
-    // Pembungkus utama Split Screen (Layout 50/50 di desktop)
-    <div className="min-h-screen w-full flex bg-soft-green font-inter">
-      {/* ================= BAGIAN KIRI: ILUSTRASI SVG ================= */}
-      {/* Tersembunyi di mobile (hidden), muncul di layar besar (lg:flex) */}
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center p-12 relative overflow-hidden bg-white/40 border-r border-green/20">
+    <div className="min-h-screen w-full flex bg-grey-light lg:bg-soft-green font-inter relative overflow-hidden">
+      {/* ================= BACKGROUND FAKE UNTUK MOBILE ================= */}
+      <div className="absolute inset-0 flex flex-col items-center pt-32 px-4 lg:hidden opacity-40 pointer-events-none z-0">
+        <div className="w-40 h-32 bg-soft-green rounded-full blur-xl mb-4"></div>
+        <h2 className="text-xl font-bold text-black mb-2">
+          Jadilah bagian dari solusi
+        </h2>
+        <h2 className="text-xl font-bold text-black mb-4">
+          untuk jalan yang lebih aman
+        </h2>
+      </div>
+
+      {/* ================= BACKDROP GELAP (HANYA MOBILE) ================= */}
+      <div
+        className={`absolute inset-0 bg-black/40 z-40 lg:hidden ${
+          isClosing
+            ? "animate-[fadeOut_0.3s_ease-in_forwards]"
+            : "animate-[fadeIn_0.3s_ease-out]"
+        }`}
+        onClick={handleClose}
+      ></div>
+
+      {/* ================= BAGIAN KIRI: ILUSTRASI SVG (DESKTOP SAJA) ================= */}
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center p-12 relative overflow-hidden bg-white/40 border-r border-green/20 z-0">
         <div className="w-full max-w-md relative z-10">
-          {/* Ilustrasi SVG Kustom */}
           <svg
             viewBox="0 0 400 400"
             fill="none"
@@ -113,7 +154,7 @@ export default function Register() {
             <circle cx="220" cy="215" r="5" fill="white" />
           </svg>
         </div>
-        <div className="mt-10 text-center max-w-sm">
+        <div className="mt-10 text-center max-w-sm z-10">
           <h2 className="text-2xl font-bold text-black mb-3">
             Bergabung dengan Rata.in
           </h2>
@@ -124,20 +165,28 @@ export default function Register() {
         </div>
       </div>
 
-      {/* ================= BAGIAN KANAN: FORM REGISTER ASLI ================= */}
-      {/* Menggunakan lebar penuh di mobile, setengah layar di desktop */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative bg-soft-green">
-        {/* Kontainer Form Asli (Sama persis dengan kode awal tanpa diubah kelasnya) */}
-        <div className="bg-white w-full max-w-105 rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col items-center my-auto">
+      {/* ================= BAGIAN KANAN: FORM REGISTER (POPUP DI MOBILE) ================= */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-12 absolute inset-0 lg:relative z-50 pointer-events-none lg:bg-soft-green">
+        <div
+          className={`bg-white w-full max-w-90 sm:max-w-md lg:max-w-105 rounded-3xl lg:rounded-3xl p-7 lg:p-10 shadow-2xl flex flex-col items-center pointer-events-auto max-h-[90vh] overflow-y-auto hide-scrollbar lg:max-h-none lg:overflow-visible lg:h-auto ${
+            isClosing
+              ? "lg:animate-none animate-[slideDownCenter_0.3s_ease-in_forwards]"
+              : "lg:animate-none animate-[slideUpCenter_0.4s_cubic-bezier(0.16,1,0.3,1)]"
+          }`}
+        >
           {/* Header Logo & Judul */}
-          <div className="flex flex-col items-center text-center mb-6">
-            <div className="flex items-center gap-2 mb-3">
-              <img src={logo} alt="Logo" className="w-24 h-24 object-contain" />
+          <div className="flex flex-col items-center text-center mb-5 lg:mb-6 shrink-0 mt-4 lg:mt-0">
+            <div className="flex items-center gap-2 mb-2 lg:mb-3">
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-16 h-16 lg:w-24 lg:h-24 object-contain"
+              />
             </div>
-            <h1 className="text-[22px] font-bold text-black mb-1">
+            <h1 className="text-xl lg:text-[22px] font-bold text-black mb-1">
               Buat Akun Baru
             </h1>
-            <p className="text-grey-2 text-sm">
+            <p className="text-grey-2 text-xs lg:text-sm">
               Bergabung dan mulai laporkan kerusakan jalan.
             </p>
           </div>
@@ -145,42 +194,44 @@ export default function Register() {
           {/* Form Input */}
           <form
             onSubmit={handleRegister}
-            className="flex flex-col gap-4 w-full"
+            className="flex flex-col gap-3.5 lg:gap-4 w-full shrink-0"
           >
             {/* Field: Nama Lengkap */}
-            <div className="flex flex-col gap-1.5 text-left">
-              <label className="text-sm font-semibold text-black">
+            <div className="flex flex-col gap-1 lg:gap-1.5 text-left">
+              <label className="text-[13px] lg:text-sm font-bold text-black">
                 Nama Lengkap
               </label>
               <input
                 type="text"
                 placeholder="Nama Anda"
-                className="w-full px-4 py-3 rounded-xl border border-grey-1 text-black placeholder-grey-2 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-grey text-black placeholder-grey-1 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all text-sm font-medium"
                 required
               />
             </div>
 
             {/* Field: Email */}
-            <div className="flex flex-col gap-1.5 text-left">
-              <label className="text-sm font-semibold text-black">Email</label>
+            <div className="flex flex-col gap-1 lg:gap-1.5 text-left">
+              <label className="text-[13px] lg:text-sm font-bold text-black">
+                Email
+              </label>
               <input
                 type="email"
                 placeholder="user@gmail.com"
-                className="w-full px-4 py-3 rounded-xl border border-grey-1 text-black placeholder-grey-2 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-grey text-black placeholder-grey-1 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all text-sm font-medium"
                 required
               />
             </div>
 
             {/* Field: Password */}
-            <div className="flex flex-col gap-1.5 text-left">
-              <label className="text-sm font-semibold text-black">
+            <div className="flex flex-col gap-1 lg:gap-1.5 text-left">
+              <label className="text-[13px] lg:text-sm font-bold text-black">
                 Password
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Minimal 8 karakter"
-                  className="w-full px-4 py-3 pr-12 rounded-xl border border-grey-1 text-black placeholder-grey-2 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all"
+                  className="w-full px-4 py-3 pr-12 rounded-xl border border-grey text-black placeholder-grey-1 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all text-sm font-medium"
                   minLength={8}
                   required
                 />
@@ -230,15 +281,15 @@ export default function Register() {
             </div>
 
             {/* Field: Konfirmasi Password */}
-            <div className="flex flex-col gap-1.5 text-left">
-              <label className="text-sm font-semibold text-black">
+            <div className="flex flex-col gap-1 lg:gap-1.5 text-left">
+              <label className="text-[13px] lg:text-sm font-bold text-black">
                 Konfirmasi Password
               </label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Ulangi password"
-                  className="w-full px-4 py-3 pr-12 rounded-xl border border-grey-1 text-black placeholder-grey-2 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all"
+                  className="w-full px-4 py-3 pr-12 rounded-xl border border-grey text-black placeholder-grey-1 focus:outline-none focus:border-green focus:ring-1 focus:ring-green transition-all text-sm font-medium"
                   minLength={8}
                   required
                 />
@@ -294,40 +345,37 @@ export default function Register() {
                 id="terms"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="w-4 h-4 mt-0.5 rounded border-grey-1 text-green focus:ring-green accent-green cursor-pointer"
+                className="w-4 h-4 mt-0.5 rounded border-grey text-green focus:ring-green accent-green cursor-pointer shrink-0"
                 required
               />
               <label
                 htmlFor="terms"
-                className="text-xs text-grey-2 leading-relaxed cursor-pointer select-none"
+                className="text-[11px] lg:text-xs text-grey-2 leading-relaxed cursor-pointer select-none"
               >
                 Saya setuju dengan{" "}
-                <span className="font-medium text-grey-2">
-                  Syarat & Ketentuan
-                </span>{" "}
+                <span className="font-bold text-black">Syarat & Ketentuan</span>{" "}
                 dan{" "}
-                <span className="font-medium text-grey-2">
-                  Kebijakan Privasi
-                </span>
+                <span className="font-bold text-black">Kebijakan Privasi</span>
               </label>
             </div>
 
             {/* Tombol Buat Akun */}
             <button
               type="submit"
-              className="w-full py-3.5 bg-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity mt-2"
+              className="w-full py-3.5 bg-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity mt-1"
             >
               Buat Akun
             </button>
           </form>
 
           {/* Footer Link */}
-          <div className="flex items-center justify-center mt-6">
-            <p className="text-sm text-grey-2">
+          <div className="flex items-center justify-center mt-5 mb-4 lg:mb-0 shrink-0">
+            <p className="text-[13px] text-grey-2">
               Sudah punya akun?{" "}
               <Link
                 to="/login"
-                className="text-green font-semibold hover:underline"
+                onClick={(event) => handleNavigate(event, "/login")}
+                className="text-green font-bold hover:underline"
               >
                 Masuk Sekarang
               </Link>
@@ -335,6 +383,13 @@ export default function Register() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes slideUpCenter { 0% { transform: translateY(100vh); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        @keyframes slideDownCenter { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(100vh); opacity: 0; } }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+        @keyframes fadeOut { 0% { opacity: 1; } 100% { opacity: 0; } }
+      `}</style>
     </div>
   );
 }

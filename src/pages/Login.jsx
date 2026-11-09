@@ -23,6 +23,17 @@ export default function Login() {
     }, 300);
   };
 
+  const handleNavigate = (event, path) => {
+    event.preventDefault();
+    if (window.innerWidth >= 1024) {
+      navigate(path);
+      return;
+    }
+
+    setIsClosing(true);
+    setTimeout(() => navigate(path), 300);
+  };
+
   return (
     <div className="min-h-screen w-full flex font-inter bg-grey-light lg:bg-soft-green relative overflow-hidden">
       <div className="absolute inset-0 flex flex-col items-center pt-32 px-4 lg:hidden opacity-40 pointer-events-none z-0">
@@ -246,7 +257,7 @@ export default function Login() {
               </label>
               <Link
                 to="/forgot-password"
-                onClick={handleClose}
+                onClick={(event) => handleNavigate(event, "/forgot-password")}
                 className="text-[13px] text-[#3b82f6] hover:underline font-bold"
               >
                 Lupa Password?
@@ -266,7 +277,7 @@ export default function Login() {
               Belum punya akun?{" "}
               <Link
                 to="/register"
-                onClick={handleClose}
+                onClick={(event) => handleNavigate(event, "/register")}
                 className="text-green font-bold hover:underline"
               >
                 Daftar sekarang
