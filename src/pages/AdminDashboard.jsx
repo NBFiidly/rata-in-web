@@ -109,6 +109,8 @@ export default function AdminDashboard() {
   const profileMenuRef = useRef(null);
   const datePickerRef = useRef(null);
   const [selectedReport, setSelectedReport] = useState(mockReports[5]); // Default pilih Jl. Engku Putri
+  const [isMobileDetailOpen, setIsMobileDetailOpen] = useState(false);
+  const [isDetailClosing, setIsDetailClosing] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(() => new Date());
@@ -190,6 +192,36 @@ export default function AdminDashboard() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isDatePickerOpen, isProfileMenuOpen]);
+
+  useEffect(() => {
+    if (!isMobileDetailOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMobileDetailOpen]);
+
+  const handleReportSelect = (report) => {
+    setSelectedReport(report);
+    if (window.innerWidth < 1024) {
+      setIsDetailClosing(false);
+      setIsMobileDetailOpen(true);
+    }
+  };
+
+  const closeMobileDetail = () => {
+    if (isDetailClosing) return;
+    setIsDetailClosing(true);
+  };
+
+  const finishClosingMobileDetail = (event) => {
+    if (event.target !== event.currentTarget || !isDetailClosing) return;
+    setIsMobileDetailOpen(false);
+    setIsDetailClosing(false);
+    setSelectedReport(null);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -803,7 +835,7 @@ export default function AdminDashboard() {
                       return (
                         <tr
                           key={report.id}
-                          onClick={() => setSelectedReport(report)}
+                          onClick={() => handleReportSelect(report)}
                           className={`border-b border-grey-1 cursor-pointer transition-colors ${isSelected ? "bg-soft-green/30 border-l-4 border-l-green" : "hover:bg-grey-light border-l-4 border-l-transparent"}`}
                         >
                           <td className="py-4 px-5">
@@ -930,14 +962,43 @@ export default function AdminDashboard() {
 
         {/* ================= RIGHT PANEL (DETAIL LAPORAN) ================= */}
         {selectedReport && (
-          <aside className="static w-full lg:fixed lg:w-90 bg-white border-t border-grey-1 lg:border-t-0 lg:border-l lg:right-0 lg:top-0 lg:h-full lg:z-30 lg:isolate lg:shadow-2xl lg:overflow-y-auto flex flex-col">
+          <aside
+            className={`${isMobileDetailOpen ? "flex" : "hidden"} fixed inset-0 z-60 items-center justify-center overflow-hidden p-4 lg:flex lg:inset-y-0 lg:left-auto lg:right-0 lg:z-30 lg:items-stretch lg:justify-start lg:overflow-y-auto lg:p-0`}
+            onClick={(event) => {
+              if (event.target === event.currentTarget) closeMobileDetail();
+            }}
+          >
+            <div
+              className={`absolute inset-0 bg-black/40 lg:hidden ${
+                isDetailClosing
+                  ? "animate-[fadeOut_0.3s_ease-in_forwards]"
+                  : "animate-[fadeIn_0.3s_ease-out]"
+              }`}
+              onClick={closeMobileDetail}
+            ></div>
+            <div
+              className={`relative z-10 w-full max-w-lg max-h-[85vh] bg-white rounded-2xl shadow-2xl overflow-y-auto flex flex-col ${
+                isDetailClosing
+                  ? "animate-[slideDownCenter_0.3s_ease-in_forwards]"
+                  : "animate-[slideUpCenter_0.4s_cubic-bezier(0.16,1,0.3,1)]"
+              } lg:w-90 lg:max-w-none lg:h-full lg:max-h-none lg:rounded-none lg:animate-none`}
+              onAnimationEnd={finishClosingMobileDetail}
+            >
             <div className="p-5 border-b border-grey-1 flex flex-col gap-1 sticky top-0 bg-white z-10">
               <div className="flex justify-between items-center w-full mb-2">
                 <span className="text-[11px] font-medium text-grey-2">
                   {selectedReport.id}
                 </span>
                 <button
-                  onClick={() => setSelectedReport(null)}
+                  type="button"
+                  aria-label="Tutup detail laporan"
+                  onClick={() => {
+                    if (window.innerWidth < 1024) {
+                      closeMobileDetail();
+                    } else {
+                      setSelectedReport(null);
+                    }
+                  }}
                   className="text-black hover:text-red"
                 >
                   <svg
@@ -1145,9 +1206,28 @@ export default function AdminDashboard() {
                 </p>
               </div>
             </div>
+            </div>
           </aside>
         )}
       </div>
+      <style>{`
+        @keyframes slideUpCenter {
+          0% { transform: translateY(100vh); opacity: 0; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideDownCenter {
+          0% { transform: translateY(0); opacity: 1; }
+          100% { transform: translateY(100vh); opacity: 0; }
+        }
+        @keyframes fadeIn {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        @keyframes fadeOut {
+          0% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+      `}</style>
     </div>
   );
 }
