@@ -354,7 +354,13 @@ export default function Status() {
               kerusakan jalan yang Anda kirim.
             </p>
             <button
-              onClick={() => window.dispatchEvent(new Event("openLogin"))}
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent("openAuthModal", {
+                    detail: { type: "login", direction: "none" },
+                  }),
+                )
+              }
               className="px-6 py-2.5 bg-green text-white rounded-lg font-bold hover:opacity-90 flex items-center gap-2 transition-opacity shadow-sm cursor-pointer"
             >
               <svg
