@@ -5,17 +5,17 @@ import Footer from "../components/layout/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-between">
+    <div className="h-dvh overflow-hidden bg-white">
       <Navbar />
 
-      <main className="max-w-6xl w-full mx-auto px-4 pt-32 pb-12 md:pb-16 flex flex-col items-start text-left">
+      <main className="home-scroll-content flex flex-col items-start px-4 pt-6 pb-28 text-left md:pb-16">
         {/* --- SECTION 1: Hero Banner (Rata Kiri dengan Font Semula) --- */}
         <section className="w-full flex flex-col items-start text-left mb-16">
           <span className="hidden md:block text-green font-bold text-sm md:text-base mb-3">
             Sustainable Cities & Communities
           </span>
 
-          <h1 className="mt-7 md:mt-0 text-[38px] md:text-5xl font-black md:font-bold text-black leading-[1.1] mb-4">
+          <h1 className="text-[38px] md:text-5xl font-black md:font-bold text-black leading-[1.1] mb-4">
             <span className="md:hidden">
               Laporkan Jalan
               <br />
@@ -210,9 +210,9 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </main>
 
-      <Footer />
+        <Footer />
+      </main>
     </div>
   );
 }

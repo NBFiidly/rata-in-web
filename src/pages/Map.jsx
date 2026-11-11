@@ -52,11 +52,11 @@ export default function Map() {
   ];
 
   return (
-    <div className="h-screen w-full bg-grey-light flex flex-col font-inter overflow-hidden">
+    <div className="h-dvh md:h-screen w-full bg-grey-light flex flex-col font-inter overflow-hidden">
       <Navbar />
 
-      <main className="flex-1 w-full pt-28 md:pt-20 flex flex-col md:flex-row overflow-hidden">
-        <aside className="w-full md:w-80 lg:w-100 h-full bg-grey-light border-r border-grey overflow-y-auto shrink-0 hide-scrollbar z-10 flex flex-col">
+      <main className="mobile-route-scroll flex-1 w-full pt-2 md:pt-20 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden">
+        <aside className="w-full md:w-80 lg:w-100 h-auto md:h-full bg-grey-light border-r border-grey overflow-visible md:overflow-y-auto shrink-0 hide-scrollbar z-10 flex flex-col pb-6 md:pb-0">
           {/* STATISTIK */}
           <div className="p-4 md:p-6 flex flex-col gap-4 md:gap-6 shrink-0">
             <h1 className="text-[20px] md:text-[22px] font-bold text-black text-center md:text-left">

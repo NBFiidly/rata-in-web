@@ -3,7 +3,7 @@ import logo from "../../assets/img/logo-ratain.png";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-white pt-12 pb-16 mt-20">
+    <footer className="w-full bg-white pt-12 pb-28 md:pb-16 mt-20">
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-10 md:gap-4">
         {/* Kolom Kiri: Logo & Deskripsi */}
         <div className="flex flex-col gap-4 max-w-[320px]">

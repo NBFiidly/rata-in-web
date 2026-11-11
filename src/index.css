@@ -35,7 +35,58 @@
     background-color: var(--color-white);
   }
 
-  html {
-    overflow-y: scroll;
+  .home-scroll-content,
+  .mobile-route-scroll {
+    position: fixed;
+    inset-inline: 0;
+    top: 4rem;
+    bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(120 120 120 / 35%) transparent;
+  }
+
+  .home-scroll-content > section,
+  .home-scroll-content > footer {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+  }
+
+  .home-scroll-content::-webkit-scrollbar,
+  .mobile-route-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .home-scroll-content::-webkit-scrollbar-track,
+  .mobile-route-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .home-scroll-content::-webkit-scrollbar-thumb,
+  .mobile-route-scroll::-webkit-scrollbar-thumb {
+    background: rgb(120 120 120 / 35%);
+    border-radius: 10px;
+  }
+
+  @media (min-width: 768px) {
+    .home-scroll-content {
+      top: 4.5rem;
+      bottom: 0;
+    }
+
+    .mobile-route-scroll {
+      position: static;
+      inset: auto;
+      overflow: visible;
+      scrollbar-width: auto;
+      scrollbar-color: auto;
+    }
+
+    .mobile-route-scroll::-webkit-scrollbar {
+      width: auto;
+    }
   }
 }
