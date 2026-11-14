@@ -8,7 +8,7 @@ export default function Home() {
     <div className="h-dvh overflow-hidden bg-white">
       <Navbar />
 
-      <main className="home-scroll-content flex flex-col items-start px-4 pt-6 pb-28 text-left md:pb-16">
+      <main className="home-scroll-content flex flex-col items-start px-4 pt-6 pb-6 text-left md:pb-0">
         {/* --- SECTION 1: Hero Banner (Rata Kiri dengan Font Semula) --- */}
         <section className="w-full flex flex-col items-start text-left mb-16">
           <span className="hidden md:block text-green font-bold text-sm md:text-base mb-3">
@@ -163,7 +163,7 @@ export default function Home() {
         </section>
 
         {/* --- SECTION 3: Cara Kerja Rata.in --- */}
-        <section className="w-full bg-linear-to-tr from-[#207E43] via-green to-[#208144] text-white p-8 md:p-12 rounded-2xl flex flex-col items-start text-left">
+        <section className="w-full bg-linear-to-tr from-[#207E43] via-green to-[#208144] text-white p-8 md:p-12 rounded-2xl flex flex-col items-start text-left mb-20 md:mb-16">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
             Cara Kerja Rata.in
           </h2>

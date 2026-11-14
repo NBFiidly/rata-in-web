@@ -2,6 +2,10 @@
 @import "@fontsource-variable/inter";
 @import "tailwindcss";
 
+:root {
+  --mobile-nav-height: 78px;
+}
+
 @theme {
   --default-font-family: "Inter Variable", sans-serif;
   --color-grey: #d9d9d9;
@@ -40,7 +44,7 @@
     position: fixed;
     inset-inline: 0;
     top: 4rem;
-    bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom, 0px));
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior-y: contain;
@@ -75,6 +79,10 @@
     .home-scroll-content {
       top: 4.5rem;
       bottom: 0;
+    }
+
+    .home-scroll-content > footer {
+      margin-top: auto;
     }
 
     .mobile-route-scroll {

@@ -297,18 +297,22 @@ export default function Navbar() {
       <nav
         aria-label="Navigasi utama"
         className="fixed inset-x-0 bottom-0 z-50 md:hidden"
-        style={{ height: "calc(78px + env(safe-area-inset-bottom))" }}
+        style={{
+          height:
+            "calc(var(--mobile-nav-height) + env(safe-area-inset-bottom, 0px))",
+        }}
       >
         <div
           aria-hidden="true"
           className="absolute inset-x-0 bottom-0 bg-white"
-          style={{ height: "env(safe-area-inset-bottom)" }}
+          style={{ height: "env(safe-area-inset-bottom, 0px)" }}
         />
         <svg
           aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-[78px] w-full overflow-visible drop-shadow-[0_-2px_8px_rgba(0,0,0,0.06)]"
+          className="absolute inset-x-0 top-0 w-full overflow-visible drop-shadow-[0_-2px_8px_rgba(0,0,0,0.06)]"
           viewBox="0 0 1000 100"
           preserveAspectRatio="none"
+          style={{ height: "var(--mobile-nav-height)" }}
         >
           <path
             fill="white"
@@ -320,7 +324,10 @@ export default function Navbar() {
         </svg>
 
         {/* Container Ikon (Grid flexbox agar sejajar) */}
-        <div className="relative z-10 flex h-[78px] w-full items-center px-[4%]">
+        <div
+          className="relative z-10 flex w-full items-center px-[4%]"
+          style={{ height: "var(--mobile-nav-height)" }}
+        >
           <div
             aria-hidden="true"
             className="pointer-events-none absolute top-0 z-20 flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-green shadow-[0_8px_18px_rgba(49,170,94,0.35)]"

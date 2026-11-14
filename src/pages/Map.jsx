@@ -56,7 +56,7 @@ export default function Map() {
       <Navbar />
 
       <main className="mobile-route-scroll flex-1 w-full pt-2 md:pt-20 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden">
-        <aside className="w-full md:w-80 lg:w-100 h-auto md:h-full bg-grey-light border-r border-grey overflow-visible md:overflow-y-auto shrink-0 hide-scrollbar z-10 flex flex-col pb-6 md:pb-0">
+        <aside className="w-full md:w-80 lg:w-100 h-auto md:h-full bg-grey-light border-r border-grey overflow-visible md:overflow-y-auto shrink-0 hide-scrollbar z-10 flex flex-col pb-10 md:pb-0">
           {/* STATISTIK */}
           <div className="p-4 md:p-6 flex flex-col gap-4 md:gap-6 shrink-0">
             <h1 className="text-[20px] md:text-[22px] font-bold text-black text-center md:text-left">
@@ -175,11 +175,11 @@ export default function Map() {
           <MapView className="w-full h-80 md:hidden block shrink-0 border-y border-grey" />
 
           {/* DAFTAR LOKASI */}
-          <div className="p-4 md:p-6 pt-5 md:pt-0 shrink-0">
+          <div className="p-4 md:p-6 pt-5 md:pt-0 pb-0 md:pb-0 shrink-0">
             <h2 className="text-[12px] font-bold text-grey-2 uppercase tracking-wider mb-4 text-center md:text-left">
               LOKASI KERUSAKAN
             </h2>
-            <div className="flex flex-col gap-3 pb-8">
+            <div className="flex flex-col gap-3 pb-0 md:pb-8">
               {locations.map((loc, i) => (
                 <div
                   key={i}

@@ -304,9 +304,9 @@ export default function Status() {
     <div className="h-dvh min-h-0 overflow-hidden bg-grey-light flex flex-col font-inter md:h-auto md:min-h-screen md:overflow-visible">
       <Navbar />
 
-      <main className="mobile-route-scroll grow flex flex-col items-center pt-6 md:pt-32 px-4 pb-6 md:pb-12 w-full max-w-7xl mx-auto">
+      <main className="mobile-route-scroll grow flex flex-col items-center pt-6 md:pt-32 px-4 pb-10 md:pb-12 w-full max-w-7xl mx-auto">
         {!isLoggedIn ? (
-          <div className="flex flex-col items-center justify-center text-center max-w-md w-full md:my-auto md:h-full">
+          <div className="flex flex-col items-center justify-center text-center max-w-md w-full my-auto md:h-full">
             <div className="relative mb-8 flex justify-center items-center h-32 w-40">
               <div className="w-32 h-32 bg-soft-green rounded-full absolute z-0"></div>
               <div className="relative z-10 bg-white shadow-sm border border-grey rounded-xl p-4 w-28 h-24 transform -rotate-6 flex flex-col gap-2.5 mr-6">

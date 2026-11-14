@@ -21,7 +21,7 @@ export default function ReportFlow() {
     <div className="h-dvh min-h-0 overflow-hidden bg-grey-light flex flex-col font-inter md:h-auto md:min-h-screen md:overflow-visible">
       <Navbar />
 
-      <main className="mobile-route-scroll grow pt-6 md:pt-32 pb-6 md:pb-12 flex flex-col items-center">
+      <main className="mobile-route-scroll grow pt-6 md:pt-32 pb-10 md:pb-12 flex flex-col items-center">
         <div className="text-center mb-3 md:mb-8 px-4">
           <h1 className="text-[20px] md:text-4xl font-bold text-black mb-0.5 md:mb-2">
             Lapor Kerusakan Jalan
