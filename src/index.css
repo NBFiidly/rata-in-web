@@ -76,6 +76,10 @@
   }
 
   @media (min-width: 768px) {
+    html {
+      scrollbar-gutter: stable;
+    }
+
     .home-scroll-content {
       top: 4.5rem;
       bottom: 0;
